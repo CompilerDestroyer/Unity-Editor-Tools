@@ -1,0 +1,14 @@
+{
+  "name": "com.compilerdestroyer.editorvisual",
+  "version": "1.0.0",
+  "displayName": "Unity Editor Visual",
+  "description": "This package can let you change unity editor's visual.",
+  "unity": "6000.0",
+  "author": {
+    "name": "Compiler Destroyer",
+    "email": "metamorfikd@gmail.com"
+  },
+  "dependencies": {
+    "com.compilerdestroyer.editorvisual": "git+https://github.com/CompilerDestroyer/Unity-Editor.git"
+  }
+}
