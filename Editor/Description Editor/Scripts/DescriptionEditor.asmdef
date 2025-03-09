@@ -1,0 +1,18 @@
+{
+    "name": "DescriptionEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:057dcbd5bd74fa849adc5ac79b51f553"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
