@@ -1,5 +1,5 @@
 {
-    "name": "CompilerDestroyer.Editor",
+    "name": "CompilerDestroyer.Editor.EditorTools",
     "rootNamespace": "",
     "references": [
         "GUID:8e299ce9af1993545850bb176e406bd4"
