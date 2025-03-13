@@ -1,7 +1,7 @@
 {
-  "name": "com.compilerdestroyer.editor",
+  "name": "com.compilerdestroyer.editortools",
   "version": "1.0.0",
-  "displayName": "Unity Editor",
+  "displayName": "Editor Tools",
   "description": "This package has various unity editor tools.",
   "unity": "6000.0",
   "author": {
