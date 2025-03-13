@@ -10,8 +10,11 @@ namespace CompilerDestroyer.Editor.ToolsManager
 {
     public sealed class EditorToolsSettings : EditorWindow
     {
+        private const string toolsName = "Tools";
+        private const string toolsName2 = "Tools";
+
+
         private const string documentationName = "Documentation";
-        private const string scriptDescriptionName = "Script Description";
 
         private static readonly Vector2 minWindowSize = new Vector2(310f, 200f);
 
@@ -29,17 +32,18 @@ namespace CompilerDestroyer.Editor.ToolsManager
 
         public void CreateGUI()
         {
-
+            TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(1, toolsName);
             TreeViewItemData<string> documentationSetting = new TreeViewItemData<string>(2, documentationName);
-            TreeViewItemData<string> scriptDescriptionSetting = new TreeViewItemData<string>(1, scriptDescriptionName);
 
 
+
+
+            rootDict.Add(toolsName, null);
             rootDict.Add(documentationName, null);
-            rootDict.Add(scriptDescriptionName, null);
 
 
+            projectSettingsList.Add(toolsSetting);
             projectSettingsList.Add(documentationSetting);
-            projectSettingsList.Add(scriptDescriptionSetting);
 
             SettingsPanel settingsWindow = new SettingsPanel(ref projectSettingsList, ref rootDict);
 

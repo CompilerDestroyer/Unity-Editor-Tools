@@ -1,0 +1,1 @@
+Libraries are all of the editor libraries. These scripts tends to extend unity's functionality or add new functionality.
