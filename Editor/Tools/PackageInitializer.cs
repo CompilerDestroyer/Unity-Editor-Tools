@@ -6,6 +6,7 @@ using UnityEditor.PackageManager.Requests;
 using UnityEditor.PackageManager;
 using UnityEditor;
 using System.IO;
+using System.Linq;
 
 
 namespace CompilerDestroyer.Editor.EditorTools
@@ -24,7 +25,22 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static string packagesInitializerInfo = "Packages in the ";
         private static ListRequest listRequest;
         private static int globalMarginLeftRight = 15;
-
+        private static string[] packagesToExcludeFromRemove = new string[] 
+        {
+            "com.unity.burst",
+            "com.unity.collections",
+            "com.unity.render-pipelines.core",
+            "com.unity.ext.nunit",
+            "com.unity.mathematics",
+            "com.unity.nuget.mono-cecil",
+            "com.unity.test-framework.performance",
+            "com.unity.searcher",
+            "com.unity.shadergraph",
+            "com.unity.rendering.light-transport",
+            "com.unity.render-pipelines.universal-config",
+            "com.unity.modules.hierarchycore",
+            "com.unity.modules.subsystems"
+        };
         internal static VisualElement PackageInitializerVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
@@ -49,7 +65,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
             listRequest = Client.List(true);
-            EditorApplication.update += Progress;
+            EditorApplication.update += ListProgress;
 
             VisualElement builtinPackageList = BuiltInPackagesList();
             builtinPackageList.style.marginLeft = globalMarginLeftRight;
@@ -60,7 +76,11 @@ namespace CompilerDestroyer.Editor.EditorTools
             button.text = "Remove";
             button.clicked += () =>
             {
-                addAndRemoveRequest = Client.AddAndRemove(null, builtInPackageNames.ToArray());
+                foreach (var i in currentBuiltInPackageNames)
+                {
+                    Debug.Log(i);
+                }
+                addAndRemoveRequest = Client.AddAndRemove(null, currentBuiltInPackageNames.ToArray());
                 EditorApplication.update += AddOrRemoveProgress;
             };
 
@@ -72,21 +92,21 @@ namespace CompilerDestroyer.Editor.EditorTools
         }
         private static AddAndRemoveRequest addAndRemoveRequest;
 
-        private static List<string> builtInPackageNames = new List<string>();
+        private static List<string> builtInInstalledPackageNames = new List<string>();
+        private static List<string> currentBuiltInPackageNames = new List<string>();
         private static void AddOrRemoveProgress()
         {
             if (listRequest.IsCompleted)
             {
                 if (listRequest.Status == StatusCode.Success)
                 {
-                    Debug.Log("Sucess");
                 }
 
                 EditorApplication.update -= AddOrRemoveProgress;
             }
 
         }
-        private static void Progress()
+        private static void ListProgress()
         {
             if (listRequest.IsCompleted)
             {
@@ -97,12 +117,18 @@ namespace CompilerDestroyer.Editor.EditorTools
                         // Check for built-in packages
                         if (package.name.StartsWith("com.unity"))
                         {
-                            builtInPackageNames.Add(package.name);
+                            if (UnityEditor.PackageManager.PackageInfo.FindForPackageName(package.name) != null)
+                            {
+                                builtInInstalledPackageNames.Add(package.name);
+                            }
                         }
                     }
                 }
-
-                EditorApplication.update -= Progress;
+                List<string> uniqueList = builtInInstalledPackageNames.Distinct().ToList();
+                builtInInstalledPackageNames = uniqueList;
+                builtInInstalledPackageNames.Sort();
+                builtInPackagesListView.Rebuild();
+                EditorApplication.update -= ListProgress;
             }
         }
         private static ListView builtInPackagesListView;
@@ -111,7 +137,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement rootVisualElement = new VisualElement();
 
             builtInPackagesListView = new ListView(
-                builtInPackageNames,
+                builtInInstalledPackageNames,
                 itemHeight: 24,
                 makeItem: () =>
                 {
@@ -138,15 +164,25 @@ namespace CompilerDestroyer.Editor.EditorTools
                     Toggle toggle = element.Q<Toggle>();
                     Label label = element.Q<Label>();
 
-                    label.text = builtInPackageNames[index];
+                    label.text = builtInInstalledPackageNames[index];
 
                     toggle.RegisterValueChangedCallback(evt =>
                     {
-                        Debug.Log($"Toggled '{builtInPackageNames[index]}' = {evt.newValue}");
+
+                        //Debug.Log($"Toggled '{builtInPackageNames[index]}' = {evt.newValue}");
                     });
                     label.RegisterCallback<ClickEvent>(evt =>
                     {
                         toggle.value = !toggle.value;
+
+                        if (toggle.value)
+                        {
+                            currentBuiltInPackageNames.Add(label.text);
+                        }
+                        else
+                        {
+                            currentBuiltInPackageNames.Remove(label.text);
+                        }
                     });
 
                 });
