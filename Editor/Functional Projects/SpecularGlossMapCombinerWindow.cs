@@ -87,52 +87,52 @@ namespace FMPUtils.Editor
         /// </summary>
         private void CombineAndStoreTexture()
         {
-            string specularMapPath = AssetDatabase.GetAssetPath(specularMap);
-            string folderMapPath = EditorHelpUtilities.GetAssetFolderPathFromAssetFilePath(specularMapPath);
-            string targetMapPath = $"{folderMapPath}/{outputTextureName}.png"; 
+            //    string specularMapPath = AssetDatabase.GetAssetPath(specularMap);
+            //    string folderMapPath = EditorHelpUtilities.GetAssetFolderPathFromAssetFilePath(specularMapPath);
+            //    string targetMapPath = $"{folderMapPath}/{outputTextureName}.png"; 
 
-            if (!EditorHelpUtilities.DisplayConfirmDialog("Generate and save combined texture?",
-                $"Do you want to combine the specular map {specularMap.name} and gloss map {glossMap.name} and store it at the path {targetMapPath}"))
-                return;
+            //    if (!EditorHelpUtilities.DisplayConfirmDialog("Generate and save combined texture?",
+            //        $"Do you want to combine the specular map {specularMap.name} and gloss map {glossMap.name} and store it at the path {targetMapPath}"))
+            //        return;
 
-            if (EditorHelpUtilities.DoesAssetAtPathExist(targetMapPath))
-            {
-                if (!EditorHelpUtilities.DisplayConfirmDialog("Overwrite existing texture?",  
-                    $"A texture at {targetMapPath} already exists, do you want to overwrite it?"))
-                    return;
-            }
-            // With a simple AssetDatabase.CreateAsset call I get an unreadable texture asset, so I save it as png instead
-            Texture2D resultTexture = new Texture2D(specularMap.width, specularMap.height, TextureFormat.RGBA32, specularMap.mipmapCount > 1);
+            //    if (EditorHelpUtilities.DoesAssetAtPathExist(targetMapPath))
+            //    {
+            //        if (!EditorHelpUtilities.DisplayConfirmDialog("Overwrite existing texture?",  
+            //            $"A texture at {targetMapPath} already exists, do you want to overwrite it?"))
+            //            return;
+            //    }
+            //    // With a simple AssetDatabase.CreateAsset call I get an unreadable texture asset, so I save it as png instead
+            //    Texture2D resultTexture = new Texture2D(specularMap.width, specularMap.height, TextureFormat.RGBA32, specularMap.mipmapCount > 1);
 
-            bool specularMapReadEnabledOriginal = specularMap.isReadable;
-            bool glossMapReadEnabledOriginal = glossMap.isReadable;
-            SetReadWriteEnabledFlag(specularMap, true);
-            SetReadWriteEnabledFlag(glossMap, true);
-            AssetDatabase.Refresh();
-            // Check if isReadable flags have changed and if so, reload the textures:
-            if (!specularMapReadEnabledOriginal)
-                specularMap = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(specularMap), typeof(Texture2D));
-            if (!glossMapReadEnabledOriginal)
-                glossMap = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(glossMap), typeof(Texture2D));
+            //    bool specularMapReadEnabledOriginal = specularMap.isReadable;
+            //    bool glossMapReadEnabledOriginal = glossMap.isReadable;
+            //    SetReadWriteEnabledFlag(specularMap, true);
+            //    SetReadWriteEnabledFlag(glossMap, true);
+            //    AssetDatabase.Refresh();
+            //    // Check if isReadable flags have changed and if so, reload the textures:
+            //    if (!specularMapReadEnabledOriginal)
+            //        specularMap = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(specularMap), typeof(Texture2D));
+            //    if (!glossMapReadEnabledOriginal)
+            //        glossMap = (Texture2D)AssetDatabase.LoadAssetAtPath(AssetDatabase.GetAssetPath(glossMap), typeof(Texture2D));
 
-            Color[] targetMapColors = specularMap.GetPixels();
-            Color[] glossMapColors = glossMap.GetPixels();
-            for (int i = 0; i < targetMapColors.Length; i++)
-            {
-                Color specularColor = targetMapColors[i];
-                float glossGreyscale = glossMapColors[i].r;
-                specularColor.a = glossGreyscale;
-                targetMapColors[i] = specularColor;
-            }
-            resultTexture.SetPixels(targetMapColors);
-            byte[] textureData = resultTexture.EncodeToPNG();
-            System.IO.File.WriteAllBytes(targetMapPath, textureData);
-            AssetDatabase.SaveAssets();
+            //    Color[] targetMapColors = specularMap.GetPixels();
+            //    Color[] glossMapColors = glossMap.GetPixels();
+            //    for (int i = 0; i < targetMapColors.Length; i++)
+            //    {
+            //        Color specularColor = targetMapColors[i];
+            //        float glossGreyscale = glossMapColors[i].r;
+            //        specularColor.a = glossGreyscale;
+            //        targetMapColors[i] = specularColor;
+            //    }
+            //    resultTexture.SetPixels(targetMapColors);
+            //    byte[] textureData = resultTexture.EncodeToPNG();
+            //    System.IO.File.WriteAllBytes(targetMapPath, textureData);
+            //    AssetDatabase.SaveAssets();
 
-            SetReadWriteEnabledFlag(specularMap, specularMapReadEnabledOriginal);
-            SetReadWriteEnabledFlag(glossMap, glossMapReadEnabledOriginal);
+            //    SetReadWriteEnabledFlag(specularMap, specularMapReadEnabledOriginal);
+            //    SetReadWriteEnabledFlag(glossMap, glossMapReadEnabledOriginal);
 
-            AssetDatabase.Refresh();
+            //    AssetDatabase.Refresh();
         }
 
         private bool SetReadWriteEnabledFlag(Texture targetTexture, bool isReadable)

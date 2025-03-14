@@ -39,6 +39,9 @@ namespace CompilerDestroyer.Editor.UIElements
         private Dictionary<string, VisualElement> rightPaneSettingsDict;
         private List<string> searchList = new List<string>();
 
+
+        private VisualElement leftPaneContainer;
+
         /// <summary>
         /// Initializes an empty SettingsPanel with default settings. Sets up the toolbar search field, search bar line, and the two-pane splitter layout.
         /// </summary>
@@ -111,7 +114,33 @@ namespace CompilerDestroyer.Editor.UIElements
                 ref splitterLineWidth);
         }
 
+        /// <summary>
+        /// Initializes the SettingsPanel with a list of TreeViewItemData for the left pane and a dictionary of VisualElements for the right pane.
+        /// The left pane contains hierarchical tree view items, while the right pane will have associated VisualElements that correspond to the tree view items in the left pane.
+        /// This constructor allows setting a custom splitter line width and color, along with the highlight color for the splitter line.
+        /// </summary>
+        /// <param name="leftPaneTreeViewItems">A list of TreeViewItemData for the left pane. These items may contain nested children, representing a tree structure of settings.</param>
+        /// <param name="settingsVisualElement">A dictionary mapping setting names (from the left pane) to VisualElements in the right pane. The order of items in the dictionary is not important, but the keys must match the strings in the leftPaneTreeViewItems.</param>
+        /// <param name="splitterLineWidth">The width of the splitter line separating the left and right panes.</param>
+        /// <param name="splitterLineColor">The color of the splitter line. If set to Color.clear, the default color will be used.</param>
+        /// <param name="rightPaneScrollViewMode">Scroll view mode of right pane ScrollView.</param>
+        public SettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> settingsVisualElement,
+            float splitterLineWidth, Color splitterLineColor, ScrollViewMode rightPaneScrollViewMode)
+        {
+            if (splitterLineColor != Color.clear)
+            {
+                this.splitterLineColor = splitterLineColor;
+            }
+            else
+            {
+                this.splitterLineColor = GlobalVariables.DefaultLineColor;
+            }
 
+            this.splitterLineHighlightColor = GetLighterColor(this.splitterLineColor, 0.7f);
+
+            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, ref this.splitterLineColor, ref this.splitterLineHighlightColor,
+                ref splitterLineWidth, rightPaneScrollViewMode);
+        }
 
         private void CreateSettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> rightPaneSettingsDict,
             ref Color splitterLineColor, ref Color splitterLineHighlightColor, ref float splitterLineWidth)
@@ -131,6 +160,28 @@ namespace CompilerDestroyer.Editor.UIElements
             ToolBarSearchField();
             SearchbarLineField();
             TwoPaneSplitField(splitterLineColor, splitterLineHighlightColor, splitterLineWidth);
+
+            style.height = Length.Percent(100);
+        }
+
+        private void CreateSettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> rightPaneSettingsDict,
+            ref Color splitterLineColor, ref Color splitterLineHighlightColor, ref float splitterLineWidth, ScrollViewMode rightPaneScrollViewMode)
+        {
+            this.rightPaneSettingsDict = rightPaneSettingsDict;
+            this.leftPaneTreeViewList = leftPaneTreeViewItems;
+            this.splitterLineWidth = Mathf.Clamp(this.splitterLineWidth, 1f, 1000f);
+            this.splitterLineColor = GlobalVariables.DefaultLineColor;
+
+
+            for (int i = 0; i < leftPaneTreeViewItems.Count; i++)
+            {
+                CollectTreeViewDataRecursive(leftPaneTreeViewItems[i], ref searchList);
+            }
+
+
+            ToolBarSearchField();
+            SearchbarLineField();
+            TwoPaneSplitField(splitterLineColor, splitterLineHighlightColor, splitterLineWidth, rightPaneScrollViewMode);
 
             style.height = Length.Percent(100);
         }
@@ -170,8 +221,85 @@ namespace CompilerDestroyer.Editor.UIElements
             Add(searchBarLine);
         }
 
-        VisualElement leftPaneContainer;
+
         private void TwoPaneSplitField(Color lineColor, Color lineHighlightColor, float lineWidth)
+        {
+            twoPaneSplitView = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+
+            // If you want to save twopanesplit view splitter, you can uncomment this below line
+            //twoPaneSplitView.viewDataKey = "Main TwoPaneSplitView";
+
+            leftPaneTreeView = new TreeView(20, MakeItemForLeftPaneTreeView, BindItemForLeftPaneTreeView);
+            leftPaneTreeView.viewDataKey = "Left Pane TreeView";
+            leftPaneTreeView.SetRootItems<string>(leftPaneTreeViewList);
+            leftPaneTreeView.selectionType = SelectionType.Single;
+            leftPaneTreeView.RefreshItems();
+            leftPaneTreeView.style.minWidth = 100f;
+            leftPaneTreeView.style.unityTextAlign = TextAnchor.MiddleCenter;
+
+            // We need to create empty VisualElement to not make TreeView and TwoPaneSplitView conflict and be buggy
+            leftPaneContainer = new VisualElement();
+            leftPaneContainer.style.minWidth = 100f;
+
+
+            leftPaneContainer.Add(leftPaneTreeView);
+
+
+            leftPaneTreeView.selectedIndicesChanged += OnProjectSettingsChange;
+
+            rightPaneScrollView = new ScrollView();
+            rightPaneScrollView.style.minWidth = 150f;
+
+
+            VisualElement dragLine = twoPaneSplitView.Q<VisualElement>(className: TwoPaneSplitViewDragLine);
+            dragLine.style.backgroundColor = Color.clear;
+            dragLine.style.width = lineWidth + 5f;
+            dragLine.style.marginLeft = 5f;
+
+            VisualElement anchor = twoPaneSplitView.Q<VisualElement>(className: TwoPaneSplitViewDragLineAnchor);
+            anchor.style.backgroundColor = lineColor;
+            anchor.style.width = lineWidth;
+
+
+            bool isUserPressed = false;
+            bool isMouseOverDragLine = false;
+
+
+            dragLine.RegisterCallback<MouseEnterEvent>(evt =>
+            {
+                anchor.style.backgroundColor = lineHighlightColor;
+                isMouseOverDragLine = true;
+            });
+
+            dragLine.RegisterCallback<MouseLeaveEvent>(evt =>
+            {
+                if (!isUserPressed)
+                {
+                    anchor.style.backgroundColor = lineColor;
+                }
+                isMouseOverDragLine = false;
+            });
+
+
+            dragLine.RegisterCallback<MouseDownEvent>(evt =>
+            {
+                anchor.style.backgroundColor = lineHighlightColor;
+                isUserPressed = true;
+            });
+            anchor.RegisterCallback<MouseUpEvent>(evt =>
+            {
+                if (!isMouseOverDragLine)
+                {
+                    anchor.style.backgroundColor = lineColor;
+                }
+                isUserPressed = false;
+            });
+
+            twoPaneSplitView.Add(leftPaneContainer);
+            twoPaneSplitView.Add(rightPaneScrollView);
+            Add(twoPaneSplitView);
+        }
+        private void TwoPaneSplitField(Color lineColor, Color lineHighlightColor, float lineWidth, ScrollViewMode rightPaneScrollViewMode)
         {
             twoPaneSplitView = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
             
@@ -196,7 +324,7 @@ namespace CompilerDestroyer.Editor.UIElements
 
             leftPaneTreeView.selectedIndicesChanged += OnProjectSettingsChange;
 
-            rightPaneScrollView = new ScrollView(ScrollViewMode.VerticalAndHorizontal);
+            rightPaneScrollView = new ScrollView(rightPaneScrollViewMode);
             rightPaneScrollView.style.minWidth = 150f;
 
 

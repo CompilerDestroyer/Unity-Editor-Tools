@@ -11,7 +11,7 @@ namespace CompilerDestroyer.Editor.ToolsManager
     public sealed class EditorToolsSettings : EditorWindow
     {
         private const string toolsName = "Tools";
-        private const string toolsName2 = "Tools";
+        private const string textureManipulatorName = "Texture Combiner";
 
 
         private const string documentationName = "Documentation";
@@ -32,13 +32,20 @@ namespace CompilerDestroyer.Editor.ToolsManager
 
         public void CreateGUI()
         {
-            TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(1, toolsName);
+            // Tools
+            List<TreeViewItemData<string>> toolChildren = new List<TreeViewItemData<string>>();
+            TreeViewItemData<string> textureManipulatorSetting = new TreeViewItemData<string>(0, textureManipulatorName);
+            toolChildren.Add(textureManipulatorSetting);
+            TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(1, toolsName, toolChildren);
+
+            // Tools
+
+
             TreeViewItemData<string> documentationSetting = new TreeViewItemData<string>(2, documentationName);
 
 
-
-
             rootDict.Add(toolsName, null);
+            rootDict.Add(textureManipulatorName, CreateMetallicSmoothness.ConvertRoughnessToMetallicSmoothness());
             rootDict.Add(documentationName, null);
 
 
@@ -46,6 +53,7 @@ namespace CompilerDestroyer.Editor.ToolsManager
             projectSettingsList.Add(documentationSetting);
 
             SettingsPanel settingsWindow = new SettingsPanel(ref projectSettingsList, ref rootDict);
+
 
             rootVisualElement.Add(settingsWindow);
         }

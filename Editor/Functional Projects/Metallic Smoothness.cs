@@ -2,56 +2,192 @@
 using UnityEngine;
 using System.IO;
 using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
-public class CreateMetallicSmoothness : EditorWindow
+public class CreateMetallicSmoothness
 {
-    [MenuItem("Tools/Create Metallic Smoothness")]
-    public static EditorWindow EditorWindow()
+    private static readonly string metallicSmoothnessName = "Metallic Smoothness";
+    private static readonly string description = "Create Metallic Smoothness Map from Metallic + Roughness Map or Smoothness Map from roughness Map!";
+
+    private static Texture2D metallicMap;
+    private static Texture2D roughnessMap;
+
+    private static Label metallicSmoothnessLabel;
+    private static ObjectField metallicField;
+    private static ObjectField roughnessField;
+
+    private static readonly int globalMarginLeft = 15;
+
+    internal static VisualElement ConvertRoughnessToMetallicSmoothness()
     {
-        return GetWindow<CreateMetallicSmoothness>();
-    }
+        VisualElement rootVisualElement = new VisualElement();
 
-    private Texture2D metallicMap;
-    private Texture2D roughnessMap;
-
-    private string description = "Create: \nMetallic Smoothness Map from Metallic + Roughness Map\nor\nSmoothness Map from roughness Map!";
-    public void OnGUI()
-    {
-        EditorGUILayout.Space(20f);
-
-        GUILayout.Box(description, GUILayout.ExpandWidth(true));
+        VisualElement spacer = new VisualElement();
+        spacer.style.height = 20;
+        spacer.style.whiteSpace = WhiteSpace.Normal;
+        rootVisualElement.Add(spacer);
 
 
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Metallic Map");
-        metallicMap = EditorGUILayout.ObjectField(metallicMap, typeof(Texture2D), true) as Texture2D;
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Roughness Map");
-        roughnessMap = EditorGUILayout.ObjectField(roughnessMap, typeof(Texture2D), true) as Texture2D;
-        EditorGUILayout.EndHorizontal();
+        metallicSmoothnessLabel = new Label(metallicSmoothnessName);
+        metallicSmoothnessLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+        metallicSmoothnessLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        metallicSmoothnessLabel.style.fontSize = 18;
+        metallicSmoothnessLabel.style.whiteSpace = WhiteSpace.Normal;
+        metallicSmoothnessLabel.style.marginBottom = 10f;
+        metallicSmoothnessLabel.style.marginLeft = globalMarginLeft;
 
 
-        if (GUILayout.Button("Create Metallic!"))
+        rootVisualElement.Add(metallicSmoothnessLabel);
+
+        Label descriptionLabel = new Label(description);
+        descriptionLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+        descriptionLabel.style.whiteSpace = WhiteSpace.Normal;
+        descriptionLabel.style.marginBottom = 10f;
+        descriptionLabel.style.marginLeft = globalMarginLeft;
+        rootVisualElement.Add(descriptionLabel);
+
+        // Metallic Map Field
+        VisualElement metallicRow = new VisualElement();
+        metallicRow.style.flexDirection = FlexDirection.Row;
+        metallicRow.style.marginBottom = 10;
+        metallicRow.style.marginLeft = globalMarginLeft;
+        metallicRow.style.justifyContent = Justify.SpaceBetween;
+
+        Label metallicLabel = new Label("Metallic Map");
+        metallicLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+        metallicLabel.style.flexGrow = 1;
+
+        metallicField = new ObjectField();
+        metallicField.objectType = typeof(Texture2D);
+        metallicField.allowSceneObjects = false;
+        metallicField.style.width = 300f;
+        metallicField.style.flexGrow = 0;
+        metallicField.style.alignSelf = Align.FlexEnd;
+        metallicField.style.marginRight = globalMarginLeft;
+        metallicField.RegisterValueChangedCallback(evt =>
+        {
+            metallicMap = evt.newValue as Texture2D;
+        });
+
+        metallicRow.Add(metallicLabel);
+        metallicRow.Add(metallicField);
+        rootVisualElement.Add(metallicRow);
+
+        // Roughness Map Field
+        VisualElement roughnessRow = new VisualElement();
+        roughnessRow.style.flexDirection = FlexDirection.Row;
+        roughnessRow.style.marginBottom = 10;
+        roughnessRow.style.marginLeft = globalMarginLeft;
+        roughnessRow.style.justifyContent = Justify.SpaceBetween;
+
+        Label roughnessLabel = new Label("Roughness Map");
+        roughnessLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+        roughnessLabel.style.flexGrow = 1;
+
+        roughnessField = new ObjectField();
+        roughnessField.objectType = typeof(Texture2D);
+        roughnessField.allowSceneObjects = false;
+        roughnessField.style.width = 300f;
+        roughnessField.style.flexGrow = 0;
+        roughnessField.style.alignSelf = Align.FlexEnd;
+        roughnessField.style.marginRight = globalMarginLeft;
+        roughnessField.RegisterValueChangedCallback(evt =>
+        {
+            roughnessMap = evt.newValue as Texture2D;
+        });
+        roughnessRow.Add(roughnessLabel);
+        roughnessRow.Add(roughnessField);
+        rootVisualElement.Add(roughnessRow);
+
+
+
+
+
+        Label saveLabel = new Label("Will be saved to: Assets/Metallic.png");
+        saveLabel.style.marginLeft = globalMarginLeft;
+        saveLabel.style.whiteSpace = WhiteSpace.Normal;
+
+        metallicField.RegisterValueChangedCallback((evt) =>
+        {
+            string assetPath = AssetDatabase.GetAssetPath(metallicMap);
+            string fileName = Path.ChangeExtension(assetPath, null) + "Metallic .png";
+
+            saveLabel.text = "Will be saved to: " + fileName;
+        });
+        roughnessField.RegisterValueChangedCallback((evt) =>
+        {
+            if (metallicMap == null)
             {
-                if (metallicMap == null && roughnessMap != null)
-                {
-                    CreateSmoothnessMap(roughnessMap);
-                }
-                else if (metallicMap != null && roughnessMap != null)
-                {
-                    CreateMetallicAndSmoothnessMap(metallicMap, roughnessMap);
-                }
-                else if (roughnessMap == null && metallicMap == null)
-                {
-                    Debug.LogError("You dont have roughness or metallic map!");
-                }
-            }
-    }
+                string assetPath = AssetDatabase.GetAssetPath(roughnessMap);
+                string fileName = Path.ChangeExtension(assetPath, null) + " Combined.png";
 
-    private void CreateSmoothnessMap(Texture2D roughnessMap)
+                saveLabel.text = "Will be saved to: " + fileName;
+            }
+        });
+
+
+        rootVisualElement.Add(saveLabel);
+
+        // Create Button
+        Button createButton = new Button();
+        createButton.text = "Create Metallic Smoothness";
+        createButton.style.marginLeft = globalMarginLeft;
+        createButton.style.marginRight = globalMarginLeft;
+        createButton.clicked += () =>
+        {
+            if (metallicMap != null)
+            {
+                SetReadWriteEnabledFlag(metallicMap, true);
+            }
+            
+            if (roughnessMap != null)
+            {
+                SetReadWriteEnabledFlag(roughnessMap, true);
+            }
+
+            if (roughnessMap == null)
+            {
+                Debug.LogError("You don't have roughness map. there is no point to create metallic map!");
+            }
+            if (metallicMap == null && roughnessMap != null)
+            {
+                CreateSmoothnessMap(roughnessMap);
+            }
+            else if (metallicMap != null && roughnessMap != null)
+            {
+                CreateMetallicAndSmoothnessMap(metallicMap, roughnessMap);
+            }
+            else if (roughnessMap == null && metallicMap == null)
+            {
+                Debug.LogError("You don't have roughness or metallic map!");
+            }
+        };
+
+        rootVisualElement.Add(createButton);
+
+
+
+
+        return rootVisualElement;
+    }
+    private static bool SetReadWriteEnabledFlag(Texture targetTexture, bool isReadable)
+    {
+        string assetPath = AssetDatabase.GetAssetPath(targetTexture);
+        if (string.IsNullOrEmpty(assetPath))
+            return false;
+        TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+        if (importer == null)
+            return false;
+        if (importer.isReadable != isReadable)
+        {
+            importer.isReadable = isReadable;
+            importer.SaveAndReimport();
+            AssetDatabase.SaveAssets();
+        }
+        return true;
+    }
+    private static void CreateSmoothnessMap(Texture2D roughnessMap)
     {
         Texture2D smoothnessMap = new Texture2D(roughnessMap.width, roughnessMap.height);
         Color[] roughnessPixels = roughnessMap.GetPixels();
@@ -94,7 +230,7 @@ public class CreateMetallicSmoothness : EditorWindow
         Debug.Log($"Smoothness map saved as {newFileName}");
     }
 
-    private void CreateMetallicAndSmoothnessMap(Texture2D metallicMap, Texture2D roughnessMap)
+    private static void CreateMetallicAndSmoothnessMap(Texture2D metallicMap, Texture2D roughnessMap)
     {
         Texture2D smoothnessMap = new Texture2D(roughnessMap.width, roughnessMap.height);
         Color[] roughnessPixels = roughnessMap.GetPixels();
