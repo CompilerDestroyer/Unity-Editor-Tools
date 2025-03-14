@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using UnityEngine;
 using System.IO;
 using UnityEditor;
@@ -7,9 +6,9 @@ using UnityEditor.UIElements;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    public class CreateMetallicSmoothness
+    internal class CreateMetallicSmoothness
     {
-        private static readonly string metallicSmoothnessName = "Metallic Smoothness";
+        private static readonly string metallicSmoothnessName = "Texture Combiner";
         private static readonly string description = "Create Metallic Smoothness Map from Metallic + Roughness Map or Smoothness Map from roughness Map!";
 
         private static Texture2D metallicMap;
@@ -19,14 +18,14 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static ObjectField metallicField;
         private static ObjectField roughnessField;
 
-        private static readonly int globalMarginLeft = 15;
+        private static readonly int globalMarginLeftRight = 15;
 
-        internal static VisualElement ConvertRoughnessToMetallicSmoothness()
+        internal static VisualElement ConvertRoughnessToMetallicSmoothnessVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
 
             VisualElement spacer = new VisualElement();
-            spacer.style.height = 20;
+            spacer.style.height = 5f;
             spacer.style.whiteSpace = WhiteSpace.Normal;
             rootVisualElement.Add(spacer);
 
@@ -36,8 +35,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             metallicSmoothnessLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             metallicSmoothnessLabel.style.fontSize = 18;
             metallicSmoothnessLabel.style.whiteSpace = WhiteSpace.Normal;
-            metallicSmoothnessLabel.style.marginBottom = 10f;
-            metallicSmoothnessLabel.style.marginLeft = globalMarginLeft;
+            metallicSmoothnessLabel.style.marginBottom = 15;
+            metallicSmoothnessLabel.style.marginLeft = globalMarginLeftRight;
 
 
             rootVisualElement.Add(metallicSmoothnessLabel);
@@ -46,14 +45,14 @@ namespace CompilerDestroyer.Editor.EditorTools
             descriptionLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
             descriptionLabel.style.whiteSpace = WhiteSpace.Normal;
             descriptionLabel.style.marginBottom = 10f;
-            descriptionLabel.style.marginLeft = globalMarginLeft;
+            descriptionLabel.style.marginLeft = globalMarginLeftRight;
             rootVisualElement.Add(descriptionLabel);
 
             // Metallic Map Field
             VisualElement metallicRow = new VisualElement();
             metallicRow.style.flexDirection = FlexDirection.Row;
             metallicRow.style.marginBottom = 10;
-            metallicRow.style.marginLeft = globalMarginLeft;
+            metallicRow.style.marginLeft = globalMarginLeftRight;
             metallicRow.style.justifyContent = Justify.SpaceBetween;
 
             Label metallicLabel = new Label("Metallic Map");
@@ -66,7 +65,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             metallicField.style.width = 300f;
             metallicField.style.flexGrow = 0;
             metallicField.style.alignSelf = Align.FlexEnd;
-            metallicField.style.marginRight = globalMarginLeft;
+            metallicField.style.marginRight = globalMarginLeftRight;
             metallicField.RegisterValueChangedCallback(evt =>
             {
                 metallicMap = evt.newValue as Texture2D;
@@ -80,7 +79,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement roughnessRow = new VisualElement();
             roughnessRow.style.flexDirection = FlexDirection.Row;
             roughnessRow.style.marginBottom = 10;
-            roughnessRow.style.marginLeft = globalMarginLeft;
+            roughnessRow.style.marginLeft = globalMarginLeftRight;
             roughnessRow.style.justifyContent = Justify.SpaceBetween;
 
             Label roughnessLabel = new Label("Roughness Map");
@@ -93,7 +92,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             roughnessField.style.width = 300f;
             roughnessField.style.flexGrow = 0;
             roughnessField.style.alignSelf = Align.FlexEnd;
-            roughnessField.style.marginRight = globalMarginLeft;
+            roughnessField.style.marginRight = globalMarginLeftRight;
             roughnessField.RegisterValueChangedCallback(evt =>
             {
                 roughnessMap = evt.newValue as Texture2D;
@@ -107,7 +106,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
             Label saveLabel = new Label("Will be saved to: ");
-            saveLabel.style.marginLeft = globalMarginLeft;
+            saveLabel.style.marginLeft = globalMarginLeftRight;
             saveLabel.style.whiteSpace = WhiteSpace.Normal;
 
             metallicField.RegisterValueChangedCallback((evt) =>
@@ -134,8 +133,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             // Create Button
             Button createButton = new Button();
             createButton.text = "Create Metallic Smoothness";
-            createButton.style.marginLeft = globalMarginLeft;
-            createButton.style.marginRight = globalMarginLeft;
+            createButton.style.marginLeft = globalMarginLeftRight;
+            createButton.style.marginRight = globalMarginLeftRight;
             createButton.clicked += () =>
             {
                 if (metallicMap != null)
@@ -274,6 +273,4 @@ namespace CompilerDestroyer.Editor.EditorTools
             AssetDatabase.Refresh();
         }
     }
-
 }
-#endif
