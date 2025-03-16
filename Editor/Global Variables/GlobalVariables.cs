@@ -7,9 +7,16 @@ namespace CompilerDestroyer.Editor
     {
         // Project Paths
         public const string NickName = "Compiler Destroyer";
-        public const string ProjectsPath = "Packages/com.compilerdestroyer.editortools/Editor/Projects";
-        public const string ProjectManagerPath = "Packages/com.compilerdestroyer.editortools/Editor/Project Managements";
-        
+        public const string PackageName = "com.compilerdestroyer.editortools";
+        public const string ProjectsPath = "Packages/" + PackageName + "/Editor/Projects";
+        public const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
+
+
+        public const string RoughnessConverter = "Roughness Converter";
+        public const string PackagesInitializerName = "Packages Initializer";
+
+
+
         private static readonly Color defaultLineDarkColor = new Color(0.1215686f, 0.1215686f, 0.1215686f, 1f);
         private static readonly Color defaultLineWhiteColor = new Color(0.6f, 0.6f, 0.6f, 1f);
         public static Color DefaultLineColor

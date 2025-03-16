@@ -10,10 +10,6 @@ namespace CompilerDestroyer.Editor.ToolsManager
     public sealed class EditorToolsSettings : EditorWindow
     {
         private const string toolsName = "Tools";
-        private const string textureCombinerName = "Texture Combiner";
-        private const string packageInitializerName = "Package Initializer";
-
-
         private const string documentationName = "Documentation";
 
         private static readonly Vector2 minWindowSize = new Vector2(310f, 200f);
@@ -34,8 +30,8 @@ namespace CompilerDestroyer.Editor.ToolsManager
         {
             // Tools
             List<TreeViewItemData<string>> toolChildren = new List<TreeViewItemData<string>>();
-            TreeViewItemData<string> textureManipulatorSetting = new TreeViewItemData<string>(0, textureCombinerName);
-            TreeViewItemData<string> packageInitializerSetting = new TreeViewItemData<string>(1, packageInitializerName);
+            TreeViewItemData<string> textureManipulatorSetting = new TreeViewItemData<string>(0, GlobalVariables.RoughnessConverter);
+            TreeViewItemData<string> packageInitializerSetting = new TreeViewItemData<string>(1, GlobalVariables.PackagesInitializerName);
             toolChildren.Add(textureManipulatorSetting);
             toolChildren.Add(packageInitializerSetting);
             TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(2, toolsName, toolChildren);
@@ -47,8 +43,8 @@ namespace CompilerDestroyer.Editor.ToolsManager
 
 
             rootDict.Add(toolsName, null);
-            rootDict.Add(textureCombinerName, CreateMetallicSmoothness.ConvertRoughnessToMetallicSmoothnessVisualElement());
-            rootDict.Add(packageInitializerName, PackageInitializer.PackageInitializerVisualElement());
+            rootDict.Add(GlobalVariables.RoughnessConverter, CreateMetallicSmoothness.ConvertRoughnessToMetallicSmoothnessVisualElement());
+            rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
             rootDict.Add(documentationName, null);
 
 

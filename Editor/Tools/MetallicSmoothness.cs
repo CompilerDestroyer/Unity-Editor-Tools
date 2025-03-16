@@ -8,7 +8,6 @@ namespace CompilerDestroyer.Editor.EditorTools
 {
     internal class CreateMetallicSmoothness
     {
-        private static readonly string metallicSmoothnessName = "Texture Combiner";
         private static readonly string description = "Create Metallic Smoothness Map from Metallic + Roughness Map or Smoothness Map from roughness Map!";
 
         private static Texture2D metallicMap;
@@ -30,7 +29,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             rootVisualElement.Add(spacer);
 
 
-            metallicSmoothnessLabel = new Label(metallicSmoothnessName);
+            metallicSmoothnessLabel = new Label(GlobalVariables.RoughnessConverter);
             metallicSmoothnessLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
             metallicSmoothnessLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             metallicSmoothnessLabel.style.fontSize = 18;

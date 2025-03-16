@@ -69,7 +69,9 @@ namespace CompilerDestroyer.Editor.UIElements
 
         public SettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> settingsVisualElement)
         {
-            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, ref this.splitterLineColor, ref this.splitterLineHighlightColor, ref this.splitterLineWidth);
+            this.splitterLineColor = GlobalVariables.DefaultLineColor;
+
+            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, this.splitterLineColor, this.splitterLineHighlightColor, this.splitterLineWidth);
         }
 
         /// <summary>
@@ -80,11 +82,12 @@ namespace CompilerDestroyer.Editor.UIElements
         /// <param name="leftPaneTreeViewItems">A list of TreeViewItemData for the left pane. These items may contain nested children, representing a tree structure of settings.</param>
         /// <param name="settingsVisualElement">A dictionary mapping setting names (from the left pane) to VisualElements in the right pane. The order of items in the dictionary is not important, but the keys must match the strings in the leftPaneTreeViewItems.</param>
         /// <param name="splitterLineWidth">The width of the splitter line separating the left and right panes.</param>
-        public SettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> settingsVisualElement,
-            float splitterLineWidth)
+        public SettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> settingsVisualElement, float splitterLineWidth)
         {
-            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, ref this.splitterLineColor, ref this.splitterLineHighlightColor,
-                ref splitterLineWidth);
+            this.splitterLineColor = GlobalVariables.DefaultLineColor;
+
+            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, this.splitterLineColor, this.splitterLineHighlightColor,
+                splitterLineWidth);
         }
 
         /// <summary>
@@ -110,8 +113,8 @@ namespace CompilerDestroyer.Editor.UIElements
 
             this.splitterLineHighlightColor = GetLighterColor(this.splitterLineColor, 0.7f);
 
-            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, ref this.splitterLineColor, ref this.splitterLineHighlightColor,
-                ref splitterLineWidth);
+            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, this.splitterLineColor, this.splitterLineHighlightColor,
+                splitterLineWidth);
         }
 
         /// <summary>
@@ -122,28 +125,18 @@ namespace CompilerDestroyer.Editor.UIElements
         /// <param name="leftPaneTreeViewItems">A list of TreeViewItemData for the left pane. These items may contain nested children, representing a tree structure of settings.</param>
         /// <param name="settingsVisualElement">A dictionary mapping setting names (from the left pane) to VisualElements in the right pane. The order of items in the dictionary is not important, but the keys must match the strings in the leftPaneTreeViewItems.</param>
         /// <param name="splitterLineWidth">The width of the splitter line separating the left and right panes.</param>
-        /// <param name="splitterLineColor">The color of the splitter line. If set to Color.clear, the default color will be used.</param>
         /// <param name="rightPaneScrollViewMode">Scroll view mode of right pane ScrollView.</param>
         public SettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> settingsVisualElement,
-            float splitterLineWidth, Color splitterLineColor, ScrollViewMode rightPaneScrollViewMode)
+            float splitterLineWidth, ScrollViewMode rightPaneScrollViewMode)
         {
-            if (splitterLineColor != Color.clear)
-            {
-                this.splitterLineColor = splitterLineColor;
-            }
-            else
-            {
-                this.splitterLineColor = GlobalVariables.DefaultLineColor;
-            }
+            this.splitterLineColor = GlobalVariables.DefaultLineColor;
 
-            this.splitterLineHighlightColor = GetLighterColor(this.splitterLineColor, 0.7f);
-
-            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, ref this.splitterLineColor, ref this.splitterLineHighlightColor,
-                ref splitterLineWidth, rightPaneScrollViewMode);
+            CreateSettingsPanel(ref leftPaneTreeViewItems, ref settingsVisualElement, this.splitterLineColor, this.splitterLineHighlightColor,
+                splitterLineWidth, rightPaneScrollViewMode);
         }
 
         private void CreateSettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> rightPaneSettingsDict,
-            ref Color splitterLineColor, ref Color splitterLineHighlightColor, ref float splitterLineWidth)
+            Color splitterLineColor, Color splitterLineHighlightColor, float splitterLineWidth)
         {
             this.rightPaneSettingsDict = rightPaneSettingsDict;
             this.leftPaneTreeViewList = leftPaneTreeViewItems;
@@ -165,7 +158,7 @@ namespace CompilerDestroyer.Editor.UIElements
         }
 
         private void CreateSettingsPanel(ref List<TreeViewItemData<string>> leftPaneTreeViewItems, ref Dictionary<string, VisualElement> rightPaneSettingsDict,
-            ref Color splitterLineColor, ref Color splitterLineHighlightColor, ref float splitterLineWidth, ScrollViewMode rightPaneScrollViewMode)
+            Color splitterLineColor, Color splitterLineHighlightColor, float splitterLineWidth, ScrollViewMode rightPaneScrollViewMode)
         {
             this.rightPaneSettingsDict = rightPaneSettingsDict;
             this.leftPaneTreeViewList = leftPaneTreeViewItems;
