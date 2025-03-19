@@ -169,14 +169,14 @@ namespace CompilerDestroyer.Editor.EditorTools
                     // Install or remove git packages
                     for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
                     {
-                        Package currentBuiltinPackage = PackageInitializerSave.instance.customPackages[i];
-                        if (currentBuiltinPackage.shouldPackageInstalled)
+                        Package currentGitPackage = PackageInitializerSave.instance.customPackages[i];
+                        if (currentGitPackage.shouldPackageInstalled)
                         {
-                            addList.Add(currentBuiltinPackage.packageName);
+                            addList.Add(currentGitPackage.packageName);
                         }
-                        else if (!currentBuiltinPackage.shouldPackageInstalled)
+                        else if (!currentGitPackage.shouldPackageInstalled)
                         {
-                            removeList.Add(currentBuiltinPackage.packageName);
+                            removeList.Add(currentGitPackage.packageName);
                         }
                     }
 
@@ -184,11 +184,15 @@ namespace CompilerDestroyer.Editor.EditorTools
                     List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath, false);
                     if (unityPackages.Count > 0)
                     {
-                         for (int i = 0; i < unityPackages.Count; i++)
+                        for (int i = 0; i < PackageInitializerSave.instance.assetStorePackages.Count; i++)
                         {
-                            string currentBuiltinPackage = unityPackages[i];
-                        
-                                AssetDatabase.ImportPackage(unityPackages[i], false);
+                            Package currentAssetStorePackage = PackageInitializerSave.instance.assetStorePackages[i];
+
+                            if (currentAssetStorePackage.shouldPackageInstalled)
+                            {
+                                string packagePath = GlobalVariables.CurrentAssetStorePath + Path.DirectorySeparatorChar + currentAssetStorePackage.packageName + ".unitypackage";
+                                AssetDatabase.ImportPackage(packagePath, false);
+                            }
                         }
                     }
 
