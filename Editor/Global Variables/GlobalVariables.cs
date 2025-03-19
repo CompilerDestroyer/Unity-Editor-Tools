@@ -15,9 +15,15 @@ namespace CompilerDestroyer.Editor
 
 
         public const string RoughnessConverter = "Roughness Converter";
-        public const string PackagesInitializerName = "Packages Initializer";
+        public const string PackagesInitializerName = "Package Initializer";
 
-        public const string UnityLogoName = "d_UnityLogo";
+        public const string UnityLogoIconName = "d_UnityLogo";
+        public const string UnityInfoIconName = "console.infoicon@2x";
+        public const string UnityErrorIconName = "Error@2x";
+        public const string UnityWarnIconName = "Warning@2x";
+        public const string UnityInstalledIconName = "Installed@2x";
+
+
         public static string windowsAssetStorePackagePath = @"Unity\Asset Store-5.x";
         public static string OsxEditorPackagePath = @"Library/Unity/Asset Store-5.x";
         public static string LinuxEditorPackagePath = ".local/share/unity3d/Asset Store-5.x";

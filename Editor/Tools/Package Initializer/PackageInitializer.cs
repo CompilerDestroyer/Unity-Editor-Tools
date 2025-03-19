@@ -14,18 +14,13 @@ namespace CompilerDestroyer.Editor.EditorTools
     internal class PackageInitializer
     {
         private static string packagesInitializerInfo = "When Editor Tools first installed into a project, " + GlobalVariables.PackagesInitializerName + " " +
-            "will remove all of the false packages in the list below.\n It will be available in all projects that installs Editor Tools.";
+            "will remove all of the false packages in the list below. It will be available in all projects that installs Editor Tools.";
         private static readonly string savePath = PackageInitializerSave.instance.GetSavePath();
         private static int globalMarginLeftRight = 15;
         private static int globalMarginBottom = 20;
         private static int globalMiniBottomMargin = 7;
 
-
-        private static ListRequest PackagesListRequest;
-        private static AddAndRemoveRequest addAndRemoveRequest;
-
-
-        public static List<string> currentBuiltInPackageNames = new List<string>();
+        private static AddAndRemoveRequest addRemoveOfPackageInitializer;
         private static ListView builtInPackagesListView;
         private static ListView customPackageListView;
         private static ListView assetStorePackagesListView;
@@ -34,9 +29,27 @@ namespace CompilerDestroyer.Editor.EditorTools
         [InitializeOnLoadMethod]
         private static void InitializePackage()
         {
-            if (PackageInitializerSave.instance.isPackageInitializerAlreadyRan)
+            if (PackageInitializerSave.instance != null)
             {
+                if (!PackageInitializerSave.instance.isPackageInitializerEnabled) return;
+            }
 
+
+            if (!SessionState.GetBool("isAlreadyInitializedPackageInitializer", false))
+            {
+                SessionState.SetBool("isAlreadyInitializedPackageInitializer", true);
+
+                if (PackageInitializerSave.instance != null)
+                {
+                    if (!PackageInitializerSave.instance.isPackageInitializerAlreadyRan)
+                    {
+
+
+
+                        PackageInitializerSave.instance.isPackageInitializerAlreadyRan = true;
+                        PackageInitializerSave.instance.Save();
+                    }
+                }
             }
         }
 
@@ -44,58 +57,73 @@ namespace CompilerDestroyer.Editor.EditorTools
         internal static VisualElement PackageInitializerVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
+
+
             VisualElement spacer = new VisualElement();
             spacer.style.height = 5f;
             spacer.style.whiteSpace = WhiteSpace.Normal;
             rootVisualElement.Add(spacer);
 
+            VisualElement toolLabelAndDisableContainer = new VisualElement();
+            toolLabelAndDisableContainer.style.marginBottom = globalMarginBottom;
+            toolLabelAndDisableContainer.style.flexDirection = FlexDirection.Row;
+
             Label toolLabel = new Label(GlobalVariables.PackagesInitializerName);
-            toolLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
             toolLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             toolLabel.style.fontSize = 18;
             toolLabel.style.whiteSpace = WhiteSpace.Normal;
-            toolLabel.style.marginBottom = globalMarginBottom;
             toolLabel.style.marginLeft = globalMarginLeftRight;
-            rootVisualElement.Add(toolLabel);
+            toolLabelAndDisableContainer.Add(toolLabel);
+
+            Toggle disablePackageInitializer = new Toggle();
+            disablePackageInitializer.style.alignSelf = Align.FlexEnd;
+
+            disablePackageInitializer.value = true;
+            toolLabelAndDisableContainer.Add(disablePackageInitializer);
+            rootVisualElement.Add(toolLabelAndDisableContainer);
 
 
-            float borderOfBox = 15;
-            InfoBox packagesInitializerBox = new InfoBox(borderOfBox);
+            VisualElement WholePackageInitializerContainer = new VisualElement();
+            disablePackageInitializer.RegisterCallback<ChangeEvent<bool>>(evt =>
+            {
+                WholePackageInitializerContainer.SetEnabled(disablePackageInitializer.value);
+                PackageInitializerSave.instance.isPackageInitializerEnabled = disablePackageInitializer.value;
+                PackageInitializerSave.instance.Save();
+            });
+
+
+            InfoBox packagesInitializerBox = new InfoBox(packagesInitializerInfo + "\n", InfoBoxIconType.Info, 10f);
             packagesInitializerBox.style.marginBottom = globalMiniBottomMargin;
             packagesInitializerBox.style.marginLeft = globalMarginLeftRight;
             packagesInitializerBox.style.marginRight = globalMarginLeftRight;
-            rootVisualElement.Add(packagesInitializerBox);
+            WholePackageInitializerContainer.Add(packagesInitializerBox);
 
-            Label packagesInitializerInfoLabel = new Label(packagesInitializerInfo + "\n\n" + "Save Path: ");
+            VisualElement savePathContainer = new VisualElement();
+            savePathContainer.style.flexDirection = FlexDirection.Row;
 
-            packagesInitializerInfoLabel.style.marginTop = 5f;
-            packagesInitializerInfoLabel.style.marginBottom = globalMarginBottom;
-            packagesInitializerInfoLabel.style.marginLeft = globalMarginLeftRight;
-            packagesInitializerInfoLabel.style.marginRight = globalMarginLeftRight;
-            packagesInitializerInfoLabel.style.whiteSpace = WhiteSpace.Normal;
-            packagesInitializerBox.Add(packagesInitializerInfoLabel);
+            Label savePathLabel = new Label("Save Path: ");
+            savePathLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+            savePathContainer.Add(savePathLabel);
 
-            TextField savePathLabel = new TextField();
-            savePathLabel.value = savePath;
-            savePathLabel.style.marginLeft = globalMarginLeftRight;
-            savePathLabel.style.marginRight = globalMarginLeftRight;
-            savePathLabel.style.whiteSpace = WhiteSpace.Normal;
-
-            savePathLabel.isReadOnly = true;
-            savePathLabel.selectAllOnMouseUp = false;
-            savePathLabel.multiline = true;
-            packagesInitializerBox.Add(savePathLabel);
-
-            PackagesListRequest = Client.List(true);
-            EditorApplication.update += ListBuiltInPackagesProgress;
+            TextField savePathTextField = new TextField();
+            savePathTextField.style.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.3f);
+            savePathTextField.value = savePath;
+            savePathTextField.style.marginLeft = 15;
+            savePathTextField.style.marginRight = 15;
+            savePathTextField.style.whiteSpace = WhiteSpace.Normal;
+            savePathTextField.style.flexShrink = 1f;
+            savePathTextField.isReadOnly = true;
+            savePathTextField.selectAllOnMouseUp = true;
+            savePathTextField.multiline = true;
+            savePathContainer.Add(savePathTextField);
+            packagesInitializerBox.Add(savePathContainer);
 
             VisualElement builtinPackageList = BuiltInPackagesList();
             builtinPackageList.style.maxHeight = 300f;
             builtinPackageList.style.marginLeft = globalMarginLeftRight;
             builtinPackageList.style.marginRight = globalMarginLeftRight;
             builtinPackageList.style.marginBottom = globalMiniBottomMargin;
-            rootVisualElement.Add(builtinPackageList);
-
+            WholePackageInitializerContainer.Add(builtinPackageList);
 
             VisualElement customPackageList = CustomPackageList();
             customPackageList.style.maxHeight = 300f;
@@ -103,7 +131,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             customPackageList.style.marginRight = globalMarginLeftRight;
             customPackageList.style.marginBottom = globalMiniBottomMargin;
 
-            rootVisualElement.Add(customPackageList);
+            WholePackageInitializerContainer.Add(customPackageList);
 
             VisualElement assetStorePackageList = AssetStorePackagesListView();
             assetStorePackageList.style.maxHeight = 300f;
@@ -111,56 +139,74 @@ namespace CompilerDestroyer.Editor.EditorTools
             assetStorePackageList.style.marginRight = globalMarginLeftRight;
             assetStorePackageList.style.marginBottom = globalMarginLeftRight;
 
-            rootVisualElement.Add(assetStorePackageList);
+            WholePackageInitializerContainer.Add(assetStorePackageList);
 
             Button updateButton = new Button();
-            updateButton.text = "Update";
+            updateButton.text = "Update Packages";
             updateButton.style.marginLeft = globalMarginLeftRight;
             updateButton.style.marginRight = globalMarginLeftRight;
             updateButton.style.marginBottom = globalMiniBottomMargin;
             updateButton.clicked += () =>
             {
-                addAndRemoveRequest = Client.AddAndRemove(null, currentBuiltInPackageNames.ToArray());
-                EditorApplication.update += AddOrRemoveProgress;
+                List<string> addList = new List<string>();
+                List<string> removeList = new List<string>();
+                if (PackageInitializerSave.instance != null)
+                {
+                    // Install or remove built-in unity packages
+                    for (int i = 0; i < PackageInitializerSave.instance.builtInPackages.Count; i++)
+                    {
+                        Package currentBuiltinPackage = PackageInitializerSave.instance.builtInPackages[i];
+                        if (currentBuiltinPackage.shouldPackageInstalled)
+                        {
+                            addList.Add(currentBuiltinPackage.packageName);
+                        }
+                        else if (!currentBuiltinPackage.shouldPackageInstalled)
+                        {
+                            removeList.Add(currentBuiltinPackage.packageName);
+                        }
+                    }
+
+                    // Install or remove git packages
+                    for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
+                    {
+                        Package currentBuiltinPackage = PackageInitializerSave.instance.customPackages[i];
+                        if (currentBuiltinPackage.shouldPackageInstalled)
+                        {
+                            addList.Add(currentBuiltinPackage.packageName);
+                        }
+                        else if (!currentBuiltinPackage.shouldPackageInstalled)
+                        {
+                            removeList.Add(currentBuiltinPackage.packageName);
+                        }
+                    }
+
+                    // Install or remove asset store packages
+                    List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath);
+                    for (int i = 0; i < unityPackages.Count; i++)
+                    {
+                        string currentBuiltinPackage = unityPackages[i];
+                        
+                        if (unityPackages.Count > 0)
+                        {
+                            AssetDatabase.ImportPackage(unityPackages[i], false);
+                        }
+                    }
+
+                }
+                if (addList.Count > 0 || removeList.Count > 0)
+                {
+                    addRemoveOfPackageInitializer = Client.AddAndRemove(addList.ToArray(), removeList.ToArray());
+                    EditorApplication.update += AddOrRemoveProgress;
+                }
+                AssetDatabase.Refresh();
             };
-            rootVisualElement.Add(updateButton);
-            Button saveButton = new Button();
-            saveButton.style.marginBottom = globalMiniBottomMargin;
-            saveButton.style.marginLeft = globalMarginLeftRight;
-            saveButton.style.marginRight = globalMarginLeftRight;
-            saveButton.clicked += () =>
-            {
-                PackageInitializerSave.instance.SaveThis();
-            };
-            saveButton.text = "Save";
-            rootVisualElement.Add(saveButton);
-
-            VisualElement initPackageInitializerRow = new VisualElement();
-            initPackageInitializerRow.style.flexDirection = FlexDirection.Row;
-            initPackageInitializerRow.style.alignItems = Align.Center;
-            initPackageInitializerRow.style.marginLeft = globalMarginLeftRight;
-            initPackageInitializerRow.style.marginRight = globalMarginLeftRight;
-            initPackageInitializerRow.style.marginBottom = globalMarginBottom;
-
-            Label label = new Label("Is Packages Initializer syncs project when Editor Tools first installed");
-            label.style.flexGrow = 1;
-            label.style.unityTextAlign = TextAnchor.MiddleLeft;
-
-            Toggle toggle = new Toggle();
-            toggle.label = "";
-            toggle.style.flexShrink = 0;
-
-            initPackageInitializerRow.Add(label);
-            initPackageInitializerRow.Add(toggle);
+            WholePackageInitializerContainer.Add(updateButton);
 
 
-            rootVisualElement.Add(initPackageInitializerRow);
-
+            rootVisualElement.Add(WholePackageInitializerContainer);
             return rootVisualElement;
         }
-
-
-
+        
 
         private static VisualElement BuiltInPackagesList()
         {
@@ -210,7 +256,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                                toggle.value = evt.newValue;
 
                                PackageInitializerSave.instance.builtInPackages[index].shouldPackageInstalled = toggle.value;
-                               PackageInitializerSave.instance.SaveThis();
+                               PackageInitializerSave.instance.Save();
                            }
                        });
                    });
@@ -223,7 +269,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                            Package clickedPackage = builtInPackagesListView.selectedItem as Package;
                            clickedPackage.shouldPackageInstalled = toggle.value;
 
-                           PackageInitializerSave.instance.SaveThis();
+                           PackageInitializerSave.instance.Save();
                            evt.StopImmediatePropagation();
                        }
                    });
@@ -238,7 +284,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             builtInPackagesListView.viewDataKey = "BuiltInPackages";
 
 
-            PackageInitializerSave.instance.SaveThis();
+            PackageInitializerSave.instance.Save();
             rootVisualElement.Add(builtInPackagesListView);
 
             return rootVisualElement;
@@ -252,7 +298,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             customPackageListView.onAdd = view =>
             {
                 view.itemsSource.Add(new Package());
-                PackageInitializerSave.instance.SaveThis();
+                PackageInitializerSave.instance.Save();
 
                 customPackageListView.Rebuild();
             };
@@ -266,21 +312,21 @@ namespace CompilerDestroyer.Editor.EditorTools
                     if (itemsSourceCount - 1 != -1)
                     {
                         list.RemoveAt(itemsSourceCount - 1);
-                        PackageInitializerSave.instance.SaveThis();
+                        PackageInitializerSave.instance.Save();
                         customPackageListView.Rebuild();
                     }
                 }
                 else
                 {
                     list.RemoveAt(view.selectedIndex);
-                    PackageInitializerSave.instance.SaveThis();
+                    PackageInitializerSave.instance.Save();
                     customPackageListView.Rebuild();
                 }
 
             };
             customPackageListView.itemsAdded += addedItems =>
             {
-                PackageInitializerSave.instance.SaveThis();
+                PackageInitializerSave.instance.Save();
                 customPackageListView.Rebuild();
 
             };
@@ -291,7 +337,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                     EditorApplication.update += RemoveItemsWhenZeroEnteredToCollectionSize;
                     return;
                 }
-                PackageInitializerSave.instance.SaveThis();
+                PackageInitializerSave.instance.Save();
                 customPackageListView.Rebuild();
 
             };
@@ -316,7 +362,7 @@ namespace CompilerDestroyer.Editor.EditorTools
         {
             if (customPackageListView.itemsSource.Count != 0) return;
 
-            PackageInitializerSave.instance.SaveThis();
+            PackageInitializerSave.instance.Save();
             customPackageListView.Rebuild();
 
             EditorApplication.update -= RemoveItemsWhenZeroEnteredToCollectionSize;
@@ -360,7 +406,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             toggle.RegisterCallback<ChangeEvent<bool>>(ChangeEvent =>
             {
                 PackageInitializerSave.instance.customPackages[index].shouldPackageInstalled = ChangeEvent.newValue;
-                PackageInitializerSave.instance.SaveThis();
+                PackageInitializerSave.instance.Save();
             });
 
             textField.RegisterCallback<ChangeEvent<string>>(ChangeEvent =>
@@ -368,13 +414,13 @@ namespace CompilerDestroyer.Editor.EditorTools
                 if (index < PackageInitializerSave.instance.customPackages.Count)
                 {
                     PackageInitializerSave.instance.customPackages[index].packageName = ChangeEvent.newValue;
-                    PackageInitializerSave.instance.SaveThis();
+                    PackageInitializerSave.instance.Save();
                 }
             });
         }
         private static void AddOrRemoveProgress()
         {
-            if (PackagesListRequest.IsCompleted)
+            if (addRemoveOfPackageInitializer.IsCompleted)
             {
                 EditorApplication.update -= AddOrRemoveProgress;
             }
@@ -384,12 +430,16 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement rootVisualElement = new VisualElement();
             List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath);
 
-            for (int i = 0; i < unityPackages.Count; i++)
+            if (PackageInitializerSave.instance.assetStorePackages != null)
             {
-                string currentPackageName = unityPackages[i];
-                PackageInitializerSave.instance.assetStorePackages.Add(new Package(Path.GetFileNameWithoutExtension(currentPackageName)));
+                for (int i = 0; i < unityPackages.Count; i++)
+                {
+                    string currentPackageName = unityPackages[i];
+                    PackageInitializerSave.instance.assetStorePackages.Add(new Package(Path.GetFileNameWithoutExtension(currentPackageName), false));
+                }
             }
-            
+
+
             assetStorePackagesListView = new ListView(PackageInitializerSave.instance.assetStorePackages, 30, MakeItemAssetStorePackagesListView, BindAssetStorePackagesListView);
 
             assetStorePackagesListView.selectionType = SelectionType.Multiple;
@@ -421,7 +471,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             image.style.alignItems = Align.Center;
             image.style.justifyContent = Justify.FlexStart;
             image.style.height = Length.Percent(100);
-            image.image = EditorGUIUtility.IconContent(GlobalVariables.UnityLogoName).image as Texture2D;
+            image.image = EditorGUIUtility.IconContent(GlobalVariables.UnityLogoIconName).image as Texture2D;
             label.style.flexGrow = 1;
             label.style.unityTextAlign = TextAnchor.MiddleLeft;
 
@@ -455,7 +505,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                         toggle.value = evt.newValue;
 
                         PackageInitializerSave.instance.assetStorePackages[index].shouldPackageInstalled = toggle.value;
-                        PackageInitializerSave.instance.SaveThis();
+                        PackageInitializerSave.instance.Save();
                     }
                 });
             });
@@ -468,7 +518,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                     Package clickedPackage = assetStorePackagesListView.selectedItem as Package;
                     clickedPackage.shouldPackageInstalled = toggle.value;
 
-                    PackageInitializerSave.instance.SaveThis();
+                    PackageInitializerSave.instance.Save();
                     evt.StopImmediatePropagation();
                 }
             });
@@ -482,7 +532,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                     Package clickedPackage = assetStorePackagesListView.selectedItem as Package;
                     clickedPackage.shouldPackageInstalled = toggle.value;
 
-                    PackageInitializerSave.instance.SaveThis();
+                    PackageInitializerSave.instance.Save();
                     evt.StopImmediatePropagation();
                 }
             });
@@ -513,30 +563,30 @@ namespace CompilerDestroyer.Editor.EditorTools
             }
             return unityPackages;
         }
-        private static void ListBuiltInPackagesProgress()
-        {
-            if (PackagesListRequest.IsCompleted)
-            {
-                if (PackagesListRequest.Status == StatusCode.Success)
-                {
-                    foreach (var package in PackagesListRequest.Result)
-                    {
-                        if (package.name.StartsWith("com.unity"))
-                        {
-                            if (UnityEditor.PackageManager.PackageInfo.FindForPackageName(package.name) != null)
-                            {
-                                currentBuiltInPackageNames.Add(package.name);
-                            }
-                        }
-                    }
-                }
-                List<string> uniqueList = currentBuiltInPackageNames.Distinct().ToList();
-                currentBuiltInPackageNames = uniqueList;
-                currentBuiltInPackageNames.Sort();
-                builtInPackagesListView.Rebuild();
-                EditorApplication.update -= ListBuiltInPackagesProgress;
-            }
-        }
+        //private static void ListBuiltInPackagesProgress()
+        //{
+        //    if (PackagesListRequest.IsCompleted)
+        //    {
+        //        if (PackagesListRequest.Status == StatusCode.Success)
+        //        {
+        //            foreach (var package in PackagesListRequest.Result)
+        //            {
+        //                if (package.name.StartsWith("com.unity"))
+        //                {
+        //                    if (UnityEditor.PackageManager.PackageInfo.FindForPackageName(package.name) != null)
+        //                    {
+        //                        currentBuiltInPackageNames.Add(package.name);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        List<string> uniqueList = currentBuiltInPackageNames.Distinct().ToList();
+        //        currentBuiltInPackageNames = uniqueList;
+        //        currentBuiltInPackageNames.Sort();
+        //        builtInPackagesListView.Rebuild();
+        //        EditorApplication.update -= ListBuiltInPackagesProgress;
+        //    }
+        //}
     }
 }
 
