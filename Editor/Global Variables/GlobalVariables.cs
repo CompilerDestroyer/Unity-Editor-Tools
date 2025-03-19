@@ -1,3 +1,5 @@
+using System.IO;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +16,39 @@ namespace CompilerDestroyer.Editor
 
         public const string RoughnessConverter = "Roughness Converter";
         public const string PackagesInitializerName = "Packages Initializer";
+
+        public const string UnityLogoName = "d_UnityLogo";
+        public static string windowsAssetStorePackagePath = @"Unity\Asset Store-5.x";
+        public static string OsxEditorPackagePath = @"Library/Unity/Asset Store-5.x";
+        public static string LinuxEditorPackagePath = ".local/share/unity3d/Asset Store-5.x";
+
+
+        private static string AssetStorePath;
+        public static string CurrentAssetStorePath
+        {
+            get
+            {
+                if (Application.platform == RuntimePlatform.WindowsEditor)
+                {
+                    AssetStorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), windowsAssetStorePackagePath);
+                }
+                else if (Application.platform == RuntimePlatform.OSXEditor)
+                {
+                    AssetStorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), OsxEditorPackagePath);
+                }
+                else if (Application.platform == RuntimePlatform.LinuxEditor)
+                {
+                    AssetStorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), LinuxEditorPackagePath);
+                }
+                else
+                {
+                    Debug.Log("Unsupported platform for Asset Store cache location.");
+                }
+
+                return AssetStorePath;
+            }
+        }
+
 
 
 
@@ -50,6 +85,5 @@ namespace CompilerDestroyer.Editor
                 }
             }
         }
-
     }
 }

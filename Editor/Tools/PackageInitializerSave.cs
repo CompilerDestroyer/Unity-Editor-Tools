@@ -7,23 +7,6 @@ using System;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    [Serializable]
-    internal class Package
-    {
-        [SerializeField] internal string packageName;
-        [SerializeField] internal bool shouldPackageInstalled;
-
-
-        internal Package()
-        {
-
-        }
-        internal Package(string name)
-        {
-            packageName = name;
-            shouldPackageInstalled = true;
-        }
-    }
 
     [FilePath(GlobalVariables.PackageName + ".packageinitializer/packageinitializer.binary", FilePathAttribute.Location.PreferencesFolder)]
     internal class PackageInitializerSave : ScriptableSingleton<PackageInitializerSave>
@@ -77,12 +60,31 @@ namespace CompilerDestroyer.Editor.EditorTools
         };
         [SerializeField] internal List<Package> customPackages = new List<Package>();
         [SerializeField] internal List<Package> assetStorePackages = new List<Package>();
-
+        [SerializeField] internal bool isPackageInitializerAlreadyRan = false;
         internal void SaveThis()
         {
             EditorUtility.SetDirty(this);
             Save(true);
         }
         internal string GetSavePath() => GetFilePath();
+    }
+
+
+    [Serializable]
+    internal class Package
+    {
+        [SerializeField] internal string packageName;
+        [SerializeField] internal bool shouldPackageInstalled;
+
+
+        internal Package()
+        {
+
+        }
+        internal Package(string name)
+        {
+            packageName = name;
+            shouldPackageInstalled = true;
+        }
     }
 }
