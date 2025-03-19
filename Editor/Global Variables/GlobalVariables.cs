@@ -24,11 +24,9 @@ namespace CompilerDestroyer.Editor
         public const string UnityInstalledIconName = "Installed@2x";
 
 
-        public static string windowsAssetStorePackagePath = @"Unity\Asset Store-5.x";
-        public static string OsxEditorPackagePath = @"Library/Unity/Asset Store-5.x";
-        public static string LinuxEditorPackagePath = ".local/share/unity3d/Asset Store-5.x";
-
-
+        private static string windowsAssetStorePackagePath = @"Unity\Asset Store-5.x";
+        private static string OsxEditorPackagePath = @"Library/Unity/Asset Store-5.x";
+        private static string LinuxEditorPackagePath = ".local/share/unity3d/Asset Store-5.x";
         private static string AssetStorePath;
         public static string CurrentAssetStorePath
         {

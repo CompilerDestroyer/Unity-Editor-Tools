@@ -181,14 +181,14 @@ namespace CompilerDestroyer.Editor.EditorTools
                     }
 
                     // Install or remove asset store packages
-                    List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath);
-                    for (int i = 0; i < unityPackages.Count; i++)
+                    List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath, false);
+                    if (unityPackages.Count > 0)
                     {
-                        string currentBuiltinPackage = unityPackages[i];
-                        
-                        if (unityPackages.Count > 0)
+                         for (int i = 0; i < unityPackages.Count; i++)
                         {
-                            AssetDatabase.ImportPackage(unityPackages[i], false);
+                            string currentBuiltinPackage = unityPackages[i];
+                        
+                                AssetDatabase.ImportPackage(unityPackages[i], false);
                         }
                     }
 
@@ -428,7 +428,7 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static VisualElement AssetStorePackagesListView()
         {
             VisualElement rootVisualElement = new VisualElement();
-            List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath);
+            List<string> unityPackages = FindUnityPackages(GlobalVariables.CurrentAssetStorePath, true);
 
             if (PackageInitializerSave.instance.assetStorePackages != null)
             {
@@ -537,30 +537,57 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             });
         }
-        private static List<string> FindUnityPackages(string folderPath)
+        private static List<string> FindUnityPackages(string folderPath, bool getFileNameOnly)
         {
             List<string> unityPackages = new List<string>();
 
-            if (Directory.Exists(folderPath))
+            if (getFileNameOnly)
             {
-                string[] unityPackageFiles = Directory.GetFiles(folderPath, "*.unitypackage", SearchOption.AllDirectories);
-
-                if (unityPackageFiles.Length > 0)
+                if (Directory.Exists(folderPath))
                 {
-                    foreach (var file in unityPackageFiles)
+                    string[] unityPackageFiles = Directory.GetFiles(folderPath, "*.unitypackage", SearchOption.AllDirectories);
+
+                    if (unityPackageFiles.Length > 0)
                     {
-                        unityPackages.Add(Path.GetFileName(file));
+                        for (int i = 0; i < unityPackageFiles.Length; i++)
+                        {
+                            unityPackages.Add(Path.GetFileName(unityPackageFiles[i]));
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("There are no .unitypackage files found.");
                     }
                 }
                 else
                 {
-                    Debug.Log("There are no .unitypackage files found.");
+                    Debug.Log($"Directory not found: {folderPath}");
                 }
             }
             else
             {
-                Debug.Log($"Directory not found: {folderPath}");
+                if (Directory.Exists(folderPath))
+                {
+                    string[] unityPackageFiles = Directory.GetFiles(folderPath, "*.unitypackage", SearchOption.AllDirectories);
+
+                    if (unityPackageFiles.Length > 0)
+                    {
+                        for (int i = 0; i < unityPackageFiles.Length; i++)
+                        {
+                            unityPackages.Add(unityPackageFiles[i]);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("There are no .unitypackage files found.");
+                    }
+                }
+                else
+                {
+                    Debug.Log($"Directory not found: {folderPath}");
+                }
             }
+         
             return unityPackages;
         }
         //private static void ListBuiltInPackagesProgress()
