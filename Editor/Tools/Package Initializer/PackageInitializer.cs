@@ -192,7 +192,8 @@ namespace CompilerDestroyer.Editor.EditorTools
 
                             if (currentAssetStorePackage.shouldPackageInstalled)
                             {
-                                AssetDatabase.ImportPackage(currentAssetStorePackage.packageName, false);
+                                string currentPackageInstallPath = unityPackages.Find((packageName) => Path.GetFileNameWithoutExtension(packageName) == currentAssetStorePackage.packageName);
+                                AssetDatabase.ImportPackage(currentPackageInstallPath, false);
                             }
                         }
                     }
@@ -212,11 +213,11 @@ namespace CompilerDestroyer.Editor.EditorTools
                 File.WriteAllText(Application.dataPath + "\\added.txt", a.ToString());
                 File.WriteAllText(Application.dataPath + "\\removed.txt", b.ToString());
                 AssetDatabase.Refresh();
-                //if (addList.Count > 0 || removeList.Count > 0)
-                //{
-                //    addRemoveOfPackageInitializer = Client.AddAndRemove(addList.ToArray(), removeList.ToArray());
-                //    EditorApplication.update += AddOrRemoveProgress;
-                //}
+                if (addList.Count > 0 || removeList.Count > 0)
+                {
+                    addRemoveOfPackageInitializer = Client.AddAndRemove(addList.ToArray(), removeList.ToArray());
+                    EditorApplication.update += AddOrRemoveProgress;
+                }
                 AssetDatabase.Refresh();
             };
             WholePackageInitializerContainer.Add(updateButton);
@@ -556,13 +557,14 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             });
         }
-        private static List<string> FindUnityPackages(string folderPath)
+
+        private static List<string> FindUnityPackages(string assetStorePath)
         {
             List<string> unityPackages = new List<string>();
 
-            if (Directory.Exists(folderPath))
+            if (Directory.Exists(assetStorePath))
             {
-                string[] unityPackageFiles = Directory.GetFiles(folderPath, "*.unitypackage", SearchOption.AllDirectories);
+                string[] unityPackageFiles = Directory.GetFiles(assetStorePath, "*.unitypackage", SearchOption.AllDirectories);
 
                 if (unityPackageFiles.Length > 0)
                 {
@@ -578,35 +580,77 @@ namespace CompilerDestroyer.Editor.EditorTools
             }
             else
             {
-                Debug.Log($"Directory not found: {folderPath}");
+                Debug.Log($"Directory not found: {assetStorePath}");
             }
-         
+            if (unityPackages.Count > 0)
+            {
+                unityPackages.Distinct().ToList().Sort();
+            }
+
             return unityPackages;
         }
-        //private static void ListBuiltInPackagesProgress()
-        //{
-        //    if (PackagesListRequest.IsCompleted)
-        //    {
-        //        if (PackagesListRequest.Status == StatusCode.Success)
-        //        {
-        //            foreach (var package in PackagesListRequest.Result)
-        //            {
-        //                if (package.name.StartsWith("com.unity"))
-        //                {
-        //                    if (UnityEditor.PackageManager.PackageInfo.FindForPackageName(package.name) != null)
-        //                    {
-        //                        currentBuiltInPackageNames.Add(package.name);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        List<string> uniqueList = currentBuiltInPackageNames.Distinct().ToList();
-        //        currentBuiltInPackageNames = uniqueList;
-        //        currentBuiltInPackageNames.Sort();
-        //        builtInPackagesListView.Rebuild();
-        //        EditorApplication.update -= ListBuiltInPackagesProgress;
-        //    }
-        //}
+
+        [MenuItem("Tools/Dene")]
+        static void DeneOc()
+        {
+            searchRequest = Client.SearchAll();
+
+            EditorApplication.update += ListBuiltInPackagesProgress;
+        }
+
+        private static SearchRequest searchRequest;
+        private static List<string> currentBuiltInPackageNames = new List<string>();
+        private static List<string> deprecated = new List<string>()
+        {
+            "com.unity.modules.hierarchycore",
+            "com.unity.modules.subsystems",
+            "com.unity.burst",
+            "com.unity.collections",
+            "com.unity.render-pipelines.core",
+            "com.unity.ext.nunit",
+            "com.unity.mathematics",
+            "com.unity.nuget.mono-cecil",
+            "com.unity.test-framework.performance",
+            "com.unity.searcher",
+            "com.unity.shadergraph",
+            "com.unity.rendering.light-transport",
+            "com.unity.render-pipelines.universal-config",
+            ""
+        };
+
+        private static void ListBuiltInPackagesProgress()
+        {
+            if (searchRequest.IsCompleted)
+            {
+                if (searchRequest.Status == StatusCode.Success)
+                {
+                    foreach (var package in searchRequest.Result)
+                    {
+                        currentBuiltInPackageNames.Add(package.name);
+                    }
+                }
+
+                EditorApplication.update -= ListBuiltInPackagesProgress;
+
+                foreach (var package in searchRequest.Result)
+                {
+                    currentBuiltInPackageNames.Add(package.name);
+                }
+
+
+
+                //currentBuiltInPackageNames.RemoveAll(item => deprecated.Contains(item));
+
+                //List<string> uniqueList = currentBuiltInPackageNames.Distinct().ToList();
+                //currentBuiltInPackageNames = uniqueList;
+                //currentBuiltInPackageNames.Sort();
+
+                foreach (var item in currentBuiltInPackageNames)
+                {
+                    Debug.Log(item);
+                }
+            }
+        }
     }
 }
 
