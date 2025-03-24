@@ -9,7 +9,6 @@ using System.IO;
 using CompilerDestroyer.Editor.UIElements;
 
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
-using System;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
@@ -55,7 +54,11 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static List<string> customPackagesSearchlist = new List<string>();
         private static List<string> customPackagesSearchResultList = new List<string>();
         private static ToolbarSearchPanel customPackagesSearchPanel = new ToolbarSearchPanel();
-        private static ToolbarSearchPanel assetStorePackagesPanel = new ToolbarSearchPanel();
+
+        private static List<Package> temporaryassetStorePackagesList;
+        private static List<string> assetStorePackagesSearchlist = new List<string>();
+        private static List<string> assetStorePackagesSearchResultList = new List<string>();
+        private static ToolbarSearchPanel assetStorePackagesSearchPanel = new ToolbarSearchPanel();
 
         private static ListView customPackageListView;
         private static ListView assetStorePackagesListView;
@@ -179,6 +182,11 @@ namespace CompilerDestroyer.Editor.EditorTools
             customPackageList.style.marginRight = globalMarginLeftRight;
             customPackageList.style.marginBottom = globalMiniBottomMargin;
 
+
+            AssetStorePackagesSearchPanel();
+            assetStorePackagesSearchPanel = new ToolbarSearchPanel(assetStorePackagesSearchlist, assetStorePackagesSearchResultList, AssetStorePackageSearchIsEmpty, AssetStorePackageSearchIsFilled);
+            assetStorePackagesSearchPanel.style.alignSelf = Align.FlexEnd;
+            assetStorePackagesSearchPanel.style.marginRight = globalMarginLeftRight;
 
             VisualElement assetStorePackageList = AssetStorePackagesListView();
             assetStorePackageList.style.maxHeight = 300f;
@@ -311,6 +319,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             WholePackageInitializerContainer.Add(builtInPackageList);
             WholePackageInitializerContainer.Add(customPackagesSearchPanel);
             WholePackageInitializerContainer.Add(customPackageList);
+            WholePackageInitializerContainer.Add(assetStorePackagesSearchPanel);
             WholePackageInitializerContainer.Add(assetStorePackageList);
             WholePackageInitializerContainer.Add(updateButton);
             rootVisualElement.Add(WholePackageInitializerContainer);
@@ -473,11 +482,31 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
             
-            customPackageListView.bindItem = BindCustomPackagesForTemp;
+            customPackageListView.bindItem = BindCustomPackagesForSearchField;
             customPackageListView.itemsSource = temporaryCustomPackagesList;
             customPackageListView.Rebuild();
         }
-        private static void BindCustomPackagesForTemp(VisualElement element, int index)
+     
+
+        private static void CustomPackageSearchIsEmpty()
+        {
+            for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
+            {
+                Package package = PackageInitializerSave.instance.customPackages[i];
+                Package tempPackage = temporaryCustomPackagesList.Find((_element) => _element.packageName == package.packageName);
+                if (tempPackage != null)
+                {
+
+                    package.shouldPackageInstalled = tempPackage.shouldPackageInstalled;
+                }
+            }
+            PackageInitializerSave.instance.Save();
+
+            temporaryCustomPackagesList.Clear();
+            customPackageListView.itemsSource = PackageInitializerSave.instance.customPackages;
+            customPackageListView.Rebuild();
+        }
+        private static void BindCustomPackagesForSearchField(VisualElement element, int index)
         {
             Toggle toggle = element.Q<Toggle>();
             TextField textField = element.Q<TextField>();
@@ -508,27 +537,6 @@ namespace CompilerDestroyer.Editor.EditorTools
                     PackageInitializerSave.instance.Save();
                 }
             });
-        }
-
-        private static void CustomPackageSearchIsEmpty()
-        {
-            for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
-            {
-                Package package = PackageInitializerSave.instance.customPackages[i];
-                Package tempPackage = temporaryCustomPackagesList.Find((_element) => _element.packageName == package.packageName);
-                if (tempPackage != null)
-                {
-
-                    package.shouldPackageInstalled = tempPackage.shouldPackageInstalled;
-                }
-            }
-            PackageInitializerSave.instance.Save();
-
-
-            temporaryCustomPackagesList.Clear();
-            customPackageListView.itemsSource = PackageInitializerSave.instance.customPackages;
-            customPackageListView.Rebuild();
-
         }
         private static VisualElement CustomPackageList()
         {
@@ -667,6 +675,63 @@ namespace CompilerDestroyer.Editor.EditorTools
             });
         }
 
+
+
+
+
+
+
+
+
+
+
+        private static void AssetStorePackagesSearchPanel()
+        {
+            assetStorePackagesSearchlist = new List<string>();
+            assetStorePackagesSearchResultList = new List<string>();
+
+            for (int i = 0; i < PackageInitializerSave.instance.assetStorePackages.Count; i++)
+            {
+                assetStorePackagesSearchlist.Add(PackageInitializerSave.instance.assetStorePackages[i].packageName);
+            }
+            temporaryassetStorePackagesList = new List<Package>();
+        }
+        private static void AssetStorePackageSearchIsFilled()
+        {
+            temporaryassetStorePackagesList.Clear();
+            for (int i = 0; i < assetStorePackagesSearchResultList.Count; i++)
+            {
+                string resultPackageName = assetStorePackagesSearchResultList[i];
+
+                Package package = PackageInitializerSave.instance.assetStorePackages.Find((_element) => _element.packageName == resultPackageName);
+
+                if (package != null)
+                {
+                    temporaryassetStorePackagesList.Add(package);
+                }
+            }
+            assetStorePackagesListView.itemsSource = temporaryassetStorePackagesList;
+            assetStorePackagesListView.RefreshItems();
+        }
+
+        private static void AssetStorePackageSearchIsEmpty()
+        {
+            for (int i = 0; i < PackageInitializerSave.instance.assetStorePackages.Count; i++)
+            {
+                Package package = PackageInitializerSave.instance.assetStorePackages[i];
+                Package tempPackage = temporaryassetStorePackagesList.Find((_element) => _element.packageName == package.packageName);
+                if (tempPackage != null)
+                {
+                    package.shouldPackageInstalled = tempPackage.shouldPackageInstalled;
+                }
+            }
+            PackageInitializerSave.instance.Save();
+
+
+            temporaryassetStorePackagesList.Clear();
+            assetStorePackagesListView.itemsSource = PackageInitializerSave.instance.assetStorePackages;
+            assetStorePackagesListView.RefreshItems();
+        }
         private static VisualElement AssetStorePackagesListView()
         {
             VisualElement rootVisualElement = new VisualElement();
