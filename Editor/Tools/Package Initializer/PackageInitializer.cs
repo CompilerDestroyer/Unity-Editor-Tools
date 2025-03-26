@@ -461,7 +461,10 @@ namespace CompilerDestroyer.Editor.EditorTools
             });
             Undo.undoRedoPerformed += () =>
             {
-                toggle.SetValueWithoutNotify(builtInPackages[index].shouldPackageInstalled);
+                if (index < builtInPackages.Count)
+                {
+                    toggle.SetValueWithoutNotify(builtInPackages[index].shouldPackageInstalled);
+                }
             };
         }
         private static VisualElement MakeItemBuiltInListView()
