@@ -1,4 +1,4 @@
-﻿namespace CompilerButcher.Editor.Attributes
+﻿namespace CompilerDestroyer.Editor.Attributes
 {
     using UnityEngine;
     using UnityEditor;

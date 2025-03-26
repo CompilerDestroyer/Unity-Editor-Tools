@@ -10,7 +10,6 @@ namespace CompilerDestroyer.Editor.EditorTools
     [FilePath(GlobalVariables.PackageName + "/packageinitializersave.binary", FilePathAttribute.Location.PreferencesFolder)]
     public class PackageInitializerSave : ScriptableSingleton<PackageInitializerSave>
     {
-        [SerializeField] internal bool isPackageInitializerAlreadyRan = false;
         [SerializeField] internal bool isPackageInitializerEnabled = true;
         [SerializeField] internal List<Package> builtInPackages = new List<Package>();
         [SerializeField] internal List<Package> customPackages = new List<Package>();

@@ -9,6 +9,7 @@ using System.IO;
 using CompilerDestroyer.Editor.UIElements;
 
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
+using NUnit.Framework.Internal;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
@@ -21,7 +22,6 @@ namespace CompilerDestroyer.Editor.EditorTools
 
         private static readonly string savePath = PackageInitializerSave.instance.GetSavePath();
         private static readonly int globalMarginLeftRight = 15;
-        private static readonly int globalMarginBottom = 20;
         private static readonly int globalMiniBottomMargin = 7;
 
 
@@ -85,23 +85,25 @@ namespace CompilerDestroyer.Editor.EditorTools
             if (!SessionState.GetBool("isAlreadyInitializedPackageInitializer", false))
             {
                 SessionState.SetBool("isAlreadyInitializedPackageInitializer", true);
-
+                
                 if (PackageInitializerSave.instance != null)
                 {
-                    if (!PackageInitializerSave.instance.isPackageInitializerAlreadyRan)
+                    char sepChar = Path.DirectorySeparatorChar;
+                    string path = Path.GetDirectoryName(Application.dataPath) + sepChar + GlobalVariables.PackageName + sepChar + GlobalVariables.PackagesInitializerName + ".flag";
+
+                    if (!File.Exists(path))
                     {
                         // Run
                         UpdateProjectPackagesAccordingToPackageInitializer();
                         // Run
-
-                        PackageInitializerSave.instance.isPackageInitializerAlreadyRan = true;
-                        PackageInitializerSave.instance.Save();
+                    }
+                    else
+                    {
+                        File.WriteAllText(path, "Saved!");
                     }
                 }
             }
         }
-
-
 
         private static void UpdateProjectPackagesAccordingToPackageInitializer()
         {
@@ -211,7 +213,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             spacer.style.whiteSpace = WhiteSpace.Normal;
 
             VisualElement toolLabelAndDisableContainer = new VisualElement();
-            toolLabelAndDisableContainer.style.marginBottom = globalMarginBottom;
+            toolLabelAndDisableContainer.style.marginBottom = 5f;
             toolLabelAndDisableContainer.style.flexDirection = FlexDirection.Row;
 
             Label toolLabel = new Label(GlobalVariables.PackagesInitializerName);
@@ -237,32 +239,11 @@ namespace CompilerDestroyer.Editor.EditorTools
                 PackageInitializerSave.instance.Save();
             });
 
-            // Sync UI on Undo/Redo
             Undo.undoRedoPerformed += () =>
             {
                 disablePackageInitializer.SetValueWithoutNotify(PackageInitializerSave.instance.isPackageInitializerEnabled);
                 WholePackageInitializerContainer.SetEnabled(PackageInitializerSave.instance.isPackageInitializerEnabled);
             };
-
-            VisualElement savePathContainer = new VisualElement();
-            savePathContainer.style.flexDirection = FlexDirection.Row;
-            savePathContainer.style.marginLeft = globalMarginLeftRight;
-            savePathContainer.style.marginRight = globalMarginLeftRight;
-            savePathContainer.style.marginBottom = globalMiniBottomMargin;
-
-            Label savePathLabel = new Label("Save Path: ");
-
-            savePathLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
-
-
-            TextField savePathTextField = new TextField();
-            savePathTextField.style.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.3f);
-            savePathTextField.value = savePath;
-            savePathTextField.style.whiteSpace = WhiteSpace.Normal;
-            savePathTextField.style.flexShrink = 1f;
-            savePathTextField.isReadOnly = true;
-            savePathTextField.selectAllOnMouseUp = true;
-            savePathTextField.multiline = true;
 
 
             if (PackageInitializerSave.instance.builtInPackages.Count == 0)
@@ -303,6 +284,28 @@ namespace CompilerDestroyer.Editor.EditorTools
             assetStorePackageList.style.marginBottom = globalMiniBottomMargin;
 
 
+
+            VisualElement savePathContainer = new VisualElement();
+            savePathContainer.style.flexDirection = FlexDirection.Row;
+            savePathContainer.style.marginLeft = globalMarginLeftRight;
+            savePathContainer.style.marginRight = globalMarginLeftRight;
+            savePathContainer.style.marginBottom = globalMiniBottomMargin;
+
+            Label savePathLabel = new Label("Save Path: ");
+
+            savePathLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+
+
+            TextField savePathTextField = new TextField();
+            savePathTextField.style.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.3f);
+            savePathTextField.value = savePath;
+            savePathTextField.style.whiteSpace = WhiteSpace.Normal;
+            savePathTextField.style.flexShrink = 1f;
+            savePathTextField.isReadOnly = true;
+            savePathTextField.selectAllOnMouseUp = true;
+            savePathTextField.multiline = true;
+
+
             Button updateButton = new Button();
             updateButton.text = "Update Packages";
             updateButton.style.marginLeft = globalMarginLeftRight;
@@ -314,16 +317,18 @@ namespace CompilerDestroyer.Editor.EditorTools
             };
 
 
+
+
             rootVisualElement.Add(spacer);
             toolLabelAndDisableContainer.Add(toolLabel);
             toolLabelAndDisableContainer.Add(disablePackageInitializer);
             rootVisualElement.Add(toolLabelAndDisableContainer);
             savePathContainer.Add(savePathLabel);
             savePathContainer.Add(savePathTextField);
-            WholePackageInitializerContainer.Add(savePathContainer);
             WholePackageInitializerContainer.Add(builtInPackageList);
             WholePackageInitializerContainer.Add(customPackageList);
             WholePackageInitializerContainer.Add(assetStorePackageList);
+            WholePackageInitializerContainer.Add(savePathContainer);
             WholePackageInitializerContainer.Add(updateButton);
             rootVisualElement.Add(WholePackageInitializerContainer);
             return rootVisualElement;
