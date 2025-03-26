@@ -1024,15 +1024,8 @@ namespace CompilerDestroyer.Editor.EditorTools
                         unityPackages.Add(unityPackageFiles[i]);
                     }
                 }
-                else
-                {
-                    Debug.Log("There are no .unitypackage files found.");
-                }
             }
-            else
-            {
-                Debug.Log($"Directory not found: {assetStorePath}");
-            }
+
             if (unityPackages.Count > 0)
             {
                 unityPackages.Distinct().ToList().Sort();
