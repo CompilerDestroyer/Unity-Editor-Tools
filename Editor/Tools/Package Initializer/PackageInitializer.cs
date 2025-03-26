@@ -750,10 +750,10 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             textField.RegisterCallback<FocusOutEvent>(evt =>
             {
-                if (!customPackagesSearchlist.Contains(textField.value))
-                {
-                    customPackagesSearchlist.Add(textField.value);
-                }
+                //if (!customPackagesSearchlist.Contains(textField.value))
+                //{
+                //    customPackagesSearchlist.Add(textField.value);
+                //}
                 //RemoveAndAddToCustomPackageSearchElement();
             });
 
