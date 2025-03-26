@@ -574,14 +574,14 @@ namespace CompilerDestroyer.Editor.EditorTools
             });
 
 
-            textField.RegisterCallback<FocusOutEvent>(evt =>
-            {
-                if (!customPackagesSearchlist.Contains(textField.value))
-                {
-                    customPackagesSearchlist.Add(textField.value);
-                }
-                RemoveAndAddToCustomPackageSearchElement();
-            });
+            //textField.RegisterCallback<FocusOutEvent>(evt =>
+            //{
+            //    if (!customPackagesSearchlist.Contains(textField.value))
+            //    {
+            //        customPackagesSearchlist.Add(textField.value);
+            //    }
+            //    RemoveAndAddToCustomPackageSearchElement();
+            //});
         }
         private static VisualElement CustomPackageListView()
         {
