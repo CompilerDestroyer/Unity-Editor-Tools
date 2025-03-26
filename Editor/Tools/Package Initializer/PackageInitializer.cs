@@ -737,15 +737,15 @@ namespace CompilerDestroyer.Editor.EditorTools
                 });
             });
 
-            textField.RegisterCallback<FocusOutEvent>(evt =>
-            {
-                if (!customPackagesSearchlist.Contains(textField.value))
-                {
-                    customPackagesSearchlist.Add(textField.value);
+            //textField.RegisterCallback<FocusOutEvent>(evt =>
+            //{
+            //    if (!customPackagesSearchlist.Contains(textField.value))
+            //    {
+            //        customPackagesSearchlist.Add(textField.value);
 
-                }
+            //    }
 
-            });
+            //});
             textField.RegisterCallback<ChangeEvent<string>>(evt =>
             {
                 if (index < PackageInitializerSave.instance.customPackages.Count)
