@@ -574,14 +574,14 @@ namespace CompilerDestroyer.Editor.EditorTools
             });
 
 
-            //textField.RegisterCallback<FocusOutEvent>(evt =>
-            //{
-            //    if (!customPackagesSearchlist.Contains(textField.value))
-            //    {
-            //        customPackagesSearchlist.Add(textField.value);
-            //    }
-            //    RemoveAndAddToCustomPackageSearchElement();
-            //});
+            textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (!customPackagesSearchlist.Contains(textField.value))
+                {
+                    customPackagesSearchlist.Add(textField.value);
+                }
+                RemoveAndAddToCustomPackageSearchElement();
+            });
         }
         private static VisualElement CustomPackageListView()
         {
@@ -644,7 +644,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             };
 
 
-
             customPackageListView.viewDataKey = "Custom Packages";
             customPackageListView.selectionType = SelectionType.Single;
             customPackageListView.style.flexGrow = 1;
@@ -667,6 +666,15 @@ namespace CompilerDestroyer.Editor.EditorTools
             foldout.AddToClassList(GlobalVariables.ListViewFoldoutStyleName);
             foldout.RegisterValueChangedCallback(evt =>
             {
+                if (evt.newValue)
+                {
+                    customPackageListView.Rebuild();
+                }
+                else
+                {
+                    customPackageListView.Rebuild();
+                }
+
                 customPackageListView.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
             });
 
@@ -750,11 +758,11 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             textField.RegisterCallback<FocusOutEvent>(evt =>
             {
-                //if (!customPackagesSearchlist.Contains(textField.value))
-                //{
-                //    customPackagesSearchlist.Add(textField.value);
-                //}
-                //RemoveAndAddToCustomPackageSearchElement();
+                if (!customPackagesSearchlist.Contains(textField.value))
+                {
+                    customPackagesSearchlist.Add(textField.value);
+                }
+                RemoveAndAddToCustomPackageSearchElement();
             });
 
             Undo.undoRedoPerformed += () =>
