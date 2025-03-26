@@ -20,11 +20,13 @@ namespace CompilerDestroyer.Editor.UIElements
             //this.RegisterValueChangedCallback();
 
         }
-        public ToolbarSearchPanel(List<string> searchList, List<string> resultList, Action OnListViewEmpty = null, Action OnListViewFilled = null)
+        public ToolbarSearchPanel(List<string> searchList, List<string> resultList, Action OnListViewEmpty = null, Action OnListViewFilled = null, Action OnUndoRedo = null)
         {
             resultList.Clear();
             this.RegisterValueChangedCallback(evt =>
             {
+                OnUndoRedo?.Invoke();
+
                 if (!string.IsNullOrEmpty(this.value))
                 {
                     string searchQuery = this.value;
@@ -35,14 +37,17 @@ namespace CompilerDestroyer.Editor.UIElements
                     for (int i = 0; i < searchList.Count; i++)
                     {
                         string searchString = searchList[i];
-                        if (searchString.ToLower().Contains(searchQuery.ToLower()))
+                        if (!string.IsNullOrEmpty(searchString))
                         {
-                            if (!resultList.Contains(searchString))
+                            if (searchString.ToLower().Contains(searchQuery.ToLower()))
                             {
-                                resultList.Add(searchString);
+                                if (!resultList.Contains(searchString))
+                                {
+                                    resultList.Add(searchString);
+                                }
                             }
-
                         }
+                       
                     }
 
                     OnListViewFilled?.Invoke();

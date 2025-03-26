@@ -2,33 +2,38 @@ using System.IO;
 using System;
 using UnityEditor;
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("CompilerDestroyer.Editor.UIElements"), InternalsVisibleTo("CompilerDestroyer.Editor.EditorTools")]
 namespace CompilerDestroyer.Editor
 {
-    public static class GlobalVariables
+    internal static class GlobalVariables
     {
         // Project Paths
-        public const string NickName = "Compiler Destroyer";
-        public const string PackageName = "com.compilerdestroyer.editortools";
-        public const string ProjectsPath = "Packages/" + PackageName + "/Editor/Projects";
-        public const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
+        internal const string NickName = "Compiler Destroyer";
+        internal const string PackageName = "com.compilerdestroyer.editortools";
+        internal const string ProjectsPath = "Packages/" + PackageName + "/Editor/Projects";
+        internal const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
 
 
-        public const string RoughnessConverter = "Roughness Converter";
-        public const string PackagesInitializerName = "Package Initializer";
+        internal const string RoughnessConverter = "Roughness Converter";
+        internal const string PackagesInitializerName = "Package Initializer";
 
-        public const string UnityLogoIconName = "d_UnityLogo";
-        public const string UnityInfoIconName = "console.infoicon@2x";
-        public const string UnityErrorIconName = "Error@2x";
-        public const string UnityWarnIconName = "Warning@2x";
-        public const string UnityInstalledIconName = "Installed@2x";
+        internal const string UnityLogoIconName = "d_UnityLogo";
+        internal const string UnityInfoIconName = "console.infoicon@2x";
+        internal const string UnityErrorIconName = "Error@2x";
+        internal const string UnityWarnIconName = "Warning@2x";
+        internal const string UnityInstalledIconName = "Installed@2x";
+
+
+        internal static readonly string ListViewFoldoutStyleName = "unity-list-view__foldout-header";
 
 
         private static string windowsAssetStorePackagePath = @"Unity\Asset Store-5.x";
         private static string OsxEditorPackagePath = @"Library/Unity/Asset Store-5.x";
         private static string LinuxEditorPackagePath = ".local/share/unity3d/Asset Store-5.x";
         private static string AssetStorePath;
-        public static string CurrentAssetStorePath
+        internal static string CurrentAssetStorePath
         {
             get
             {
@@ -58,7 +63,7 @@ namespace CompilerDestroyer.Editor
 
         private static readonly Color defaultLineDarkColor = new Color(0.1215686f, 0.1215686f, 0.1215686f, 1f);
         private static readonly Color defaultLineWhiteColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-        public static Color DefaultLineColor
+        internal static Color DefaultLineColor
         {
             get
             {
@@ -75,7 +80,7 @@ namespace CompilerDestroyer.Editor
 
         private static readonly Color defaultBackgroundDarkColor = new Color(0.2352941f, 0.2352941f, 0.2352941f, 1f);
         private static readonly Color defaultBackgroundWhiteColor = new Color(0.7843138f, 0.7843138f, 0.7843138f, 1f);
-        public static Color DefaultBackgroundColor
+        internal static Color DefaultBackgroundColor
         {
             get
             {

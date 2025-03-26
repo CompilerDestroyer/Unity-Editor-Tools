@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace CompilerDestroyer.Editor.EditorTools
     {
         [SerializeField] internal bool isPackageInitializerAlreadyRan = false;
         [SerializeField] internal bool isPackageInitializerEnabled = true;
-        [SerializeField] public List<Package> builtInPackages = new List<Package>();
+        [SerializeField] internal List<Package> builtInPackages = new List<Package>();
         [SerializeField] internal List<Package> customPackages = new List<Package>();
         [SerializeField] internal List<Package> assetStorePackages = new List<Package>();
 
@@ -33,11 +32,11 @@ namespace CompilerDestroyer.Editor.EditorTools
         [SerializeField] internal bool shouldPackageInstalled;
 
 
-        internal Package()
+        public Package()
         {
 
         }
-        internal Package(string name, bool shouldPackageInstalled)
+        public Package(string name, bool shouldPackageInstalled)
         {
             packageName = name;
             this.shouldPackageInstalled = shouldPackageInstalled;

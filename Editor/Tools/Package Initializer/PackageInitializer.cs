@@ -14,17 +14,20 @@ namespace CompilerDestroyer.Editor.EditorTools
 {
     internal class PackageInitializer
     {
-        private static string packagesInitializerInfo = "When Editor Tools first installed into a project, " + GlobalVariables.PackagesInitializerName + " " +
-            "will remove all of the false packages in the list below. It will be available in all projects that installs Editor Tools.";
+        private static readonly string BuiltInListViewName = "Built-In Packages";
+        private static readonly string GitListViewName = "Git Packages";
+        private static readonly string AssetStoreListViewName = "Asset Store Packages";
+
+
         private static readonly string savePath = PackageInitializerSave.instance.GetSavePath();
         private static readonly int globalMarginLeftRight = 15;
         private static readonly int globalMarginBottom = 20;
         private static readonly int globalMiniBottomMargin = 7;
 
 
-        private static List<string> currentBuiltinPackageNames = new List<string>();
+        private static readonly List<string> currentBuiltinPackageNames = new List<string>();
         private static ListRequest listBuiltInPackages;
-        private static List<string> removeCoreUnityPackages = new List<string>()
+        private static readonly List<string> removeCoreUnityPackages = new List<string>()
         {
             "com.unity.modules.hierarchycore",
             "com.unity.modules.subsystems",
@@ -40,10 +43,16 @@ namespace CompilerDestroyer.Editor.EditorTools
             "com.unity.rendering.light-transport",
             "com.unity.render-pipelines.universal-config"
         };
+
+        private static VisualElement builtInListViewHeaderContainer;
+        private static VisualElement customListViewHeaderContainer;
+
         private static SearchRequest builtInPackageSearchRequest;
         private static AddAndRemoveRequest addRemoveOfPackageInitializer;
 
         private static ListView builtInPackagesListView;
+
+        private static VisualElement WholePackageInitializerContainer;
 
         private static List<Package> temporaryBuiltinPackagesList;
         private static List<string> builtInPackagesSearchList = new List<string>();
@@ -81,13 +90,117 @@ namespace CompilerDestroyer.Editor.EditorTools
                 {
                     if (!PackageInitializerSave.instance.isPackageInitializerAlreadyRan)
                     {
+                        // Run
+                        UpdateProjectPackagesAccordingToPackageInitializer();
+                        // Run
+
                         PackageInitializerSave.instance.isPackageInitializerAlreadyRan = true;
                         PackageInitializerSave.instance.Save();
                     }
                 }
             }
         }
-        private static VisualElement WholePackageInitializerContainer;
+
+
+
+        private static void UpdateProjectPackagesAccordingToPackageInitializer()
+        {
+            List<string> addList = new List<string>();
+            List<string> removeList = new List<string>();
+            if (PackageInitializerSave.instance != null)
+            {
+                // Install or remove built-in unity packages
+                for (int i = 0; i < PackageInitializerSave.instance.builtInPackages.Count; i++)
+                {
+                    Package currentBuiltinPackage = PackageInitializerSave.instance.builtInPackages[i];
+                    PackageInfo currentBuiltInPackageInfo = PackageInfo.FindForPackageName(currentBuiltinPackage.packageName);
+
+                    if (currentBuiltinPackage.shouldPackageInstalled)
+                    {
+                        if (currentBuiltInPackageInfo == null)
+                        {
+                            addList.Add(currentBuiltinPackage.packageName);
+                        }
+                    }
+                    else if (!currentBuiltinPackage.shouldPackageInstalled)
+                    {
+                        if (currentBuiltInPackageInfo != null)
+                        {
+
+                            if (!currentBuiltInPackageInfo.isDirectDependency)
+                            {
+                                Debug.LogError($"Package: [{currentBuiltInPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
+
+                                Package package = PackageInitializerSave.instance.builtInPackages.Find((package) => package.packageName == currentBuiltinPackage.packageName);
+
+                                package.shouldPackageInstalled = true;
+                                PackageInitializerSave.instance.Save();
+
+                                builtInPackagesListView.Rebuild();
+                            }
+                            else
+                            {
+                                removeList.Add(currentBuiltinPackage.packageName);
+                            }
+                        }
+                    }
+                }
+
+                // Install or remove git packages
+                for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
+                {
+                    Package currentGitPackage = PackageInitializerSave.instance.customPackages[i];
+
+                    if (string.IsNullOrEmpty(currentGitPackage.packageName))
+                    {
+                        Debug.LogError("Package name in the index: [" + i + "] is null. Cannot install null values. Package initializer will stop.");
+                        return;
+                    }
+                    PackageInfo currentCustomPackageInfo = PackageInfo.FindForPackageName(currentGitPackage.packageName);
+
+                    if (currentGitPackage.shouldPackageInstalled)
+                    {
+                        if (currentCustomPackageInfo == null)
+                        {
+                            addList.Add(currentGitPackage.packageName);
+                        }
+                    }
+                    else if (!currentGitPackage.shouldPackageInstalled)
+                    {
+                        if (currentCustomPackageInfo != null)
+                        {
+                            if (!currentCustomPackageInfo.isDirectDependency)
+                            {
+                                Debug.LogError($"Package: [{currentCustomPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
+
+                                Package package = PackageInitializerSave.instance.customPackages.Find((package) => package.packageName == currentGitPackage.packageName);
+
+                                package.shouldPackageInstalled = true;
+                                PackageInitializerSave.instance.Save();
+
+                                customPackageListView.Rebuild();
+                            }
+                            else
+                            {
+                                removeList.Add(currentGitPackage.packageName);
+                            }
+                        }
+                    }
+                }
+
+
+                if (addList.Count > 0 || removeList.Count > 0)
+                {
+                    var finalAddList = addList.ToArray();
+                    var finalRemoveList = removeList.ToArray();
+
+                    addRemoveOfPackageInitializer = Client.AddAndRemove(finalAddList, finalRemoveList);
+                    EditorApplication.update += AddOrRemoveProgress;
+                    AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                }
+            }
+        }
+
         internal static VisualElement PackageInitializerVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
@@ -108,8 +221,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             toolLabel.style.marginLeft = globalMarginLeftRight;
 
 
-
-
             Toggle disablePackageInitializer = new Toggle();
             disablePackageInitializer.style.alignSelf = Align.FlexEnd;
 
@@ -119,17 +230,25 @@ namespace CompilerDestroyer.Editor.EditorTools
             WholePackageInitializerContainer = new VisualElement();
             disablePackageInitializer.RegisterCallback<ChangeEvent<bool>>(evt =>
             {
+                Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Toggle Package Initializer");
+
                 WholePackageInitializerContainer.SetEnabled(disablePackageInitializer.value);
                 PackageInitializerSave.instance.isPackageInitializerEnabled = disablePackageInitializer.value;
                 PackageInitializerSave.instance.Save();
             });
 
-
+            // Sync UI on Undo/Redo
+            Undo.undoRedoPerformed += () =>
+            {
+                disablePackageInitializer.SetValueWithoutNotify(PackageInitializerSave.instance.isPackageInitializerEnabled);
+                WholePackageInitializerContainer.SetEnabled(PackageInitializerSave.instance.isPackageInitializerEnabled);
+            };
 
             VisualElement savePathContainer = new VisualElement();
             savePathContainer.style.flexDirection = FlexDirection.Row;
             savePathContainer.style.marginLeft = globalMarginLeftRight;
             savePathContainer.style.marginRight = globalMarginLeftRight;
+            savePathContainer.style.marginBottom = globalMiniBottomMargin;
 
             Label savePathLabel = new Label("Save Path: ");
 
@@ -155,28 +274,20 @@ namespace CompilerDestroyer.Editor.EditorTools
             else
             {
                 BuiltInPackagesSearchPanel();
-
-                builtInPackagesSearchPanel = new ToolbarSearchPanel(builtInPackagesSearchList, builtInPackagesSearchResultList, BuiltInPackageSearchIsEmpty, BuiltInPackageSearchIsFilled);
-                builtInPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
-                builtInPackagesSearchPanel.style.marginRight = globalMarginLeftRight;
-
             }
 
 
             VisualElement builtInPackageList = BuiltInPackagesList();
             PackageInitializerSave.instance.Save();
-            builtInPackagesListView.style.maxHeight = 300f;
-            builtInPackagesListView.style.marginLeft = globalMarginLeftRight;
-            builtInPackagesListView.style.marginRight = globalMarginLeftRight;
-            builtInPackagesListView.style.marginBottom = globalMiniBottomMargin;
+            builtInPackageList.style.maxHeight = 300f;
+            builtInPackageList.style.marginLeft = globalMarginLeftRight;
+            builtInPackageList.style.marginRight = globalMarginLeftRight;
+            builtInPackageList.style.marginBottom = globalMiniBottomMargin;
 
 
             CustomPackagesSearchPanel();
-            customPackagesSearchPanel = new ToolbarSearchPanel(customPackagesSearchlist, customPackagesSearchResultList, CustomPackageSearchIsEmpty, CustomPackageSearchIsFilled);
-            customPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
-            customPackagesSearchPanel.style.marginRight = globalMarginLeftRight;
 
-            VisualElement customPackageList = CustomPackageList();
+            VisualElement customPackageList = CustomPackageListView();
             customPackageList.style.maxHeight = 300f;
             customPackageList.style.marginLeft = globalMarginLeftRight;
             customPackageList.style.marginRight = globalMarginLeftRight;
@@ -184,15 +295,12 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
             AssetStorePackagesSearchPanel();
-            assetStorePackagesSearchPanel = new ToolbarSearchPanel(assetStorePackagesSearchlist, assetStorePackagesSearchResultList, AssetStorePackageSearchIsEmpty, AssetStorePackageSearchIsFilled);
-            assetStorePackagesSearchPanel.style.alignSelf = Align.FlexEnd;
-            assetStorePackagesSearchPanel.style.marginRight = globalMarginLeftRight;
 
             VisualElement assetStorePackageList = AssetStorePackagesListView();
             assetStorePackageList.style.maxHeight = 300f;
             assetStorePackageList.style.marginLeft = globalMarginLeftRight;
             assetStorePackageList.style.marginRight = globalMarginLeftRight;
-            assetStorePackageList.style.marginBottom = globalMarginLeftRight;
+            assetStorePackageList.style.marginBottom = globalMiniBottomMargin;
 
 
             Button updateButton = new Button();
@@ -202,105 +310,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             updateButton.style.marginBottom = globalMiniBottomMargin;
             updateButton.clicked += () =>
             {
-                List<string> addList = new List<string>();
-                List<string> removeList = new List<string>();
-                if (PackageInitializerSave.instance != null)
-                {
-                    // Install or remove built-in unity packages
-                    for (int i = 0; i < PackageInitializerSave.instance.builtInPackages.Count; i++)
-                    {
-                        Package currentBuiltinPackage = PackageInitializerSave.instance.builtInPackages[i];
-                        PackageInfo currentBuiltInPackageInfo = PackageInfo.FindForPackageName(currentBuiltinPackage.packageName);
-                        
-                        if (currentBuiltinPackage.shouldPackageInstalled)
-                        {
-                            if (currentBuiltInPackageInfo == null)
-                            {
-                                addList.Add(currentBuiltinPackage.packageName);
-                            }
-                        }
-                        else if (!currentBuiltinPackage.shouldPackageInstalled)
-                        {
-                            if (currentBuiltInPackageInfo != null)
-                            {
-
-                                if (!currentBuiltInPackageInfo.isDirectDependency)
-                                {
-                                    Debug.LogError($"Package: [{currentBuiltInPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
-
-                                    Package package = PackageInitializerSave.instance.builtInPackages.Find((package) => package.packageName == currentBuiltinPackage.packageName);
-
-                                    package.shouldPackageInstalled = true;
-                                    PackageInitializerSave.instance.Save();
-
-                                    builtInPackagesListView.Rebuild();
-                                }
-                                else
-                                {
-                                    removeList.Add(currentBuiltinPackage.packageName);
-                                }
-                            }
-                        }
-                    }
-
-                    // Install or remove git packages
-                    for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
-                    {
-                        Package currentGitPackage = PackageInitializerSave.instance.customPackages[i];
-
-                        if (string.IsNullOrEmpty(currentGitPackage.packageName))
-                        {
-                            Debug.LogError("Package name in the index: [" + i + "] is null. Cannot install null values. Package initializer will stop.");
-                            return;
-                        }
-                        PackageInfo currentCustomPackageInfo = PackageInfo.FindForPackageName(currentGitPackage.packageName);
-
-                        if (currentGitPackage.shouldPackageInstalled)
-                        {
-                            if (currentCustomPackageInfo == null)
-                            {
-                                addList.Add(currentGitPackage.packageName);
-                            }
-                        }
-                        else if (!currentGitPackage.shouldPackageInstalled)
-                        {
-                            if (currentCustomPackageInfo != null)
-                            {
-                                if (!currentCustomPackageInfo.isDirectDependency)
-                                {
-                                    Debug.LogError($"Package: [{currentCustomPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
-
-                                    Package package = PackageInitializerSave.instance.customPackages.Find((package) => package.packageName == currentGitPackage.packageName);
-
-                                    package.shouldPackageInstalled = true;
-                                    PackageInitializerSave.instance.Save();
-
-                                    customPackageListView.Rebuild();
-                                }
-                                else
-                                {
-                                    removeList.Add(currentGitPackage.packageName);
-                                }
-                            }
-                        }
-                    }
-
-                    
-                    if (addList.Count > 0 || removeList.Count > 0)
-                    {
-                        var finalAddList = addList.ToArray();
-                        var finalRemoveList = removeList.ToArray();
-                        Debug.Log(finalAddList.Length);
-                        Debug.Log(finalRemoveList.Length);
-                        Debug.Log(addList.Count);
-                        Debug.Log(removeList.Count);
-
-
-                        addRemoveOfPackageInitializer = Client.AddAndRemove(finalAddList, finalRemoveList);
-                        EditorApplication.update += AddOrRemoveProgress;
-                        AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-                    }
-                }
+                UpdateProjectPackagesAccordingToPackageInitializer();
             };
 
 
@@ -311,15 +321,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             savePathContainer.Add(savePathLabel);
             savePathContainer.Add(savePathTextField);
             WholePackageInitializerContainer.Add(savePathContainer);
-
-            if (PackageInitializerSave.instance.builtInPackages.Count != 0)
-            {
-                WholePackageInitializerContainer.Add(builtInPackagesSearchPanel);
-            }
             WholePackageInitializerContainer.Add(builtInPackageList);
-            WholePackageInitializerContainer.Add(customPackagesSearchPanel);
             WholePackageInitializerContainer.Add(customPackageList);
-            WholePackageInitializerContainer.Add(assetStorePackagesSearchPanel);
             WholePackageInitializerContainer.Add(assetStorePackageList);
             WholePackageInitializerContainer.Add(updateButton);
             rootVisualElement.Add(WholePackageInitializerContainer);
@@ -327,7 +330,7 @@ namespace CompilerDestroyer.Editor.EditorTools
         }
 
 
-
+        // Built-In Packages
         private static void BuiltInPackagesSearchPanel()
         {
             builtInPackagesSearchList = new List<string>();
@@ -338,6 +341,9 @@ namespace CompilerDestroyer.Editor.EditorTools
                 builtInPackagesSearchList.Add(PackageInitializerSave.instance.builtInPackages[i].packageName);
             }
             temporaryBuiltinPackagesList = new List<Package>();
+
+            builtInPackagesSearchPanel = new ToolbarSearchPanel(builtInPackagesSearchList, builtInPackagesSearchResultList, BuiltInPackageSearchIsEmpty, BuiltInPackageSearchIsFilled);
+            builtInPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
         }
         private static void BuiltInPackageSearchIsFilled()
         {
@@ -356,7 +362,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             builtInPackagesListView.itemsSource = temporaryBuiltinPackagesList;
             builtInPackagesListView.RefreshItems();
         }
-
         private static void BuiltInPackageSearchIsEmpty()
         {
             for (int i = 0; i < PackageInitializerSave.instance.builtInPackages.Count; i++)
@@ -375,7 +380,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             builtInPackagesListView.itemsSource = PackageInitializerSave.instance.builtInPackages;
             builtInPackagesListView.RefreshItems();
         }
-
         private static VisualElement BuiltInPackagesList()
         {
             VisualElement rootVisualElement = new VisualElement();
@@ -383,14 +387,34 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             builtInPackagesListView.selectionType = SelectionType.Single;
             builtInPackagesListView.style.flexGrow = 1;
-            builtInPackagesListView.showFoldoutHeader = true;
+            builtInPackagesListView.showFoldoutHeader = false;
             builtInPackagesListView.showBoundCollectionSize = false;
 
             builtInPackagesListView.showBorder = true;
-            builtInPackagesListView.headerTitle = "Built-in Packages";
             builtInPackagesListView.viewDataKey = "BuiltInPackages";
 
+            builtInListViewHeaderContainer = new VisualElement();
+            builtInListViewHeaderContainer.style.flexDirection = FlexDirection.Row;
+            builtInListViewHeaderContainer.style.justifyContent = Justify.SpaceBetween;
 
+            Foldout foldout = new Foldout();
+            foldout.viewDataKey = "builtinFoldout";
+            foldout.style.flexGrow = 1;
+            foldout.text = BuiltInListViewName;
+            foldout.value = true;
+
+            foldout.AddToClassList(GlobalVariables.ListViewFoldoutStyleName);
+            foldout.RegisterValueChangedCallback(evt =>
+            {
+                builtInPackagesListView.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            });
+
+            builtInListViewHeaderContainer.Add(foldout);
+            if (PackageInitializerSave.instance.builtInPackages.Count != 0)
+            {
+                builtInListViewHeaderContainer.Add(builtInPackagesSearchPanel);
+            }
+            rootVisualElement.Add(builtInListViewHeaderContainer);
             rootVisualElement.Add(builtInPackagesListView);
 
             return rootVisualElement;
@@ -410,6 +434,8 @@ namespace CompilerDestroyer.Editor.EditorTools
                 {
                     if (evt.currentTarget == toggle)
                     {
+                        Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Toggle Package Install");
+
                         toggle.value = evt.newValue;
                         string currentTogglesLabel = (evt.currentTarget as Toggle).parent.Q<Label>().text;
                         Package package = PackageInitializerSave.instance.builtInPackages.Find(element => element.packageName == currentTogglesLabel);
@@ -423,6 +449,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             {
                 if (evt.currentTarget == label)
                 {
+                    Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Toggle Package Install");
+
                     toggle.value = !toggle.value;
 
                     Package package = PackageInitializerSave.instance.builtInPackages.Find(element => element.packageName == (evt.currentTarget as Label).text);
@@ -431,6 +459,10 @@ namespace CompilerDestroyer.Editor.EditorTools
                     evt.StopImmediatePropagation();
                 }
             });
+            Undo.undoRedoPerformed += () =>
+            {
+                toggle.SetValueWithoutNotify(builtInPackages[index].shouldPackageInstalled);
+            };
         }
         private static VisualElement MakeItemBuiltInListView()
         {
@@ -452,11 +484,11 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             return row;
         }
+        // --------------------------------------------------------------------------------------
 
 
 
-
-
+        // Custom Packages (Git Packages)
         private static void CustomPackagesSearchPanel()
         {
             customPackagesSearchlist = new List<string>();
@@ -467,6 +499,9 @@ namespace CompilerDestroyer.Editor.EditorTools
                 customPackagesSearchlist.Add(PackageInitializerSave.instance.customPackages[i].packageName);
             }
             temporaryCustomPackagesList = new List<Package>();
+
+            customPackagesSearchPanel = new ToolbarSearchPanel(customPackagesSearchlist, customPackagesSearchResultList, CustomPackageSearchIsEmpty, CustomPackageSearchIsFilled);
+            customPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
         }
         private static void CustomPackageSearchIsFilled()
         {
@@ -486,8 +521,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             customPackageListView.itemsSource = temporaryCustomPackagesList;
             customPackageListView.Rebuild();
         }
-     
-
         private static void CustomPackageSearchIsEmpty()
         {
             for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
@@ -528,7 +561,6 @@ namespace CompilerDestroyer.Editor.EditorTools
                 });
             });
 
-
             textField.RegisterCallback<ChangeEvent<string>>(evt =>
             {
                 if (index < PackageInitializerSave.instance.customPackages.Count)
@@ -537,8 +569,18 @@ namespace CompilerDestroyer.Editor.EditorTools
                     PackageInitializerSave.instance.Save();
                 }
             });
+
+
+            textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (!customPackagesSearchlist.Contains(textField.value))
+                {
+                    customPackagesSearchlist.Add(textField.value);
+                }
+                RemoveAndAddToCustomPackageSearchElement();
+            });
         }
-        private static VisualElement CustomPackageList()
+        private static VisualElement CustomPackageListView()
         {
             VisualElement rootVisualElement = new VisualElement();
 
@@ -546,6 +588,8 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             customPackageListView.onAdd = view =>
             {
+                Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Add Package");
+
                 view.itemsSource.Add(new Package());
                 PackageInitializerSave.instance.Save();
 
@@ -560,6 +604,8 @@ namespace CompilerDestroyer.Editor.EditorTools
                     int itemsSourceCount = view.itemsSource.Count;
                     if (itemsSourceCount - 1 != -1)
                     {
+                        Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Remove Package");
+
                         list.RemoveAt(itemsSourceCount - 1);
                         PackageInitializerSave.instance.Save();
                         customPackageListView.Rebuild();
@@ -567,17 +613,21 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
                 else
                 {
+                    Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Remove Package");
+
                     list.RemoveAt(view.selectedIndex);
                     PackageInitializerSave.instance.Save();
                     customPackageListView.Rebuild();
                 }
-
+            };
+            Undo.undoRedoPerformed += () =>
+            {
+                customPackageListView.Rebuild();
             };
             customPackageListView.itemsAdded += addedItems =>
             {
                 PackageInitializerSave.instance.Save();
                 customPackageListView.Rebuild();
-
             };
             customPackageListView.itemsRemoved += removedItems =>
             {
@@ -588,21 +638,39 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
                 PackageInitializerSave.instance.Save();
                 customPackageListView.Rebuild();
-
             };
-
 
 
 
             customPackageListView.viewDataKey = "Custom Packages";
             customPackageListView.selectionType = SelectionType.Single;
             customPackageListView.style.flexGrow = 1;
-            customPackageListView.showFoldoutHeader = true;
+            customPackageListView.showFoldoutHeader = false;
             customPackageListView.showAddRemoveFooter = true;
             customPackageListView.showBoundCollectionSize = true;
             customPackageListView.showBorder = true;
-            customPackageListView.headerTitle = "Packages";
 
+
+            customListViewHeaderContainer = new VisualElement();
+            customListViewHeaderContainer.style.flexDirection = FlexDirection.Row;
+            customListViewHeaderContainer.style.justifyContent = Justify.SpaceBetween;
+            Foldout foldout = new Foldout();
+            foldout.viewDataKey = "GitPackagesFoldout";
+
+            foldout.style.flexGrow = 1;
+            foldout.text = GitListViewName;
+            foldout.value = true;
+
+            foldout.AddToClassList(GlobalVariables.ListViewFoldoutStyleName);
+            foldout.RegisterValueChangedCallback(evt =>
+            {
+                customPackageListView.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            });
+
+            customListViewHeaderContainer.Add(foldout);
+            customListViewHeaderContainer.Add(customPackagesSearchPanel);
+
+            rootVisualElement.Add(customListViewHeaderContainer);
             rootVisualElement.Add(customPackageListView);
 
             return rootVisualElement;
@@ -658,33 +726,78 @@ namespace CompilerDestroyer.Editor.EditorTools
                 {
                     if (evt.currentTarget == toggle)
                     {
+                        Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Change Git Packages Toggle");
+
                         PackageInitializerSave.instance.customPackages[index].shouldPackageInstalled = evt.newValue;
                         PackageInitializerSave.instance.Save();
                     }
                 });
             });
-          
 
+            textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (!customPackagesSearchlist.Contains(textField.value))
+                {
+                    customPackagesSearchlist.Add(textField.value);
+
+                }
+
+            });
             textField.RegisterCallback<ChangeEvent<string>>(evt =>
             {
                 if (index < PackageInitializerSave.instance.customPackages.Count)
                 {
+                    Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Change Git Packages Text");
+
                     PackageInitializerSave.instance.customPackages[index].packageName = evt.newValue;
                     PackageInitializerSave.instance.Save();
                 }
             });
+
+            textField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                if (!customPackagesSearchlist.Contains(textField.value))
+                {
+                    customPackagesSearchlist.Add(textField.value);
+                }
+                RemoveAndAddToCustomPackageSearchElement();
+            });
+
+            Undo.undoRedoPerformed += () =>
+            {
+                if (index < PackageInitializerSave.instance.customPackages.Count)
+                {
+                    Package package = PackageInitializerSave.instance.customPackages[index];
+
+                    if (package != null)
+                    {
+                        toggle.SetValueWithoutNotify(package.shouldPackageInstalled);
+                        textField.SetValueWithoutNotify(package.packageName);
+                    }
+                }
+            };
         }
+        private static void RemoveAndAddToCustomPackageSearchElement()
+        {
+            customPackagesSearchlist = new List<string>();
+            customPackagesSearchResultList = new List<string>();
 
+            for (int i = 0; i < PackageInitializerSave.instance.customPackages.Count; i++)
+            {
+                customPackagesSearchlist.Add(PackageInitializerSave.instance.customPackages[i].packageName);
+            }
+            temporaryCustomPackagesList = new List<Package>();
 
+            customListViewHeaderContainer.RemoveAt(1);
 
+            customPackagesSearchPanel = new ToolbarSearchPanel(customPackagesSearchlist, customPackagesSearchResultList, CustomPackageSearchIsEmpty, CustomPackageSearchIsFilled);
+            customPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
 
-
-
-
-
-
-
-
+            customListViewHeaderContainer.Add(customPackagesSearchPanel);
+        }
+        // --------------------------------------------------------------------------------------
+        
+        // Asset Store Packages
         private static void AssetStorePackagesSearchPanel()
         {
             assetStorePackagesSearchlist = new List<string>();
@@ -695,6 +808,9 @@ namespace CompilerDestroyer.Editor.EditorTools
                 assetStorePackagesSearchlist.Add(PackageInitializerSave.instance.assetStorePackages[i].packageName);
             }
             temporaryassetStorePackagesList = new List<Package>();
+
+            assetStorePackagesSearchPanel = new ToolbarSearchPanel(assetStorePackagesSearchlist, assetStorePackagesSearchResultList, AssetStorePackageSearchIsEmpty, AssetStorePackageSearchIsFilled);
+            assetStorePackagesSearchPanel.style.alignSelf = Align.FlexEnd;
         }
         private static void AssetStorePackageSearchIsFilled()
         {
@@ -713,7 +829,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             assetStorePackagesListView.itemsSource = temporaryassetStorePackagesList;
             assetStorePackagesListView.RefreshItems();
         }
-
         private static void AssetStorePackageSearchIsEmpty()
         {
             for (int i = 0; i < PackageInitializerSave.instance.assetStorePackages.Count; i++)
@@ -760,12 +875,33 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             assetStorePackagesListView.selectionType = SelectionType.Single;
             assetStorePackagesListView.style.flexGrow = 1;
-            assetStorePackagesListView.showFoldoutHeader = true;
-            assetStorePackagesListView.showBoundCollectionSize = false;
             assetStorePackagesListView.showBorder = true;
-            assetStorePackagesListView.headerTitle = "Asset Store Packages";
             assetStorePackagesListView.viewDataKey = "AssetStorePackages";
+
+
+
+
+            VisualElement assetStoreListViewHeaderContainer = new VisualElement();
+            assetStoreListViewHeaderContainer.style.flexDirection = FlexDirection.Row;
+            assetStoreListViewHeaderContainer.style.justifyContent = Justify.SpaceBetween;
+            Foldout foldout = new Foldout();
+            foldout.viewDataKey = "AssetStorePackagesFoldout";
+            foldout.style.flexGrow = 1;
+            foldout.text = AssetStoreListViewName;
+            foldout.value = true;
+
+            foldout.AddToClassList(GlobalVariables.ListViewFoldoutStyleName);
+            foldout.RegisterValueChangedCallback(evt =>
+            {
+                assetStorePackagesListView.style.display = evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
+            });
+
+            assetStoreListViewHeaderContainer.Add(foldout);
+            assetStoreListViewHeaderContainer.Add(assetStorePackagesSearchPanel);
+
+            rootVisualElement.Add(assetStoreListViewHeaderContainer);
             rootVisualElement.Add(assetStorePackagesListView);
+
             return rootVisualElement;
         }
         private static VisualElement MakeItemAssetStorePackagesListView()
@@ -779,18 +915,16 @@ namespace CompilerDestroyer.Editor.EditorTools
             Toggle toggle = new Toggle();
             Image image = new Image();
             Label label = new Label();
-            toggle.style.marginRight = 10f;
             image.style.width = 20f;
             image.style.height = 20f;
             image.style.marginRight = 10f;
-            image.style.flexDirection = FlexDirection.Row;
-            image.style.alignItems = Align.Center;
-            image.style.justifyContent = Justify.FlexStart;
+            image.style.marginLeft = 5f;
+            image.style.marginTop = 4.5f;
+            image.style.alignItems = Align.FlexEnd;
+            image.style.justifyContent = Justify.FlexEnd;
             image.style.flexShrink = 0;
-            image.style.flexWrap = Wrap.NoWrap;
-
-            //image.style.height = Length.Percent(100);
             image.image = EditorGUIUtility.IconContent(GlobalVariables.UnityLogoIconName).image as Texture2D;
+
             label.style.flexGrow = 1;
             label.style.unityTextAlign = TextAnchor.MiddleLeft;
 
@@ -808,11 +942,9 @@ namespace CompilerDestroyer.Editor.EditorTools
             Label label = element.Q<Label>();
 
 
-            if (PackageInitializerSave.instance.assetStorePackages.Count > 0 && PackageInitializerSave.instance.assetStorePackages != null)
-            {
-                toggle.value = PackageInitializerSave.instance.assetStorePackages[index].shouldPackageInstalled;
-                label.text = PackageInitializerSave.instance.assetStorePackages[index].packageName;
-            }
+            List<Package> packages = assetStorePackagesListView.itemsSource as List<Package>;
+            toggle.value = packages[index].shouldPackageInstalled;
+            label.text = packages[index].packageName;
 
 
             toggle.RegisterCallback<ClickEvent>((clickEvent) =>
@@ -821,6 +953,8 @@ namespace CompilerDestroyer.Editor.EditorTools
                 {
                     if (evt.currentTarget == toggle)
                     {
+                        Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Change Package Initializer Toggle");
+
                         toggle.value = evt.newValue;
 
                         PackageInitializerSave.instance.assetStorePackages[index].shouldPackageInstalled = toggle.value;
@@ -833,6 +967,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             {
                 if (evt.currentTarget == image)
                 {
+                    Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Change Package Initializer Toggle");
+
                     toggle.value = !toggle.value;
                     Package clickedPackage = assetStorePackagesListView.selectedItem as Package;
                     clickedPackage.shouldPackageInstalled = toggle.value;
@@ -846,6 +982,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             {
                 if (evt.currentTarget == label)
                 {
+                    Undo.RegisterCompleteObjectUndo(PackageInitializerSave.instance, "Change Package Initializer Toggle");
+
                     toggle.value = !toggle.value;
 
                     Package clickedPackage = assetStorePackagesListView.selectedItem as Package;
@@ -855,7 +993,18 @@ namespace CompilerDestroyer.Editor.EditorTools
                     evt.StopImmediatePropagation();
                 }
             });
+            Undo.undoRedoPerformed += () =>
+            {
+                if (index < packages.Count)
+                {
+                    Package package = packages[index];
+
+                    toggle.SetValueWithoutNotify(package.shouldPackageInstalled);
+                    label.text = package.packageName;
+                }
+            };
         }
+        // --------------------------------------------------------------------------------------
 
         private static List<string> FindUnityPackages(string assetStorePath)
         {
@@ -1012,14 +1161,10 @@ namespace CompilerDestroyer.Editor.EditorTools
                     EditorApplication.update -= SearchBuiltInPackagesProgress;
                     PackageInitializerSave.instance.Save();
                     builtInPackagesListView.Rebuild();
+
                     BuiltInPackagesSearchPanel();
 
-
-                    builtInPackagesSearchPanel = new ToolbarSearchPanel(builtInPackagesSearchList, builtInPackagesSearchResultList, BuiltInPackageSearchIsEmpty, BuiltInPackageSearchIsFilled);
-                    builtInPackagesSearchPanel.style.alignSelf = Align.FlexEnd;
-                    builtInPackagesSearchPanel.style.marginRight = globalMarginLeftRight;
-                    WholePackageInitializerContainer.Insert(1, builtInPackagesSearchPanel);
-
+                    builtInListViewHeaderContainer.Add(builtInPackagesSearchPanel);
                 }
 
                 EditorUtility.ClearProgressBar();
