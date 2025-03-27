@@ -13,8 +13,7 @@ namespace CompilerDestroyer.Editor.UIElements
     [UxmlElement]
     public partial class ToolbarSearchPanel : ToolbarSearchField
     {
-        private static string packagesInitializerInfo = "When Editor Tools first installed into a project, " + GlobalVariables.PackagesInitializerName + " " +
-    "will remove all of the false packages in the list below. It will be available in all projects that installs Editor Tools.";
+
         public ToolbarSearchPanel()
         {
             //resultList.Clear();

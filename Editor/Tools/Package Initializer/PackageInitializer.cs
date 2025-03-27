@@ -9,12 +9,15 @@ using System.IO;
 using CompilerDestroyer.Editor.UIElements;
 
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
-using NUnit.Framework.Internal;
+using System;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
     internal class PackageInitializer
     {
+        private static string packagesInitializerInfo = "When Editor Tools first installed into a project, " + GlobalVariables.PackagesInitializerName + " " +
+"will remove all of the false packages in the list below. It will be available in all projects that installs Editor Tools.";
+
         private static readonly string BuiltInListViewName = "Built-In Packages";
         private static readonly string GitListViewName = "Git Packages";
         private static readonly string AssetStoreListViewName = "Asset Store Packages";
@@ -49,8 +52,8 @@ namespace CompilerDestroyer.Editor.EditorTools
 
         private static SearchRequest builtInPackageSearchRequest;
         private static AddAndRemoveRequest addRemoveOfPackageInitializer;
-
-        private static ListView builtInPackagesListView;
+        private static ListRequest listInstalledPackages;
+        private static List<PackageInfo> installedPackages = new List<PackageInfo>();
 
         private static VisualElement WholePackageInitializerContainer;
 
@@ -68,9 +71,11 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static List<string> assetStorePackagesSearchlist = new List<string>();
         private static List<string> assetStorePackagesSearchResultList = new List<string>();
         private static ToolbarSearchPanel assetStorePackagesSearchPanel = new ToolbarSearchPanel();
-
+        
+        private static ListView builtInPackagesListView;
         private static ListView customPackageListView;
         private static ListView assetStorePackagesListView;
+
 
 
         [InitializeOnLoadMethod]
@@ -94,7 +99,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                     if (!File.Exists(path))
                     {
                         // Run
-                        UpdateProjectPackagesAccordingToPackageInitializer();
+                        ListInstalledPackages();
                         // Run
                     }
                     else
@@ -104,6 +109,9 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
+
+
+       
 
         private static void UpdateProjectPackagesAccordingToPackageInitializer()
         {
@@ -131,14 +139,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
                             if (!currentBuiltInPackageInfo.isDirectDependency)
                             {
-                                Debug.LogError($"Package: [{currentBuiltInPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
-
-                                Package package = PackageInitializerSave.instance.builtInPackages.Find((package) => package.packageName == currentBuiltinPackage.packageName);
-
-                                package.shouldPackageInstalled = true;
-                                PackageInitializerSave.instance.Save();
-
-                                builtInPackagesListView.Rebuild();
+                                Debug.LogWarning($"Package: [{currentBuiltInPackageInfo.name}] is installed as dependency. It will be ignored.");
                             }
                             else
                             {
@@ -155,25 +156,27 @@ namespace CompilerDestroyer.Editor.EditorTools
 
                     if (string.IsNullOrEmpty(currentGitPackage.packageName))
                     {
-                        Debug.LogError("Package name in the index: [" + i + "] is null. Cannot install null values. Package initializer will stop.");
-                        return;
+                        Debug.LogError("Package name in the index: [" + i + "] is null. Cannot install null values. It will be ignored.");
+                        continue;
                     }
-                    PackageInfo currentCustomPackageInfo = PackageInfo.FindForPackageName(currentGitPackage.packageName);
+
+
+                    PackageInfo customPackage = installedPackages.Find(package => package.packageId.Contains(currentGitPackage.packageName) && package.source == PackageSource.Git);
 
                     if (currentGitPackage.shouldPackageInstalled)
                     {
-                        if (currentCustomPackageInfo == null)
+                        if (customPackage == null)
                         {
                             addList.Add(currentGitPackage.packageName);
                         }
                     }
                     else if (!currentGitPackage.shouldPackageInstalled)
                     {
-                        if (currentCustomPackageInfo != null)
+                        if (customPackage != null)
                         {
-                            if (!currentCustomPackageInfo.isDirectDependency)
+                            if (!customPackage.isDirectDependency)
                             {
-                                Debug.LogError($"Package: [{currentCustomPackageInfo.name}] is installed as dependency updating packages will stop. Do not try to remove it directly.");
+                                Debug.LogError($"Package: [{customPackage.name}] is installed as dependency. Package initializer will stop working. Do not try to remove it directly.");
 
                                 Package package = PackageInitializerSave.instance.customPackages.Find((package) => package.packageName == currentGitPackage.packageName);
 
@@ -191,10 +194,21 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
 
 
+
                 if (addList.Count > 0 || removeList.Count > 0)
                 {
-                    var finalAddList = addList.ToArray();
-                    var finalRemoveList = removeList.ToArray();
+                    string[] finalAddList = addList.ToArray();
+                    string[] finalRemoveList = removeList.ToArray();
+
+                    if (finalAddList.Length > 0)
+                    {
+                        Debug.Log(GlobalVariables.PackagesInitializerName + " Added Packages: " + string.Join(", ", finalAddList));
+                    }
+                    if (finalRemoveList.Length > 0)
+                    {
+                        Debug.Log(GlobalVariables.PackagesInitializerName + " Removed Packages: " + string.Join(", ", finalRemoveList));
+                    }
+
 
                     addRemoveOfPackageInitializer = Client.AddAndRemove(finalAddList, finalRemoveList);
                     EditorApplication.update += AddOrRemoveProgress;
@@ -313,7 +327,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             updateButton.style.marginBottom = globalMiniBottomMargin;
             updateButton.clicked += () =>
             {
-                UpdateProjectPackagesAccordingToPackageInitializer();
+                ListInstalledPackages();
             };
 
 
@@ -1055,7 +1069,28 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
+        private static void ListInstalledPackagesProgress()
+        {
+            if (listInstalledPackages.IsCompleted)
+            {
+                if (listInstalledPackages.Status == StatusCode.Success)
+                {
+                    foreach (var package in listInstalledPackages.Result)
+                    {
+                        installedPackages.Add(package);
+                    }
 
+                }
+
+                UpdateProjectPackagesAccordingToPackageInitializer();
+                EditorApplication.update -= ListInstalledPackagesProgress;
+            }
+        }
+        private static void ListInstalledPackages()
+        {
+            listInstalledPackages = Client.List(false, true);
+            EditorApplication.update += ListInstalledPackagesProgress;
+        }
         private static void AddOrRemoveProgress()
         {
             if (addRemoveOfPackageInitializer.IsCompleted)
@@ -1069,20 +1104,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                     if (addRemoveOfPackageInitializer.Error != null)
                     {
                         string cachedErrorMessage = addRemoveOfPackageInitializer.Error.message;
-                        int leftBracket = cachedErrorMessage.IndexOf("[");
-                        int rightBracket = cachedErrorMessage.IndexOf("]");
-
-
-                        if (leftBracket != -1 && rightBracket != -1 && rightBracket > leftBracket)
-                        {
-                            string insideBrackets = cachedErrorMessage.Substring(leftBracket + 1, rightBracket - leftBracket - 1);
-                       
-                            if (!string.IsNullOrEmpty(insideBrackets))
-                            {
-                                Debug.LogError(GlobalVariables.NickName + " " + GlobalVariables.PackagesInitializerName + " " +
-                                    "\nPackages has direct dependencies will be ignored: " + insideBrackets);
-                            }
-                        }
+                        Debug.LogError(cachedErrorMessage + "\n Package initializer will stop working.");
                     }
                 }
 
