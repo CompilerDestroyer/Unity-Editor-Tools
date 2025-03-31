@@ -1,14 +1,12 @@
 using UnityEngine;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using CompilerDestroyer.Editor.UIElements;
-using UnityEditor;
 using System.Collections.Generic;
-using UnityEditor.Build;
 using System;
-using System.Reflection;
+using CompilerDestroyer.Editor.Attributes;
 
-namespace CompilerDestroyer.Editor.Attributes
+
+namespace CompilerDestroyer.Editor.EditorTools
 {
     internal sealed class LibrariesDocumentation
     {
@@ -60,11 +58,11 @@ namespace CompilerDestroyer.Editor.Attributes
 
             "\n<color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>> " +
             "<color=" + variableColorHexaDec + ">example1TreeViewItemData</color> = " +
-            "<color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>>(0, \"Example 1\");" +
+            "<color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>>(<color=" + floatColorHexaDec + ">0</color>, <color=" + stringColorHexaDec + ">\"Example 1\"</color>);" +
 
             "\n<color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>> " +
             "<color=" + variableColorHexaDec + ">example2TreeViewItemData</color> = " +
-            "<color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>>(1, \"Example 2\");" +
+            "<color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">TreeViewItemData</color><<color=" + typeColorHexaDec + ">string</color>>(<color=" + floatColorHexaDec + ">1</color>, <color=" + stringColorHexaDec + ">\"Example 2\"</color>);" +
 
             "\n<color=" + variableColorHexaDec + ">items</color>.<color=" + methodColorHexaDec + ">Add</color>(<color=" + variableColorHexaDec + ">example1TreeViewItemData</color>);" +
             "\n<color=" + variableColorHexaDec + ">items</color>.<color=" + methodColorHexaDec + ">Add</color>(<color=" + variableColorHexaDec + ">example2TreeViewItemData</color>);" +
@@ -72,14 +70,14 @@ namespace CompilerDestroyer.Editor.Attributes
             "\n\n<color=" + classColorHexaDec + ">Dictionary</color><<color=" + typeColorHexaDec + ">string</color>, <color=" + classColorHexaDec + ">VisualElement</color>> " +
             "<color=" + variableColorHexaDec + ">itemsVisualElementsDict</color> = <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Dictionary</color><<color=" + typeColorHexaDec + ">string</color>, <color=" + classColorHexaDec + ">VisualElement</color>>();" +
 
-            "\n<color=" + variableColorHexaDec + ">itemsVisualElementsDict</color>.Add(\"Example 1\", <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Label</color>(\"I am example 1\"));" +
-            "\n<color=" + variableColorHexaDec + ">itemsVisualElementsDict</color>.Add(\"Example 2\", <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Label</color>(\"I am example 2\"));" +
+            "\n<color=" + variableColorHexaDec + ">itemsVisualElementsDict</color>.<color=" + methodColorHexaDec + ">Add</color>(<color=" + stringColorHexaDec + ">\"Example 1\"</color>, <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Label</color>(<color=" + stringColorHexaDec + ">\"I am Example 1\"</color>));" +
+            "\n<color=" + variableColorHexaDec + ">itemsVisualElementsDict</color>.<color=" + methodColorHexaDec + ">Add</color>(<color=" + stringColorHexaDec + ">\"Example 2\"</color>, <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Label</color>(<color=" + stringColorHexaDec + ">\"I am Example 2\"</color>));" +
 
             "\n\n<color=" + classColorHexaDec + ">SettingsPanel</color> <color=" + variableColorHexaDec + ">panel</color> = " +
             "<color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">SettingsPanel</color>(<color=" + typeColorHexaDec + ">ref</color> <color=" + variableColorHexaDec + ">items</color>, <color=" + typeColorHexaDec + ">ref</color> <color=" + variableColorHexaDec + ">itemsVisualElementsDict</color>);" +
 
-            "\n<color=" + variableColorHexaDec + ">panel</color>.style.width = 310f;" +
-            "\n<color=" + variableColorHexaDec + ">panel</color>.style.height = 310f;";
+            "\n<color=" + variableColorHexaDec + ">panel</color>.style.width =  <color=" + floatColorHexaDec + ">310f</color>;" +
+            "\n<color=" + variableColorHexaDec + ">panel</color>.style.height =  <color=" + floatColorHexaDec + ">310f</color>;";
 
 
         private static readonly string toolbarSearchPanelCodeExample =
@@ -96,18 +94,18 @@ namespace CompilerDestroyer.Editor.Attributes
             "\n\n<color=" + classColorHexaDec + ">ListView</color> " +
             "<color=" + variableColorHexaDec + ">listView</color> = <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">ListView</color>(<color=" + variableColorHexaDec + ">toolbarSearchList</color>, <color=" + floatColorHexaDec + ">15</color>);" +
             "\n<color=" + variableColorHexaDec + ">listView</color>.makeItem = () => <color=" + typeColorHexaDec + ">new</color> <color=" + classColorHexaDec + ">Label</color>();" +
-            "\n<color=" + variableColorHexaDec + ">listView</color>.bindItem = (element, index) => (element as <color=" + classColorHexaDec + ">Label</color>).text = <color=" + variableColorHexaDec + ">listView</color>.itemsSource[index] as <color=" + typeColorHexaDec + ">string</color>;" +
+            "\n<color=" + variableColorHexaDec + ">listView</color>.bindItem = (<color=" + variableColorHexaDec + ">element</color>, <color=" + variableColorHexaDec + ">index</color>) => (<color=" + variableColorHexaDec + ">element</color> <color=" + typeColorHexaDec + ">as</color> <color=" + classColorHexaDec + ">Label</color>).text = <color=" + variableColorHexaDec + ">listView</color>.itemsSource[<color=" + variableColorHexaDec + ">index</color>] <color=" + typeColorHexaDec + ">as</color> <color=" + typeColorHexaDec + ">string</color>;" +
 
             "\n\n<color=" + classColorHexaDec + ">Action</color> <color=" + variableColorHexaDec + ">OnEmpty</color> = () =>" +
             "{ " +
             "<color=" + variableColorHexaDec + ">listView</color>.itemsSource = <color=" + variableColorHexaDec + ">toolbarSearchList</color>;" +
-            "<color=" + variableColorHexaDec + ">listView</color>.Rebuild();" +
+            "<color=" + variableColorHexaDec + ">listView</color>.<color=" + methodColorHexaDec + ">Rebuild</color>();" +
             "};" +
 
             "\n<color=" + classColorHexaDec + ">Action</color> <color=" + variableColorHexaDec + ">OnFilled</color> = () =>" +
             "{ " +
             "<color=" + variableColorHexaDec + ">listView</color>.itemsSource = <color=" + variableColorHexaDec + ">resultList</color>;" +
-            "<color=" + variableColorHexaDec + ">listView</color>.Rebuild();" +
+            "<color=" + variableColorHexaDec + ">listView</color>.<color=" + methodColorHexaDec + ">Rebuild</color>();" +
             "};" +
 
             "\n\n<color=" + classColorHexaDec + ">ToolbarSearchPanel</color> " +
@@ -194,13 +192,7 @@ namespace CompilerDestroyer.Editor.Attributes
 
             VisualElement searchBarContainer = new VisualElement();
 
-            List<string> toolbarSearchList = new List<string>()
-            {
-                "Level Editor",
-                "Terrain Licker",
-                "Inspector Destroyer",
-                "Mesh Consumer"
-            };
+            List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
             List<string> resultList = new List<string>();
 
             ListView listView = new ListView(toolbarSearchList, 15);
@@ -218,6 +210,8 @@ namespace CompilerDestroyer.Editor.Attributes
                 listView.Rebuild();
             }
             ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList, resultList, OnEmpty, OnFilled);
+
+
             searchBarContainer.Add(toolbarSearchPanel);
             searchBarContainer.Add(listView);
             VisualElement toolbarSearchPanelExample = LibraryExampleElement(toolbarSearchPanelCodeExample, null, searchBarContainer);
@@ -291,12 +285,14 @@ namespace CompilerDestroyer.Editor.Attributes
             codeAndElementContainer.style.flexDirection = FlexDirection.Row;
             codeAndElementContainer.style.justifyContent = Justify.SpaceBetween;
 
+
             InfoBox codeBox = new InfoBox(codeExample, InfoBoxIconType.None, 0f);
             codeBox.style.unityFontStyleAndWeight = FontStyle.Bold;
 
             VisualElement fieldContainer = new VisualElement();
             fieldContainer.style.alignContent = Align.FlexEnd;
             fieldContainer.style.flexDirection = FlexDirection.Row;
+
 
             if (exampleLabel != null)
             {

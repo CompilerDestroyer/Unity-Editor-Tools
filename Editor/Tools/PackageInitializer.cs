@@ -143,11 +143,8 @@ namespace CompilerDestroyer.Editor.EditorTools
                     {
                         // Run
                         ListInstalledPackages();
-                        // Run
-                    }
-                    else
-                    {
                         File.WriteAllText(path, "Saved!");
+                        // Run
                     }
                 }
             }
@@ -450,11 +447,10 @@ namespace CompilerDestroyer.Editor.EditorTools
             resetButton.style.marginBottom = globalMiniBottomMargin;
             resetButton.clicked += () =>
             {
-                ResetPackageInitializer();
-
-                //if (EditorUtility.DisplayDialog("Reset Packages", "This will completely remove all of the updated built-in, git and asset store packages from project", "Apply", "Cancel"))
-                //{
-                //}
+                if (EditorUtility.DisplayDialog("Reset Packages", "This will completely remove all of the updated built-in, git and asset store packages from project", "Apply", "Cancel"))
+                {
+                    ResetPackageInitializer();
+                }
             };
 
 
