@@ -52,7 +52,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             oneDocumentation.style.marginBottom = 4f;
             oneDocumentation.AddToClassList(GlobalVariables.ListViewFoldoutStyleName);
 
-            InfoBox documentationInfoBox = new InfoBox(documetationLabel, InfoBoxIconType.None, 10f);
+            InfoBox documentationInfoBox = new InfoBox(documetationLabel, InfoBoxIconType.None, 0f);
             documentationInfoBox.style.marginBottom = 5f;
             documentationInfoBox.style.marginLeft = marginLeftRight;
             documentationInfoBox.style.marginRight = marginLeftRight;

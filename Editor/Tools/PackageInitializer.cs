@@ -129,9 +129,9 @@ namespace CompilerDestroyer.Editor.EditorTools
             }
 
 
-            if (!SessionState.GetBool("isAlreadyInitializedPackageInitializer", false))
+            if (!SessionState.GetBool("isPackageInitializerAlreadyInitialized", false))
             {
-                SessionState.SetBool("isAlreadyInitializedPackageInitializer", true);
+                SessionState.SetBool("isPackageInitializerAlreadyInitialized", true);
                 
                 if (PackageInitializerSave.instance != null)
                 {

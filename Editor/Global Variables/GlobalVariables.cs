@@ -18,9 +18,13 @@ namespace CompilerDestroyer.Editor
         internal const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
 
         internal const string LibrariesName = "Libraries";
+        internal const string ToolsName = "Tools";
+        internal const string UtilitiesName = "Utilities";
         internal const string AttributesName = "Attributes";
         internal const string UIElementsName = "UI Elements";
-        internal const string ToolsName = "Tools";
+        internal const string GitDependencyManagerName = "GitDependencyManager";
+        internal const string RemoveDefineSymbolsFromBuildName = "RemoveScriptingDefineSymbolsFromBuild";
+
         internal const string RoughnessConverterName = "Roughness Converter";
         internal const string PackagesInitializerName = "Package Initializer";
 

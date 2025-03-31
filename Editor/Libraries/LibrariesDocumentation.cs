@@ -20,6 +20,7 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static string methodColorHexaDec = "#CCD090";
 
 
+        private static VisualElement rootVisualElement;
 
         private static readonly float marginLeftRight = 15f;
         private static readonly float marginBottom = 15f;
@@ -113,19 +114,76 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
-
         internal static VisualElement LibrariesDocumentationElement()
         {
-            VisualElement rootVisualElement = new VisualElement();
+            rootVisualElement = new VisualElement();
 
+            LibrariesHeader();
+            CollapseExpandButtons();
 
+            AttributesHeader();
+            AttributeReadonlyExample();
+
+            UIElementsHeader();
+            HeaderExample();
+            InfoBoxExample();
+            LineExample();
+            SettingsPanelExample();
+            ToolbarSearchPanelExample();
+
+            return rootVisualElement;
+        }
+
+        private static void LibrariesHeader()
+        {
             Header librariesHeader = new Header();
             librariesHeader.text = GlobalVariables.LibrariesName;
-            librariesHeader.style.marginTop = marginBottom;
+            librariesHeader.style.marginTop = 5f;
             librariesHeader.style.marginLeft = marginLeftRight;
             librariesHeader.style.marginBottom = marginLeftRight;
 
+            rootVisualElement.Add(librariesHeader);
+        }
+        private static void CollapseExpandButtons()
+        {
+            VisualElement collapsExpandContainer = new VisualElement();
+            collapsExpandContainer.style.flexDirection = FlexDirection.Row;
+            collapsExpandContainer.style.marginLeft = marginLeftRight;
+            collapsExpandContainer.style.marginRight = marginLeftRight;
+            collapsExpandContainer.style.marginBottom = 4f;
 
+
+            Button collapseAll = new Button();
+            collapseAll.text = "Collapse All";
+            collapseAll.clicked += () => 
+            {
+                List<Foldout> allFoldouts = rootVisualElement.Query<Foldout>().Build().ToList();
+                for (int i = 0; i < allFoldouts.Count; i++)
+                {
+                    allFoldouts[i].value = false;
+                }
+            };
+
+            Button expandAll = new Button();
+            expandAll.text = "Expand All";
+            expandAll.clicked += () =>
+            {
+                List<Foldout> allFoldouts = rootVisualElement.Query<Foldout>().Build().ToList();
+                for (int i = 0; i < allFoldouts.Count; i++)
+                {
+                    allFoldouts[i].value = true;
+                }
+            };
+
+            collapsExpandContainer.Add(collapseAll);
+            collapsExpandContainer.Add(expandAll);
+            rootVisualElement.Add(collapsExpandContainer);
+        }
+
+
+        #region Attributes
+        private static void AttributesHeader()
+        {
             Header attributes = new Header(GlobalVariables.AttributesName, 14f);
             attributes.style.marginLeft = marginLeftRight;
             attributes.style.marginBottom = 4f;
@@ -133,8 +191,12 @@ namespace CompilerDestroyer.Editor.EditorTools
             attributeLine.style.marginLeft = marginLeftRight;
             attributeLine.style.marginRight = marginLeftRight;
 
+            rootVisualElement.Add(attributes);
+            rootVisualElement.Add(attributeLine);
+        }
 
-
+        private static void AttributeReadonlyExample()
+        {
             Label readonlyExampleLabel = new Label("health");
             readonlyExampleLabel.SetEnabled(false);
             readonlyExampleLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
@@ -146,6 +208,13 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement readonlyExample = LibraryExampleElement(readonlyCodeExample, readonlyExampleLabel, readonlyIntField);
             VisualElement readonlyDocumentation = MakeDocumentationElement(nameof(ReadOnlyAttribute), readonlyAttributeInfo, readonlyExample);
 
+            rootVisualElement.Add(readonlyDocumentation);
+        }
+        #endregion
+
+        #region UIElements
+        private static void UIElementsHeader()
+        {
             Header uiElements = new Header(GlobalVariables.UIElementsName, 14f);
             uiElements.style.marginLeft = marginLeftRight;
             uiElements.style.marginBottom = 4f;
@@ -155,16 +224,27 @@ namespace CompilerDestroyer.Editor.EditorTools
             uiElementsLine.style.marginLeft = marginLeftRight;
             uiElementsLine.style.marginRight = marginLeftRight;
 
-
-            Header header = new Header("Basic " + nameof(Header));
+            rootVisualElement.Add(uiElements);
+            rootVisualElement.Add(uiElementsLine);
+        }
+        private static void HeaderExample()
+        {
+            Header header = new Header("Basic " + nameof(LibrariesHeader));
             VisualElement headerExample = LibraryExampleElement(headerCodeExample, null, header);
-            VisualElement headerDocumentation = MakeDocumentationElement(nameof(Header), headerUIElementInfo, headerExample);
+            VisualElement headerDocumentation = MakeDocumentationElement(nameof(LibrariesHeader), headerUIElementInfo, headerExample);
 
+            rootVisualElement.Add(headerDocumentation);
+        }
+        private static void InfoBoxExample()
+        {
             InfoBox infoBox = new InfoBox("An " + nameof(InfoBox) + " can be used to give information", InfoBoxIconType.Info, 3f);
             VisualElement infoBoxExample = LibraryExampleElement(infoBoxCodeExample, null, infoBox);
             VisualElement infoBoxDocumentation = MakeDocumentationElement(nameof(InfoBox), infoBoxUIElementInfo, infoBoxExample);
 
-
+            rootVisualElement.Add(infoBoxDocumentation);
+        }
+        private static void LineExample()
+        {
             Line line = new Line(4f, false, Color.red);
             line.style.height = 1f;
             line.style.width = 120f;
@@ -172,7 +252,10 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement lineExample = LibraryExampleElement(lineCodeExample, null, line);
             VisualElement lineDocumentation = MakeDocumentationElement(nameof(Line), lineUIElementInfo, lineExample);
 
-
+            rootVisualElement.Add(lineDocumentation);
+        }
+        private static void SettingsPanelExample()
+        {
             List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
             TreeViewItemData<string> example1TreeViewItemData = new TreeViewItemData<string>(0, "Example 1");
             TreeViewItemData<string> example2TreeViewItemData = new TreeViewItemData<string>(1, "Example 2");
@@ -189,11 +272,16 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement settingsPanelExample = LibraryExampleElement(settingsPanelCodeExample, null, panel);
             VisualElement settingsPanelDocumentation = MakeDocumentationElement(nameof(SettingsPanel), settingsPanelUIElementInfo, settingsPanelExample);
 
+            rootVisualElement.Add(settingsPanelDocumentation);
+        }
+
+        private static void ToolbarSearchPanelExample()
+        {
+            List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
+            List<string> resultList = new List<string>();
 
             VisualElement searchBarContainer = new VisualElement();
 
-            List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
-            List<string> resultList = new List<string>();
 
             ListView listView = new ListView(toolbarSearchList, 15);
             listView.makeItem = () => new Label();
@@ -212,29 +300,17 @@ namespace CompilerDestroyer.Editor.EditorTools
             ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList, resultList, OnEmpty, OnFilled);
 
 
-            searchBarContainer.Add(toolbarSearchPanel);
-            searchBarContainer.Add(listView);
             VisualElement toolbarSearchPanelExample = LibraryExampleElement(toolbarSearchPanelCodeExample, null, searchBarContainer);
             VisualElement toolbarSearchPanelDocumentation = MakeDocumentationElement(nameof(ToolbarSearchPanel), toolbarSearchPanelUIElementInfo, toolbarSearchPanelExample);
+            searchBarContainer.Add(toolbarSearchPanel);
+            searchBarContainer.Add(listView);
 
-
-
-
-            rootVisualElement.Add(librariesHeader);
-            rootVisualElement.Add(attributes);
-            rootVisualElement.Add(attributeLine);
-            rootVisualElement.Add(readonlyDocumentation);
-            rootVisualElement.Add(uiElements);
-            rootVisualElement.Add(uiElementsLine);
-            rootVisualElement.Add(headerDocumentation);
-            rootVisualElement.Add(infoBoxDocumentation);
-            rootVisualElement.Add(lineDocumentation);
-            rootVisualElement.Add(settingsPanelDocumentation);
             rootVisualElement.Add(toolbarSearchPanelDocumentation);
-
-
-            return rootVisualElement;
         }
+        #endregion
+
+
+
 
         private static VisualElement MakeDocumentationElement(string documentationHeader, string documentationLabel, VisualElement exampleElement = null)
         {
@@ -274,8 +350,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             visualElement.Add(exampleElement);
             return visualElement;
         }
-
-
         private static VisualElement LibraryExampleElement(string codeExample, Label exampleLabel = null, VisualElement exampleVisualElement = null)
         {
             VisualElement codeAndElementContainer = new VisualElement();

@@ -6,10 +6,9 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using System.Collections.Generic;
 using System.Linq;
-
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
-namespace CompilerDestroyer.Editor.PackageManager
+namespace CompilerDestroyer.Editor.Utilities
 {
     public class GitDependencyManager
     {
@@ -22,8 +21,11 @@ namespace CompilerDestroyer.Editor.PackageManager
             Events.registeredPackages += OnPackagesRegisteredCheckDependencies;
         }
 
-
-        private static void OnPackagesRegisteredCheckDependencies(PackageRegistrationEventArgs packageRegistrationInfo)
+        /// <summary>
+        /// In order to use this you should add this function to unity's "Events.registeredPackages"
+        /// </summary>
+        /// <param name="packageRegistrationInfo"></param>
+        public static void OnPackagesRegisteredCheckDependencies(PackageRegistrationEventArgs packageRegistrationInfo)
         {
             List<string> dependencies = new List<string>();
 
