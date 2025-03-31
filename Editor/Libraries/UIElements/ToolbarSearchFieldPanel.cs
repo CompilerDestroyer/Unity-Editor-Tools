@@ -2,7 +2,6 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
 
 
 namespace CompilerDestroyer.Editor.UIElements
@@ -14,13 +13,23 @@ namespace CompilerDestroyer.Editor.UIElements
     public partial class ToolbarSearchPanel : ToolbarSearchField
     {
 
+        /// <summary>
+        /// Default constructor for UI Toolkit instantiation. No Search algorithm implemented.
+        /// </summary>
         public ToolbarSearchPanel()
         {
-            //resultList.Clear();
-            //this.RegisterValueChangedCallback();
 
         }
-        public ToolbarSearchPanel(List<string> searchList, List<string> resultList, Action OnListViewEmpty = null, Action OnListViewFilled = null, Action OnUndoRedo = null)
+
+        /// <summary>
+        /// Initializes the search panel with a search algorithm.
+        /// </summary>
+        /// <param name="searchList">The list of strings to search from.</param>
+        /// <param name="resultList">The list that will hold search results.</param>
+        /// <param name="OnEmpty">Callback when no search results are found.</param>
+        /// <param name="OnFilled">Callback when search results are available.</param>
+        /// <param name="OnUndoRedo">Callback for handling undo/redo actions.</param>
+        public ToolbarSearchPanel(List<string> searchList, List<string> resultList, Action OnEmpty = null, Action OnFilled = null, Action OnUndoRedo = null)
         {
             resultList.Clear();
             this.RegisterValueChangedCallback(evt =>
@@ -47,14 +56,14 @@ namespace CompilerDestroyer.Editor.UIElements
                                 }
                             }
                         }
-                       
+
                     }
 
-                    OnListViewFilled?.Invoke();
+                    OnFilled?.Invoke();
                 }
                 else
                 {
-                    OnListViewEmpty?.Invoke();
+                    OnEmpty?.Invoke();
                 }
             });
 

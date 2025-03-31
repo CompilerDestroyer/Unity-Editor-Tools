@@ -7,17 +7,12 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 using CompilerDestroyer.Editor.UIElements;
-
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
-using System;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
     internal class PackageInitializer
     {
-        private static string packagesInitializerInfo = "When Editor Tools first installed into a project, " + GlobalVariables.PackagesInitializerName + " " +
-"will remove all of the false packages in the list below. It will be available in all projects that installs Editor Tools.";
-
         private static readonly string BuiltInListViewName = "Built-In Packages";
         private static readonly string GitListViewName = "Git Packages";
         private static readonly string AssetStoreListViewName = "Asset Store Packages";
@@ -46,14 +41,62 @@ namespace CompilerDestroyer.Editor.EditorTools
             "com.unity.rendering.light-transport",
             "com.unity.render-pipelines.universal-config"
         };
+        private static readonly List<string> resetBuiltInList = new List<string>()
+        {
+            "com.unity.ai.navigation",
+            "com.unity.inputsystem",
+            "com.unity.ide.rider",
+            "com.unity.multiplayer.center",
+            "com.unity.test-framework",
+            "com.unity.timeline",
+            "com.unity.ugui",
+            "com.unity.render-pipelines.universal",
+            "com.unity.collab-proxy",
+            "com.unity.visualscripting",
+            "com.unity.ide.visualstudio",
+            "com.unity.modules.accessibility",
+            "com.unity.modules.ai",
+            "com.unity.modules.androidjni",
+            "com.unity.modules.animation",
+            "com.unity.modules.assetbundle",
+            "com.unity.modules.audio",
+            "com.unity.modules.cloth",
+            "com.unity.modules.director",
+            "com.unity.modules.imageconversion",
+            "com.unity.modules.imgui",
+            "com.unity.modules.jsonserialize",
+            "com.unity.modules.particlesystem",
+            "com.unity.modules.physics",
+            "com.unity.modules.physics2d",
+            "com.unity.modules.screencapture",
+            "com.unity.modules.terrain",
+            "com.unity.modules.terrainphysics",
+            "com.unity.modules.tilemap",
+            "com.unity.modules.ui",
+            "com.unity.modules.uielements",
+            "com.unity.modules.umbra",
+            "com.unity.modules.unityanalytics",
+            "com.unity.modules.unitywebrequest",
+            "com.unity.modules.unitywebrequestassetbundle",
+            "com.unity.modules.unitywebrequestaudio",
+            "com.unity.modules.unitywebrequesttexture",
+            "com.unity.modules.unitywebrequestwww",
+            "com.unity.modules.vehicles",
+            "com.unity.modules.video",
+            "com.unity.modules.vr",
+            "com.unity.modules.wind",
+            "com.unity.modules.xr"
+        };
+
 
         private static VisualElement builtInListViewHeaderContainer;
         private static VisualElement customListViewHeaderContainer;
 
         private static SearchRequest builtInPackageSearchRequest;
+        private static AddAndRemoveRequest resetAddRemoveRequest;
         private static AddAndRemoveRequest addRemoveOfPackageInitializer;
         private static ListRequest listInstalledPackages;
-        private static List<PackageInfo> installedPackages = new List<PackageInfo>();
+        private static readonly List<PackageInfo> installedPackages = new List<PackageInfo>();
 
         private static VisualElement WholePackageInitializerContainer;
 
@@ -95,7 +138,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                 {
                     char sepChar = Path.DirectorySeparatorChar;
                     string path = Path.GetDirectoryName(Application.dataPath) + sepChar + GlobalVariables.PackageName + sepChar + GlobalVariables.PackagesInitializerName + ".flag";
-
+                    Debug.Log(path);
                     if (!File.Exists(path))
                     {
                         // Run
@@ -109,9 +152,6 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
-
-
-       
 
         private static void UpdateProjectPackagesAccordingToPackageInitializer()
         {
@@ -139,7 +179,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
                             if (!currentBuiltInPackageInfo.isDirectDependency)
                             {
-                                Debug.LogWarning($"Package: [{currentBuiltInPackageInfo.name}] is installed as dependency. It will be ignored.");
+                                Debug.LogWarning($"{GlobalVariables.PackagesInitializerName} Package: [{currentBuiltInPackageInfo.name}] is installed as dependency. It will be ignored.");
                             }
                             else
                             {
@@ -176,7 +216,7 @@ namespace CompilerDestroyer.Editor.EditorTools
                         {
                             if (!customPackage.isDirectDependency)
                             {
-                                Debug.LogError($"Package: [{customPackage.name}] is installed as dependency. Package initializer will stop working. Do not try to remove it directly.");
+                                Debug.LogError($"{GlobalVariables.PackagesInitializerName} Package: [{customPackage.name}] is installed as dependency. It will be ignored. Do not try to remove it directly.");
 
                                 Package package = PackageInitializerSave.instance.customPackages.Find((package) => package.packageName == currentGitPackage.packageName);
 
@@ -216,7 +256,77 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
+        private static void ResetPackageInitializer()
+        {
+            List<string> resetAddList = new List<string>();
+            List<string> resetRemoveList = new List<string>();
 
+            for (int i = 0; i < PackageInitializerSave.instance.builtInPackages.Count; i++)
+            {
+                Package builtInPackage = PackageInitializerSave.instance.builtInPackages[i];
+
+
+                PackageInfo packageInfo = PackageInfo.FindForPackageName(builtInPackage.packageName);
+                if (!resetBuiltInList.Contains(builtInPackage.packageName) && packageInfo != null && packageInfo.isDirectDependency)
+                {
+                    resetRemoveList.Add(builtInPackage.packageName);
+                }
+
+                builtInPackage.shouldPackageInstalled = false;
+            }
+
+            for (int i = 0; i < resetBuiltInList.Count; i++)
+            {
+                string resetPackageName = resetBuiltInList[i];
+
+                PackageInfo currentBuiltInPackageInfo = PackageInfo.FindForPackageName(resetPackageName);
+
+
+                if (currentBuiltInPackageInfo == null)
+                {
+                    resetAddList.Add(resetPackageName);
+                }
+
+                Package foundedPackage = PackageInitializerSave.instance.builtInPackages.Find(_package => _package.packageName == resetPackageName);
+                foundedPackage.shouldPackageInstalled = true;
+            }
+
+
+            PackageInitializerSave.instance.customPackages.Clear();
+
+            for (int i = 0; i < PackageInitializerSave.instance.assetStorePackages.Count; i++)
+            {
+                Package assetStorePackage = PackageInitializerSave.instance.assetStorePackages[i];
+
+                assetStorePackage.shouldPackageInstalled = false;
+            }
+
+            PackageInitializerSave.instance.Save();
+
+            builtInPackagesListView.Rebuild();
+            customPackageListView.Rebuild();
+            assetStorePackagesListView.Rebuild();
+
+            if (resetAddList.Count > 0 || resetRemoveList.Count > 0)
+            {
+                string[] finalAddList = resetAddList.ToArray();
+                string[] finalRemoveList = resetRemoveList.ToArray();
+
+                if (finalAddList.Length > 0)
+                {
+                    Debug.Log(GlobalVariables.PackagesInitializerName + " Added Packages: " + string.Join(", ", finalAddList));
+                }
+                if (finalRemoveList.Length > 0)
+                {
+                    Debug.Log(GlobalVariables.PackagesInitializerName + " Removed Packages: " + string.Join(", ", finalRemoveList));
+                }
+
+                
+                resetAddRemoveRequest = Client.AddAndRemove(finalAddList, finalRemoveList);
+                EditorApplication.update += ResetAddRemoveRequest;
+                AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            }
+        }
         internal static VisualElement PackageInitializerVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
@@ -242,6 +352,27 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             disablePackageInitializer.value = true;
 
+            VisualElement savePathContainer = new VisualElement();
+            savePathContainer.style.flexDirection = FlexDirection.Row;
+            savePathContainer.style.marginLeft = globalMarginLeftRight;
+            savePathContainer.style.marginRight = globalMarginLeftRight;
+            savePathContainer.style.marginBottom = globalMiniBottomMargin;
+
+            Label savePathLabel = new Label("Save Path: ");
+
+            savePathLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+
+
+            TextField savePathTextField = new TextField();
+            savePathTextField.style.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.3f);
+            savePathTextField.value = savePath;
+            savePathTextField.style.whiteSpace = WhiteSpace.Normal;
+            savePathTextField.style.flexShrink = 1f;
+            savePathTextField.isReadOnly = true;
+            savePathTextField.selectAllOnMouseUp = true;
+            savePathTextField.multiline = true;
+
+
 
             WholePackageInitializerContainer = new VisualElement();
             disablePackageInitializer.RegisterCallback<ChangeEvent<bool>>(evt =>
@@ -264,7 +395,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             {
                 listBuiltInPackages = Client.List(false, true);
                 EditorApplication.update += ListBuiltInPackagesProgress;
-                EditorUtility.DisplayProgressBar(GlobalVariables.PackagesInitializerName, "Loading Built-In Packages", 0.5f);
+                EditorUtility.DisplayProgressBar(GlobalVariables.PackagesInitializerName, "Loading Built-In Packages", 0.3f);
             }
             else
             {
@@ -299,25 +430,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
-            VisualElement savePathContainer = new VisualElement();
-            savePathContainer.style.flexDirection = FlexDirection.Row;
-            savePathContainer.style.marginLeft = globalMarginLeftRight;
-            savePathContainer.style.marginRight = globalMarginLeftRight;
-            savePathContainer.style.marginBottom = globalMiniBottomMargin;
-
-            Label savePathLabel = new Label("Save Path: ");
-
-            savePathLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
-
-
-            TextField savePathTextField = new TextField();
-            savePathTextField.style.color = new Color(Color.red.r, Color.red.g, Color.red.b, 0.3f);
-            savePathTextField.value = savePath;
-            savePathTextField.style.whiteSpace = WhiteSpace.Normal;
-            savePathTextField.style.flexShrink = 1f;
-            savePathTextField.isReadOnly = true;
-            savePathTextField.selectAllOnMouseUp = true;
-            savePathTextField.multiline = true;
+           
 
 
             Button updateButton = new Button();
@@ -330,6 +443,19 @@ namespace CompilerDestroyer.Editor.EditorTools
                 ListInstalledPackages();
             };
 
+            Button resetButton = new Button();
+            resetButton.text = "Reset Packages";
+            resetButton.style.marginLeft = globalMarginLeftRight;
+            resetButton.style.marginRight = globalMarginLeftRight;
+            resetButton.style.marginBottom = globalMiniBottomMargin;
+            resetButton.clicked += () =>
+            {
+                ResetPackageInitializer();
+
+                //if (EditorUtility.DisplayDialog("Reset Packages", "This will completely remove all of the updated built-in, git and asset store packages from project", "Apply", "Cancel"))
+                //{
+                //}
+            };
 
 
 
@@ -339,14 +465,17 @@ namespace CompilerDestroyer.Editor.EditorTools
             rootVisualElement.Add(toolLabelAndDisableContainer);
             savePathContainer.Add(savePathLabel);
             savePathContainer.Add(savePathTextField);
+            WholePackageInitializerContainer.Add(savePathContainer);
+            WholePackageInitializerContainer.Add(updateButton);
+            WholePackageInitializerContainer.Add(resetButton);
             WholePackageInitializerContainer.Add(builtInPackageList);
             WholePackageInitializerContainer.Add(customPackageList);
             WholePackageInitializerContainer.Add(assetStorePackageList);
-            WholePackageInitializerContainer.Add(savePathContainer);
-            WholePackageInitializerContainer.Add(updateButton);
+
             rootVisualElement.Add(WholePackageInitializerContainer);
             return rootVisualElement;
         }
+        
 
 
         // Built-In Packages
@@ -1091,6 +1220,17 @@ namespace CompilerDestroyer.Editor.EditorTools
             listInstalledPackages = Client.List(false, true);
             EditorApplication.update += ListInstalledPackagesProgress;
         }
+
+        private static void ResetAddRemoveRequest()
+        {
+            if (resetAddRemoveRequest.IsCompleted)
+            {
+
+                Debug.Log(resetAddRemoveRequest.Error.message);
+
+                EditorApplication.update -= ResetAddRemoveRequest;
+            }
+        }
         private static void AddOrRemoveProgress()
         {
             if (addRemoveOfPackageInitializer.IsCompleted)
@@ -1192,7 +1332,5 @@ namespace CompilerDestroyer.Editor.EditorTools
                 EditorUtility.ClearProgressBar();
             }
         }
-
     }
 }
-

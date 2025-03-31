@@ -3,17 +3,16 @@ using System.IO;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using CompilerDestroyer.Editor.UIElements;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    internal class CreateMetallicSmoothness
+    internal class RoughnessConverter
     {
-        private static readonly string description = "Create Metallic Smoothness Map from Metallic + Roughness Map or Smoothness Map from roughness Map!";
-
         private static Texture2D metallicMap;
         private static Texture2D roughnessMap;
 
-        private static Label metallicSmoothnessLabel;
+        private static Header rougnhessConverterLabel;
         private static ObjectField metallicField;
         private static ObjectField roughnessField;
 
@@ -26,26 +25,12 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement spacer = new VisualElement();
             spacer.style.height = 5f;
             spacer.style.whiteSpace = WhiteSpace.Normal;
-            rootVisualElement.Add(spacer);
 
 
-            metallicSmoothnessLabel = new Label(GlobalVariables.RoughnessConverter);
-            metallicSmoothnessLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
-            metallicSmoothnessLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            metallicSmoothnessLabel.style.fontSize = 18;
-            metallicSmoothnessLabel.style.whiteSpace = WhiteSpace.Normal;
-            metallicSmoothnessLabel.style.marginBottom = 15;
-            metallicSmoothnessLabel.style.marginLeft = globalMarginLeftRight;
-
-
-            rootVisualElement.Add(metallicSmoothnessLabel);
-
-            Label descriptionLabel = new Label(description);
-            descriptionLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
-            descriptionLabel.style.whiteSpace = WhiteSpace.Normal;
-            descriptionLabel.style.marginBottom = 10f;
-            descriptionLabel.style.marginLeft = globalMarginLeftRight;
-            rootVisualElement.Add(descriptionLabel);
+            rougnhessConverterLabel = new Header();
+            rougnhessConverterLabel.text = GlobalVariables.RoughnessConverterName;
+            rougnhessConverterLabel.style.marginBottom = 15;
+            rougnhessConverterLabel.style.marginLeft = globalMarginLeftRight;
 
             // Metallic Map Field
             VisualElement metallicRow = new VisualElement();
@@ -72,7 +57,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             metallicRow.Add(metallicLabel);
             metallicRow.Add(metallicField);
-            rootVisualElement.Add(metallicRow);
+
 
             // Roughness Map Field
             VisualElement roughnessRow = new VisualElement();
@@ -96,9 +81,6 @@ namespace CompilerDestroyer.Editor.EditorTools
             {
                 roughnessMap = evt.newValue as Texture2D;
             });
-            roughnessRow.Add(roughnessLabel);
-            roughnessRow.Add(roughnessField);
-            rootVisualElement.Add(roughnessRow);
 
 
 
@@ -126,8 +108,6 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             });
 
-
-            rootVisualElement.Add(saveLabel);
 
             // Create Button
             Button createButton = new Button();
@@ -165,9 +145,14 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             };
 
+            rootVisualElement.Add(spacer);
+            rootVisualElement.Add(rougnhessConverterLabel);
+            rootVisualElement.Add(metallicRow);
+            roughnessRow.Add(roughnessLabel);
+            roughnessRow.Add(roughnessField);
+            rootVisualElement.Add(roughnessRow);
+            rootVisualElement.Add(saveLabel);
             rootVisualElement.Add(createButton);
-
-
 
 
             return rootVisualElement;

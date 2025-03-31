@@ -4,14 +4,12 @@ using UnityEngine.UIElements;
 using UnityEngine;
 using CompilerDestroyer.Editor.UIElements;
 using CompilerDestroyer.Editor.EditorTools;
+using CompilerDestroyer.Editor.Attributes;
 
 namespace CompilerDestroyer.Editor.ToolsManager
 {
     public sealed class EditorToolsSettings : EditorWindow
     {
-        private const string toolsName = "Tools";
-        private const string documentationName = "Documentation";
-
         private static readonly Vector2 minWindowSize = new Vector2(310f, 200f);
 
         private List<TreeViewItemData<string>> projectSettingsList = new List<TreeViewItemData<string>>();
@@ -28,28 +26,31 @@ namespace CompilerDestroyer.Editor.ToolsManager
 
         public void CreateGUI()
         {
+            // Libraries
+            TreeViewItemData<string> librariesSetting = new TreeViewItemData<string>(3, GlobalVariables.LibrariesName);
+            // ----------------------
+
             // Tools
             List<TreeViewItemData<string>> toolChildren = new List<TreeViewItemData<string>>();
-            TreeViewItemData<string> textureManipulatorSetting = new TreeViewItemData<string>(0, GlobalVariables.RoughnessConverter);
-            TreeViewItemData<string> packageInitializerSetting = new TreeViewItemData<string>(1, GlobalVariables.PackagesInitializerName);
-            toolChildren.Add(textureManipulatorSetting);
+            TreeViewItemData<string> packageInitializerSetting = new TreeViewItemData<string>(0, GlobalVariables.PackagesInitializerName);
+            TreeViewItemData<string> roughnessConverterSetting = new TreeViewItemData<string>(1, GlobalVariables.RoughnessConverterName);
+
             toolChildren.Add(packageInitializerSetting);
-            TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(2, toolsName, toolChildren);
+            toolChildren.Add(roughnessConverterSetting);
+            TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(2, GlobalVariables.ToolsName, toolChildren);
+            // ----------------------
+
+
+            rootDict.Add(GlobalVariables.LibrariesName, LibrariesDocumentation.LibrariesDocumentationElement());
 
             // Tools
-
-
-            TreeViewItemData<string> documentationSetting = new TreeViewItemData<string>(3, documentationName);
-
-
-            rootDict.Add(toolsName, null);
-            rootDict.Add(GlobalVariables.RoughnessConverter, CreateMetallicSmoothness.ConvertRoughnessToMetallicSmoothnessVisualElement());
+            rootDict.Add(GlobalVariables.ToolsName, ToolsDocumentation.ToolsVisualElement());
             rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
-            rootDict.Add(documentationName, null);
+            rootDict.Add(GlobalVariables.RoughnessConverterName, RoughnessConverter.ConvertRoughnessToMetallicSmoothnessVisualElement());
 
 
+            projectSettingsList.Add(librariesSetting);
             projectSettingsList.Add(toolsSetting);
-            projectSettingsList.Add(documentationSetting);
 
             SettingsPanel settingsWindow = new SettingsPanel(ref projectSettingsList, ref rootDict);
 

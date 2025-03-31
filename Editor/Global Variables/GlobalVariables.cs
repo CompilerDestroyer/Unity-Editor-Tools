@@ -11,12 +11,16 @@ namespace CompilerDestroyer.Editor
     {
         // Project Paths
         internal const string NickName = "Compiler Destroyer";
+        internal const string ProjectName = "Editor Tools";
         internal const string PackageName = "com.compilerdestroyer.editortools";
         internal const string ProjectsPath = "Packages/" + PackageName + "/Editor/Projects";
         internal const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
 
-
-        internal const string RoughnessConverter = "Roughness Converter";
+        internal const string LibrariesName = "Libraries";
+        internal const string AttributesName = "Attributes";
+        internal const string UIElementsName = "UI Elements";
+        internal const string ToolsName = "Tools";
+        internal const string RoughnessConverterName = "Roughness Converter";
         internal const string PackagesInitializerName = "Package Initializer";
 
         internal const string UnityLogoIconName = "d_UnityLogo";

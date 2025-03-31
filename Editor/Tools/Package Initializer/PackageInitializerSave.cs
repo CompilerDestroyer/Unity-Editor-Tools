@@ -8,7 +8,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 {
 
     [FilePath(GlobalVariables.PackageName + "/packageinitializersave.binary", FilePathAttribute.Location.PreferencesFolder)]
-    public class PackageInitializerSave : ScriptableSingleton<PackageInitializerSave>
+    internal class PackageInitializerSave : ScriptableSingleton<PackageInitializerSave>
     {
         [SerializeField] internal bool isPackageInitializerEnabled = true;
         [SerializeField] internal List<Package> builtInPackages = new List<Package>();
@@ -25,22 +25,22 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
     [Serializable]
-    public class Package : IComparable<Package>
+    internal class Package : IComparable<Package>
     {
         [SerializeField] public string packageName;
         [SerializeField] internal bool shouldPackageInstalled;
 
 
-        public Package()
+        internal Package()
         {
 
         }
-        public Package(string name, bool shouldPackageInstalled)
+        internal Package(string name, bool shouldPackageInstalled)
         {
             packageName = name;
             this.shouldPackageInstalled = shouldPackageInstalled;
         }
-        
+
         public override bool Equals(object obj)
         {
             if (obj is Package other)

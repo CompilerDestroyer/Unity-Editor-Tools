@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace CompilerDestroyer.Editor.UIElements
 {
     /// <summary>
-    /// A custom visual element that represents a line. This line can be either horizontal or vertical, and its length and color can be customized.
+    /// A custom Box.
     /// </summary>
     [UxmlElement]
     public partial class InfoBox : Box
@@ -37,7 +37,6 @@ namespace CompilerDestroyer.Editor.UIElements
         /// <param name="borderRadiusOfBox">Border radius.</param>
         public InfoBox(string boxText, InfoBoxIconType infoBoxIconType, float borderRadiusOfBox)
         {
-            //style.flexDirection = FlexDirection.Column;
             style.backgroundColor = defaultBackgroundColor;
             style.borderTopLeftRadius = borderRadiusOfBox;
             style.borderTopRightRadius = borderRadiusOfBox;

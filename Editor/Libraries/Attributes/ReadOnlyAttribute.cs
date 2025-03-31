@@ -1,25 +1,32 @@
-﻿namespace CompilerDestroyer.Editor.Attributes
+﻿using UnityEngine;
+using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+
+namespace CompilerDestroyer.Editor.Attributes
 {
-    using UnityEngine;
-    using UnityEditor;
+    /// <summary>
+    /// ReadOnly attribute to make properties non-editable in the Inspector.
+    /// </summary>
+    public class ReadOnlyAttribute : PropertyAttribute { }
 
-    public class ReadOnlyAttribute : PropertyAttribute
-    {
-    }
-
+    /// <summary>
+    /// Custom UIElements PropertyDrawer for ReadOnlyAttribute.
+    /// </summary>
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyPropertyDrawer : PropertyDrawer
     {
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            return EditorGUI.GetPropertyHeight(property, label, true);
-        }
+            VisualElement container = new VisualElement();
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            GUI.enabled = false;
-            EditorGUI.PropertyField(position, property, label, true);
-            GUI.enabled = true;
+            PropertyField propertyField = new PropertyField(property);
+
+            propertyField.SetEnabled(false);
+
+            container.Add(propertyField);
+
+            return container;
         }
     }
 }
