@@ -120,7 +120,6 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static ListView assetStorePackagesListView;
 
 
-
         [InitializeOnLoadMethod]
         private static void InitializePackage()
         {
@@ -137,8 +136,14 @@ namespace CompilerDestroyer.Editor.EditorTools
                 if (PackageInitializerSave.instance != null)
                 {
                     char sepChar = Path.DirectorySeparatorChar;
-                    string path = Path.GetDirectoryName(Application.dataPath) + sepChar + GlobalVariables.PackageName + sepChar + GlobalVariables.PackagesInitializerName + ".flag";
-                    Debug.Log(path);
+                    string folder = Path.GetDirectoryName(Application.dataPath) + sepChar + GlobalVariables.DomainName;
+                    string path = folder + sepChar + GlobalVariables.PackagesInitializerName + ".flag";
+
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+
                     if (!File.Exists(path))
                     {
                         // Run
@@ -149,7 +154,11 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
-
+        [MenuItem("Tool/haha")]
+        static void hah()
+        {
+           
+        }
         private static void UpdateProjectPackagesAccordingToPackageInitializer()
         {
             List<string> addList = new List<string>();

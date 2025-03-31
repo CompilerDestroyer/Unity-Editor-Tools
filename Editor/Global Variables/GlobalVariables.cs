@@ -12,7 +12,8 @@ namespace CompilerDestroyer.Editor
         // Project Paths
         internal const string NickName = "Compiler Destroyer";
         internal const string ProjectName = "Editor Tools";
-        internal const string PackageName = "com.compilerdestroyer.editortools";
+        internal const string DomainName = "com.compilerdestroyer";
+        internal const string PackageName = DomainName + ".editortools";
         internal const string ProjectsPath = "Packages/" + PackageName + "/Editor/Projects";
         internal const string ProjectManagementPath = "Packages/" + PackageName + "/Editor/Project Managements";
 
