@@ -21,51 +21,51 @@
   <tbody>
     <tr>
       <td><a href="#Libraries">Libraries</a></td>
-      <td>How to install Unity Editor Visual using local or Git-based methods</td>
+      <td></td>
     </tr>
       <tr>
       <td>&nbsp;&nbsp;<a href="#Attributes">Attributes</a></td>
-      <td>How to install Unity Editor Visual using local or Git-based methods</td>
+      <td>Change fields and Methods functionality with attributes</td>
     </tr>
       <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--ReadonlyAttribute">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>Allows you to make fields readonly</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;<a href="#UI-Elements">UI Elements</a></td>
-      <td></td>
+      <td>Custom UI Elements</td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--Header">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>Basic general label for headers. Default font size is 18</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--InfoBox">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>"A custom box, InfoBoxIconType can be used to determine icon type</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--Line">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>Can be used to draw lines</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--SettingsPanel">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>You can use SettingsPanel to create unity's project settings like UIElements</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--ToolbarSearchPanel">Readonly fields</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>Same as ToolbarSearchField but search implemented with strings</td>
     </tr>
     <tr>
       <td><a href="#Tools">Tools</a></td>
-      <td>Overview of available customization packages</td>
+      <td></td>
     </tr>
     <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--Package-Initializer">Folder Icons</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>Automatically install or remove packages based on the settings</td>
     </tr>
        <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--Roughness-Converter">Folder Icons</a></td>
-      <td>Customize folder visuals with custom icons</td>
+      <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
     </tr>
     <tr>
       <td><a href="#Utilities">Support</a></td>
