@@ -98,7 +98,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <h2 align="center">Libraries</h2>
 
-$${\color{red}Red}$$
+$${\color{grey}Red}$$
 
 <hr style="border: 0.2px solid lightgray;">
 
