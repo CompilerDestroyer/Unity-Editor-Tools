@@ -100,14 +100,6 @@
 https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ```
 </div>
-
-<div align="center">
-  When you install it using a Git URL, Editor Visual will embed itself as a package and create its files inside the <code>Packages</code> folder to keep the <code>Assets</code> folder clean.
-</div>
-<div align="center">
-When removing it, make sure to remove both the embedded Unity Editor Visual package and the Git-based Unity Editor Visual package.
-</div>
-
 <br>
 <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
