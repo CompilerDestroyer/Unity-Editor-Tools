@@ -99,7 +99,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 <h3 align="left">Attributes</h3>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly.</p>
 
 ```csharp
     [ReadOnly] public int health;
@@ -107,25 +107,27 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <h3 align="left">UI Elements</h3>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Basic general label for headers. Default font size is 18.</p>
 
 ```csharp
 Header header = new Header("Basic Header");
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
-
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A custom box. InfoBoxIconType can be used to determine icon type.</p>
 ```cs
 InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A line that can be used to draw lines.</p>
 
 ```csharp
 Line line = new Line(4f, false, Color.red);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
-
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You can use SettingsPanel to create Unity's project settings-like UIElements. In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
 
 ```cs
 List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
@@ -141,6 +143,7 @@ SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- ToolbarSearchFieldPanel</h5>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Same as ToolbarSearchField but search implemented with strings.</p>
 
 ```cs
 List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
