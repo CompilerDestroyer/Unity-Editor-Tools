@@ -48,11 +48,11 @@
       <td>Can be used to draw lines</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--SettingsPanel">SettingsPanel</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4--SettingsPanel">SettingsPanel</a></td>
       <td>You can use SettingsPanel to create unity's project settings like UIElements</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--ToolbarSearchPanel">ToolbarSearchPanel</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5--ToolbarSearchPanel">ToolbarSearchPanel</a></td>
       <td>Same as ToolbarSearchField but search implemented with strings</td>
     </tr>
     <tr>
