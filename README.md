@@ -105,6 +105,10 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly</p>
 
+```cs
+    [ReadOnly] public int health;
+```
+
 <h3 align="left">UI Elements</h3>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
