@@ -134,7 +134,8 @@ Line line = new Line(4f, false, Color.red);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
-<p>You can use SettingsPanel to create Unity's project settings-like UIElements. In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
+<p>You can use SettingsPanel to create Unity's project settings-like UIElements.
+ In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
 
 ```cs
 List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
@@ -178,16 +179,22 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 
 <h2 align="center">Tools</h2>
 <h3 align="left">1- Package Initializer</h3>
-<p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.</p>
+<p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed.
+ For safety reasons, Asset Store packages will not be removed.</p>
 
 
 <h3 align="left">2- Roughness Converter</h3>
 
-<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map. Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
+<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.
+ Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
+
 
 <h2 align="center">Utilities</h2>
-<h3 align="left">Attributes</h3>
-<h5 align="left">&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
+<p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.
+ These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
+
+
+
 
 
 <div align="left">
