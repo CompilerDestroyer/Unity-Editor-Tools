@@ -101,17 +101,6 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ```
 </div>
 
-<p align="center">
-    <tr>
-      <td align="center">
-        <img src="https://github.com/user-attachments/assets/68f36e67-8195-455f-83dd-42d01f592b79" width="300"/>
-      </td>
-      <td align="center">
-        <img src="https://github.com/user-attachments/assets/87997059-93fb-46ea-b4d4-fde7ec82b289" width="300"/>
-      </td>
-    </tr>
-</p>
-
 <div align="center">
   When you install it using a Git URL, Editor Visual will embed itself as a package and create its files inside the <code>Packages</code> folder to keep the <code>Assets</code> folder clean.
 </div>
