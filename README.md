@@ -97,7 +97,8 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <h2 align="center">Libraries</h2>
-<sub><sup>This is gray text.</sup></sub>
+<span style="color:gray">This is gray text.</span>
+
 
 <hr style="border: 0.2px solid lightgray;">
 
