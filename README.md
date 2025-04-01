@@ -55,8 +55,6 @@
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--ToolbarSearchPanel">Readonly fields</a></td>
       <td>Customize folder visuals with custom icons</td>
     </tr>
-
-   
     <tr>
       <td><a href="#Tools">Tools</a></td>
       <td>Overview of available customization packages</td>
