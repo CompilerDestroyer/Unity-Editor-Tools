@@ -120,7 +120,7 @@ Header header = new Header("Basic Header");
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;A custom box. InfoBoxIconType can be used to determine icon type.</p>
+<p>A custom box. InfoBoxIconType can be used to determine icon type.</p>
 
 ```cs
 InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
