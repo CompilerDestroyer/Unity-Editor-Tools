@@ -41,7 +41,7 @@
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--InfoBox">InfoBox</a></td>
-      <td>"A custom box, InfoBoxIconType can be used to determine icon type</td>
+      <td>A custom box, InfoBoxIconType can be used to determine icon type</td>
     </tr>
      <tr>
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--Line">Line</a></td>
