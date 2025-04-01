@@ -9,7 +9,7 @@
 <br>
 
 <!-- ----------------------------------------------------Table of Contents----------------------------------------------------- -->
-<h2 align="center">Table of Contents</h2>
+Table of Contents
 
 <table align="center" border="1" cellpadding="10" cellspacing="0">
   <thead>
@@ -75,10 +75,10 @@
 
 
 <!----------------------------------------------------Installation Part------------------------------------------------------------------ -->
-<h2 align="center">Installation</h2>
+Installation
 
 <!--Local Installation Part-->
- <p align= "center"> Unity Editor Tools can be installed locally with unity package manager </p>
+ Unity Editor Tools can be installed locally with unity package manager
 
 <!--Git Installation Part-->
 <br>
