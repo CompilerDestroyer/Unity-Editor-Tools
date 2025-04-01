@@ -146,7 +146,7 @@ itemsVisualElementsDict.Add("Example 2", new Label("I am example 2"));
 SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;5- ToolbarSearchFieldPanel</h5>
+<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;5- ToolbarSearchPanel</h5>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;Same as ToolbarSearchField but search implemented with strings.</p>
 
 ```cs
