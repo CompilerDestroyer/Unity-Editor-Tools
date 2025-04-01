@@ -175,12 +175,12 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 
 <h2 align="center">Tools</h2>
 <h3 align="left">1- Package Initializer</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Package Initializer will automatically install or remove built-in and Git packages based on the enabled. Toggles in the settings when editor tools is first installed. For safety reasons, Asset Store packages will only be installed, and any untoggled Asset Store packages will not be removed.</p>
 
-Package Initializer will automatically install or remove built-in and Git packages based on the enabled. toggles in the settings when editor tools is first installed. For safety reasons, Asset Store packages will only be installed, and any untoggled Asset Store packages will not be removed.
 
 <h3 align="left">2- Roughness Converter</h3>
-"The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map. Alternatively, you can create a Smoothness Map directly from a Roughness Map.
 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map. Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
 
 <h2 align="center">Utilities</h2>
 <h3 align="left">Attributes</h3>
