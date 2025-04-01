@@ -24,7 +24,7 @@
       <td>How to install Unity Editor Visual using local or Git-based methods</td>
     </tr>
       <tr>
-      <td><a href="#Attributes">Attributes</a></td>
+      <td>&nbsp;&nbsp;<a href="#Attributes">Attributes</a></td>
       <td>How to install Unity Editor Visual using local or Git-based methods</td>
     </tr>
       <tr>
