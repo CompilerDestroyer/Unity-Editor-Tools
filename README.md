@@ -83,20 +83,16 @@
 <!--Git Installation Part-->
 <br>
 
-<div align="center">
- <p><strong>OR</strong></p>
-</div>
 
-<br>
+OR
 
-<p align="center"> Can be installed through git link with unity package manager:</p>
-<div align="center">
+Can be installed through git link with unity package manager:
 
- ```
+
+```
 https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ```
-</div>
-<br>
+
 <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
 
@@ -126,7 +122,16 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
 ```csharp
-    SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
+    List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
+TreeViewItemData<string> example1TreeViewItemData = new TreeViewItemData<string>(0, "Example 1");
+TreeViewItemData<string> example2TreeViewItemData = new TreeViewItemData<string>(1, "Example 2");
+items.Add(example1TreeViewItemData);
+items.Add(example2TreeViewItemData);
+Dictionary<string, VisualElement> itemsVisualElementsDict = new Dictionary<string, VisualElement>();
+itemsVisualElementsDict.Add("Example 1", new Label("I am example 1"));
+itemsVisualElementsDict.Add("Example 2", new Label("I am example 2"));
+
+SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- ToolbarSearchFieldPanel</h5>
