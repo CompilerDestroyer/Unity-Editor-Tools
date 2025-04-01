@@ -32,9 +32,31 @@
       <td>Customize folder visuals with custom icons</td>
     </tr>
      <tr>
-      <td><a href="#UI-Elements">UI Elements</a></td>
+      <td>&nbsp;&nbsp;<a href="#UI-Elements">UI Elements</a></td>
       <td></td>
     </tr>
+    <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--Header">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+     <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--InfoBox">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+     <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--Line">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+     <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--SettingsPanel">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+     <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--ToolbarSearchPanel">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+
+   
     <tr>
       <td><a href="#Tools">Tools</a></td>
       <td>Overview of available customization packages</td>
