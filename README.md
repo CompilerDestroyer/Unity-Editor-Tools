@@ -60,11 +60,11 @@
       <td></td>
     </tr>
     <tr>
-      <td>>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--Package-Initializer">Package Initializer</a></td>
+      <td>&nbsp;&nbsp;<a href="#1--Package-Initializer">Package Initializer</a></td>
       <td>Automatically install or remove packages based on the settings</td>
     </tr>
        <tr>
-      <td>>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--Roughness-Converter">Roughness Converter</a></td>
+      <td>&nbsp;&nbsp;<a href="#2--Roughness-Converter">Roughness Converter</a></td>
       <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
     </tr>
   </tbody>
