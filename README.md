@@ -134,7 +134,7 @@ Line line = new Line(4f, false, Color.red);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;You can use SettingsPanel to create Unity's project settings-like UIElements. In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
+<p>You can use SettingsPanel to create Unity's project settings-like UIElements. In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
 
 ```cs
 List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
