@@ -105,28 +105,28 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly</p>
 
-```cs
+```csharp
     [ReadOnly] public int health;
 ```
 
 <h3 align="left">UI Elements</h3>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
-```cs
+```csharp
     Header header = new Header("Basic Header");
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
-```cs
+```csharp
     InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
-```cs
+```csharp
     Line line = new Line(4f, false, Color.red);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
-```
+```csharp
     SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
