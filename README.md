@@ -28,7 +28,7 @@
       <td>Change fields and Methods functionality with attributes</td>
     </tr>
       <tr>
-      <td><a href="#1--ReadonlyAttribute">ReadonlyAttribute</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#1--ReadonlyAttribute">ReadonlyAttribute</a></td>
       <td>Allows you to make fields readonly</td>
     </tr>
      <tr>
@@ -36,23 +36,23 @@
       <td>Custom UI Elements</td>
     </tr>
     <tr>
-      <td><a href="#1--Header">Header</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#1--Header">Header</a></td>
       <td>Basic general label for headers. Default font size is 18</td>
     </tr>
      <tr>
-      <td><a href="#2--InfoBox">InfoBox</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#2--InfoBox">InfoBox</a></td>
       <td>"A custom box, InfoBoxIconType can be used to determine icon type</td>
     </tr>
      <tr>
-      <td><a href="#3--Line">Line</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#3--Line">Line</a></td>
       <td>Can be used to draw lines</td>
     </tr>
      <tr>
-      <td><a href="#4--SettingsPanel">SettingsPanel</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#4--SettingsPanel">SettingsPanel</a></td>
       <td>You can use SettingsPanel to create unity's project settings like UIElements</td>
     </tr>
      <tr>
-      <td><a href="#5--ToolbarSearchPanel">ToolbarSearchPanel</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#5--ToolbarSearchPanel">ToolbarSearchPanel</a></td>
       <td>Same as ToolbarSearchField but search implemented with strings</td>
     </tr>
     <tr>
@@ -60,11 +60,11 @@
       <td></td>
     </tr>
     <tr>
-      <td><a href="#1--Package-Initializer">Package Initializer</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#1--Package-Initializer">Package Initializer</a></td>
       <td>Automatically install or remove packages based on the settings</td>
     </tr>
        <tr>
-      <td><a href="#2--Roughness-Converter">Roughness Converter</a></td>
+      <td>>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#2--Roughness-Converter">Roughness Converter</a></td>
       <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
     </tr>
   </tbody>
@@ -102,7 +102,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <hr style="border: 0.2px solid lightgray;">
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly.</p>
+<p>Allows you to make fields readonly.</p>
 
 ```csharp
     [ReadOnly] public int health;
@@ -113,7 +113,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <hr style="border: 0.2px solid lightgray;">
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Basic general label for headers. Default font size is 18.</p>
+<p>Basic general label for headers. Default font size is 18.</p>
 
 ```csharp
 Header header = new Header("Basic Header");
@@ -127,7 +127,7 @@ InfoBox infoBox = new InfoBox("An infobox can be used to give information", Info
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;A line that can be used to draw lines.</p>
+<p>A line that can be used to draw lines.</p>
 
 ```csharp
 Line line = new Line(4f, false, Color.red);
@@ -150,7 +150,7 @@ SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;5- ToolbarSearchPanel</h5>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Same as ToolbarSearchField but search implemented with strings.</p>
+<p>Same as ToolbarSearchField but search implemented with strings.</p>
 
 ```cs
 List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
@@ -178,12 +178,12 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 
 <h2 align="center">Tools</h2>
 <h3 align="left">1- Package Initializer</h3>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.</p>
+<p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.</p>
 
 
 <h3 align="left">2- Roughness Converter</h3>
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map. Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
+<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map. Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
 
 <h2 align="center">Utilities</h2>
 <h3 align="left">Attributes</h3>
