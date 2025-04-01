@@ -109,19 +109,19 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
 
 ```csharp
-    Header header = new Header("Basic Header");
+Header header = new Header("Basic Header");
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
 
 ```cs
-    InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
+InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
 
 ```csharp
-    Line line = new Line(4f, false, Color.red);
+Line line = new Line(4f, false, Color.red);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
