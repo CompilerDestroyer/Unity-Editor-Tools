@@ -97,7 +97,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <h2 align="center">Libraries</h2>
-<span style="background-color:#f6f8fa; color:#24292f; padding:2px 6px; border-radius:4px; border:1px solid #d0d7de;">Grey Label</span>
+`Grey Label`
 
 <hr style="border: 0.2px solid lightgray;">
 
