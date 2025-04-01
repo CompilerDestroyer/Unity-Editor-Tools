@@ -99,7 +99,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 <h3 align="left">Attributes</h3>
 
----
+<hr style="border: 0.5px solid lightgray;">
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;Allows you to make fields readonly.</p>
