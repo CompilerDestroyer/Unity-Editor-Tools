@@ -67,10 +67,6 @@
       <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--Roughness-Converter">Roughness Converter</a></td>
       <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
     </tr>
-    <tr>
-      <td><a href="#Utilities">Support</a></td>
-      <td>Where to report bugs or request help</td>
-    </tr>
   </tbody>
 </table>
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
