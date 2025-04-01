@@ -16,15 +16,18 @@ namespace CompilerDestroyer.Editor.Utilities
         private static string currentPackageName;
 
 
-        public static void ApplyOnPackageRegistered()
-        {
-            Events.registeredPackages += OnPackagesRegisteredCheckDependencies;
-        }
+        // Example usage
+        //public static void ApplyOnPackageRegistered()
+        //{
+        //    Events.registeredPackages += OnPackagesRegisteredCheckDependencies;
+        //}
 
         /// <summary>
-        /// In order to use this you should add this function to unity's "Events.registeredPackages"
+        /// Checks "gitDependencies={}" from package.json files automatically. If it is null this does nothing. In order to use this you should add this to 
+        /// Events.registeredPackages += OnPackagesRegisteredCheckDependencies;
+        /// You can copy this scripts into your packages or repositories to use it.
         /// </summary>
-        /// <param name="packageRegistrationInfo"></param>
+        /// <param name="packageRegistrationInfo">This will be used for Events.registeredPackages.</param>
         public static void OnPackagesRegisteredCheckDependencies(PackageRegistrationEventArgs packageRegistrationInfo)
         {
             List<string> dependencies = new List<string>();

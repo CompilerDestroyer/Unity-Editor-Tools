@@ -34,6 +34,15 @@ namespace CompilerDestroyer.Editor
         internal const string UnityWarnIconName = "Warning@2x";
         internal const string UnityInstalledIconName = "Installed@2x";
 
+        internal static string variableColorHexaDec = "#80B6B3";
+        internal static string classColorHexaDec = "#4EC393";
+        internal static string structColorHexaDec = "#81B87C";
+        internal static string typeColorHexaDec = "#54879A";
+        internal static string stringColorHexaDec = "#CC9074";
+        internal static string enumColorHexaDec = "#98BF79";
+        internal static string floatColorHexaDec = "#AFC69C";
+        internal static string methodColorHexaDec = "#CCD090";
+
 
         internal static readonly string ListViewFoldoutStyleName = "unity-list-view__foldout-header";
 

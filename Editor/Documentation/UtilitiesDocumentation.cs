@@ -9,16 +9,20 @@ namespace CompilerDestroyer.Editor.Utilities
         private static readonly float marginLeftRight = 15f;
 
         private static readonly string RemoveScriptingDefineSymbolsFromBuildInfo =
-            $"Add scripting define symbols to <color=#4EC393>{nameof(RemoveScriptingDefineSymbolsFromBuild)}</color>.{nameof(RemoveScriptingDefineSymbolsFromBuild.defines)} list. " +
-            $"These symbols will be automatically removed during the build process, " +
-            $"but restored afterwards to maintain your development environment settings.";
+            $"Add scripting define symbols to <color=#4EC393>{nameof(RemoveScriptingDefineSymbolsFromBuild)}</color>.{nameof(RemoveScriptingDefineSymbolsFromBuild.defines)}" +
+            "list.\n" + $"These symbols will be automatically removed during the build process, " + 
+            "but restored afterwards to maintain your development environment settings.";
 
         private static readonly string GitDependencyManagerInfo =
-            $"Automatically checks for and installs git dependencies listed in <color=#4EC393>package.json</color> files.\n\n" +
-            $"• Detects new packages added via Unity's Package Manager\n" +
-            $"• Parses <color=#4EC393>gitDependencies</color> from package.json\n" +
-            $"• Prompts to install missing dependencies (unless in batch mode)\n" +
-            $"• Cleanly handles installation progress and completion";
+            "Automatically checks for and installs git dependencies listed in <color=#4EC393>package.json</color> files.\n\n" +
+            "• Detects new packages added via Unity's Package Manager\n" +
+            "• Parses <color=#4EC393>gitDependencies</color> from package.json\n" +
+            "• Prompts to install missing dependencies (unless in batch mode)\n";
+
+        private static readonly string GitDependencyManagerInfo2 = "Checks \"gitDependencies={}\" from package.json files automatically. If it is null this does nothing.\n" +
+            $" In order to use this you should add this to <color={GlobalVariables.classColorHexaDec}>Events</color>.registeredPackages += " +
+            $"<color={GlobalVariables.methodColorHexaDec}>OnPackagesRegisteredCheckDependencies</color>; You can copy this scripts into your packages" +
+            " or repositories to use it.";
 
 
         internal static VisualElement UtilitiesVisualElement()
@@ -33,9 +37,11 @@ namespace CompilerDestroyer.Editor.Utilities
             utilitiesHeader.style.marginRight = marginLeftRight;
 
 
-
-            VisualElement RemoveScriptingDefineSymbolsFromBuildDocumentation = MakeDocumentationElement(GlobalVariables.RemoveDefineSymbolsFromBuildName, RemoveScriptingDefineSymbolsFromBuildInfo);
-            VisualElement GitDependencyManagerDocumentation = MakeDocumentationElement(GlobalVariables.GitDependencyManagerName, GitDependencyManagerInfo);
+            string coloredRemoveDefineSymbolName = $"<color={GlobalVariables.classColorHexaDec}>{GlobalVariables.RemoveDefineSymbolsFromBuildName}</color>";
+            VisualElement RemoveScriptingDefineSymbolsFromBuildDocumentation = MakeDocumentationElement(coloredRemoveDefineSymbolName, RemoveScriptingDefineSymbolsFromBuildInfo);
+            
+            string coloredGitDependencyManagerName = $"<color={GlobalVariables.classColorHexaDec}>{GlobalVariables.GitDependencyManagerName}</color>";
+            VisualElement GitDependencyManagerDocumentation = MakeDocumentationElement(coloredGitDependencyManagerName, GitDependencyManagerInfo2);
 
 
             rootVisualElement.Add(utilitiesHeader);
