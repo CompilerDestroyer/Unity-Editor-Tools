@@ -178,7 +178,7 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 
 <h2 align="center">Tools</h2>
 <h3 align="left">1- Package Initializer</h3>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;Package Initializer will automatically install or remove built-in and Git packages based on the enabled. Toggles in the settings when editor tools is first installed. For safety reasons, Asset Store packages will only be installed, and any untoggled Asset Store packages will not be removed.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.</p>
 
 
 <h3 align="left">2- Roughness Converter</h3>
