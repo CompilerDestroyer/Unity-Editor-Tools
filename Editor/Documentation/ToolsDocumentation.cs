@@ -4,7 +4,7 @@ using CompilerDestroyer.Editor.UIElements;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    internal class ToolsDocumentation
+    internal sealed class ToolsDocumentation
     {
         private static readonly float marginLeftRight = 15f;
         private static readonly string packagesInitializerInfo =

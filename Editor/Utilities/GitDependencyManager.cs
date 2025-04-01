@@ -10,7 +10,7 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace CompilerDestroyer.Editor.Utilities
 {
-    public class GitDependencyManager
+    public sealed class GitDependencyManager
     {
         private static AddAndRemoveRequest packageInstallationRequest;
         private static string currentPackageName;

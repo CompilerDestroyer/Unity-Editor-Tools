@@ -8,7 +8,7 @@ using CompilerDestroyer.Editor.Utilities;
 
 namespace CompilerDestroyer.Editor.ToolsManager
 {
-    public sealed class EditorToolsSettings : EditorWindow
+    internal sealed class EditorToolsSettings : EditorWindow
     {
         private static readonly Vector2 minWindowSize = new Vector2(310f, 200f);
 

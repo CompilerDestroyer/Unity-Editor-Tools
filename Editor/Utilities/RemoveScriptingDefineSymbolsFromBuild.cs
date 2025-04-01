@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CompilerDestroyer.Editor.Utilities
 {
-    public class RemoveScriptingDefineSymbolsFromBuild : IPreprocessBuildWithReport, IPostprocessBuildWithReport
+    public sealed class RemoveScriptingDefineSymbolsFromBuild : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         public int callbackOrder => 0;
 

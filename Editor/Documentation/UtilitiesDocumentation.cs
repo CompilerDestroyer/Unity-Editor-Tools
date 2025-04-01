@@ -4,7 +4,7 @@ using CompilerDestroyer.Editor.UIElements;
 
 namespace CompilerDestroyer.Editor.Utilities
 {
-    internal class UtilitiesDocumentation
+    internal sealed class UtilitiesDocumentation
     {
         private static readonly float marginLeftRight = 15f;
 

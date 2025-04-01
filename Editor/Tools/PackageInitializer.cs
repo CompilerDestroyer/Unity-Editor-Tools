@@ -11,7 +11,7 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    internal class PackageInitializer
+    internal sealed class PackageInitializer
     {
         private static readonly string BuiltInListViewName = "Built-In Packages";
         private static readonly string GitListViewName = "Git Packages";

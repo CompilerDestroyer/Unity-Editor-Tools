@@ -7,7 +7,7 @@ using CompilerDestroyer.Editor.UIElements;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    internal class RoughnessConverter
+    internal sealed class RoughnessConverter
     {
         private static Texture2D metallicMap;
         private static Texture2D roughnessMap;
