@@ -20,7 +20,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="#Libraries">Libraries</a></td>
+      <td><a href="#Libraries">📚Libraries</a></td>
       <td></td>
     </tr>
       <tr>
