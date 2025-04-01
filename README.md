@@ -143,27 +143,27 @@ SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- ToolbarSearchFieldPanel</h5>
 
 ```cs
-            List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
-            List<string> resultList = new List<string>();
+List<string> toolbarSearchList = new List<string>() { "Level Editor", "Terrain Licker", "Inspector Destroyer", "Mesh Consumer" };
+List<string> resultList = new List<string>();
 
-            VisualElement searchBarContainer = new VisualElement();
+VisualElement searchBarContainer = new VisualElement();
 
 
-            ListView listView = new ListView(toolbarSearchList, 15);
-            listView.makeItem = () => new Label();
-            listView.bindItem = (element, index) => (element as Label).text = listView.itemsSource[index] as string;
+ListView listView = new ListView(toolbarSearchList, 15);
+listView.makeItem = () => new Label();
+listView.bindItem = (element, index) => (element as Label).text = listView.itemsSource[index] as string;
 
-            void OnEmpty()
-            {
-                listView.itemsSource = toolbarSearchList;
-                listView.Rebuild();
-            }
-            void OnFilled()
-            {
-                listView.itemsSource = resultList;
-                listView.Rebuild();
-            }
-            ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList, resultList, OnEmpty, OnFilled);
+void OnEmpty()
+{
+    listView.itemsSource = toolbarSearchList;
+    listView.Rebuild();
+}
+void OnFilled()
+{
+    listView.itemsSource = resultList;
+    listView.Rebuild();
+}
+ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList, resultList, OnEmpty, OnFilled);
 ```
 
 <h2 align="center">Tools</h2>
