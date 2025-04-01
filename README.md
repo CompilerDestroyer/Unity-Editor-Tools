@@ -82,17 +82,7 @@
 <h2 align="center">Installation</h2>
 
 <!--Local Installation Part-->
- <p align= "center"> Unity Editor Visual can be installed locally with unity package manager: </p>
-<p align="center">
-    <tr>
-      <td align="center">
-        <img src="https://github.com/user-attachments/assets/0aa5eca3-5b8b-4b27-8473-ab575938763b" width="300"/>
-      </td>
-      <td align="center">
-        <img src="https://github.com/user-attachments/assets/eda0cbbd-0ea2-4218-89ea-9fc0a62a151a" width="300"/>
-      </td>
-    </tr>
-</p>
+ <p align= "center"> Unity Editor Tools can be installed locally with unity package manager </p>
 
 <!--Git Installation Part-->
 <br>
