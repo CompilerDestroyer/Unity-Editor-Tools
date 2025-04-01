@@ -111,36 +111,24 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <div align="left">
 <p align="left">To open Settings, "Tools/Compiler Destroyer/Editor Visual":</p>
 
-<img align="center" src="https://github.com/user-attachments/assets/97429118-fd5b-4431-9d3d-28fa47af7fbb">
 </div>
 <br>
 
 <div align="left">
 <p align="left">You can create icon sets. Icon sets allow you to define icon data, which can later be used to easily assign icons to folders by simply renaming the folders: </p>
-<img align="center" src=https://github.com/user-attachments/assets/9f7e408f-7e8b-4191-a2f1-605dfe8e22fa>
-</div>
-
-![image](https://github.com/user-attachments/assets/1802cc69-aede-471e-8eab-7da52f914412)
-
-
-<br>
 
 <div align="left">
 <p align="left">You can save all current icons and icon sets and you can reset everything to default:</p>
-<img align="center" src="https://github.com/user-attachments/assets/a650eecf-a29f-495b-b2f2-7d6a2c52d2df">
+
 </div>
 <br>
 
 <div align="left">
 <p align="left">You can delete folder icons from Unity Editor Visual. This is useful for if you only a bunch of projects:</p>
-<img align="center" src="https://github.com/user-attachments/assets/0ecce979-8d20-4183-bf35-8ebaa4e10de9">
 </div>
 
 <br>
 <br>
-<br>
-<br>
-
 
 <p><strong>Development of new unity editor visuals will continue in the future.</strong></p>
 
