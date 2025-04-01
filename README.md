@@ -97,7 +97,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <h2 align="center">Libraries</h2>
-<h3 align="left" style="display: inline;">Attributes</h3> <span style="color: gray;">(Some grey text here)</span>
+<h3 align="left">Attributes</h3> <sub><sup><span style="color: gray;">Some grey text here</span></sup></sub>
 
 
 <hr style="border: 0.2px solid lightgray;">
