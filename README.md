@@ -121,8 +121,10 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
+
+
 ```csharp
-    List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
+List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
 TreeViewItemData<string> example1TreeViewItemData = new TreeViewItemData<string>(0, "Example 1");
 TreeViewItemData<string> example2TreeViewItemData = new TreeViewItemData<string>(1, "Example 2");
 items.Add(example1TreeViewItemData);
