@@ -111,11 +111,13 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
-```csharp
+
+```cs
     InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
 ```
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
+
 ```csharp
     Line line = new Line(4f, false, Color.red);
 ```
@@ -123,7 +125,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
 
 
-```csharp
+```cs
 List<TreeViewItemData<string>> items = new List<TreeViewItemData<string>>();
 TreeViewItemData<string> example1TreeViewItemData = new TreeViewItemData<string>(0, "Example 1");
 TreeViewItemData<string> example2TreeViewItemData = new TreeViewItemData<string>(1, "Example 2");
