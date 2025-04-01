@@ -9,7 +9,7 @@
 <br>
 
 <!-- ----------------------------------------------------Table of Contents----------------------------------------------------- -->
-Table of Contents
+## Table of Contents
 
 <table align="center" border="1" cellpadding="10" cellspacing="0">
   <thead>
@@ -75,7 +75,7 @@ Table of Contents
 
 
 <!----------------------------------------------------Installation Part------------------------------------------------------------------ -->
-Installation
+## Installation
 
 <!--Local Installation Part-->
  Unity Editor Tools can be installed locally with unity package manager
