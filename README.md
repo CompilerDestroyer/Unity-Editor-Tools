@@ -164,7 +164,7 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
 
 
 <h2 align="center">Utilities</h2>
-<h3 align="left">2- GitDependencyManager</h3>
+<h3 align="left">1- GitDependencyManager</h3>
 <p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.<br>
  These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
 
