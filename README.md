@@ -23,20 +23,21 @@
       <td><a href="#libraries">Libraries</a></td>
       <td></td>
     </tr>
-      <tr>
-      <td>&nbsp;&nbsp;<a href="#attributes">Attributes</a></td>
+    <tr>
+      <td><a href="#attributes">Attributes</a></td>
       <td>Change fields and Methods functionality with attributes</td>
     </tr>
-     <tr>
-      <td>&nbsp;&nbsp;<a href="#ui-elements">UI Elements</a></td>
+    <tr>
+      <td><a href="#ui-elements">UI Elements</a></td>
       <td>Custom UI Elements</td>
     </tr>
     <tr>
       <td><a href="#tools">Tools</a></td>
       <td></td>
-    <tr>
+    </tr> <!-- ✅ Correctly closed the row here -->
   </tbody>
 </table>
+
 
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
