@@ -34,7 +34,6 @@
     <tr>
       <td><a href="#tools">Tools</a></td>
       <td></td>
-    </tr>
     <tr>
   </tbody>
 </table>
