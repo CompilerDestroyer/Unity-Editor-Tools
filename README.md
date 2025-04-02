@@ -79,7 +79,6 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <h2 align="center">Libraries</h2>
-<br>
 <h3>Attributes</h3>
 
 ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
