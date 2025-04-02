@@ -100,9 +100,10 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 
-<div style= "display: flex; gap: 1rem;">
+<div class= "flex-container">
  <h3 align="left">Attributes</h3>
-<p>anananannana</p>
+ ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
+ 
 </div>
 
 
@@ -230,3 +231,11 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
  <p align="center">You can do whatever you want. Just don't try to re-upload and sell it on anywhere.</p>
 </div>
 
+
+
+<style>
+.flex-container {
+    display: flex;
+    gap: 1rem;
+}
+</style>
