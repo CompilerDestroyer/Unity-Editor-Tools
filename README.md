@@ -109,11 +109,9 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 [ReadOnly] public int health;
 ```
 <br>
-<br>
 
 ---
 
-<br>
 <br>
 <h3>UI Elements &nbsp;&nbsp;&nbsp; ${\color{grey}namespace: CompilerDestroyer.Editor.UIElements}$</h3>
 
@@ -193,13 +191,9 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 <p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.
  Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
 
-<h3>Utilities &nbsp;&nbsp;&nbsp; ${\color{grey}namespace: CompilerDestroyer.Editor.Utilities}$</h3>
-<h2 align="center">Utilities</h2>
+<h2 align="center">Utilities ${\color{grey}namespace: CompilerDestroyer.Editor.Utilities}$</h2>
 <p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.
  These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
-
-
-
 
 
 <div align="left">
