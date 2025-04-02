@@ -182,13 +182,13 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 
 <h2 align="center">Tools</h2>
 <h3 align="left">1- Package Initializer</h3>
-<p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.<br><br>
+<p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed. For safety reasons, Asset Store packages will not be removed.<br>
 After adjusting toggle of packages, settings will be saved to default preferences path. <br>Every first install of Editor Tools will automatically update packages accordingly.<br><br>
 Package Initializer can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Package Initializer"</p>
 
 
 <h3 align="left">2- Roughness Converter</h3>
-<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.<br><br>
+<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.<br>
  Alternatively, you can create a Smoothness Map directly from a Roughness Map.<br><br>Roughness Converter can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Roughness Converter"</p>
 
 <h2 align="center">Utilities</h2>
