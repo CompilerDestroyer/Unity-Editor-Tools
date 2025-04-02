@@ -66,8 +66,6 @@
 <p>Unity Editor Tools can be installed locally with unity package manager</p>
 
 <!--Git Installation Part-->
-<br>
-
 
 <p>Or</p>
 
