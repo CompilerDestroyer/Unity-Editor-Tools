@@ -11,7 +11,7 @@
 <!-- ----------------------------------------------------Table of Contents----------------------------------------------------- -->
 ## Table of Contents
 
-<table align="left" border="1" cellpadding="10" cellspacing="0">
+<table align="center" border="1" cellpadding="10" cellspacing="0">
   <thead>
     <tr>
       <th>Section</th>
