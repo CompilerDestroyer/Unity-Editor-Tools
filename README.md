@@ -101,18 +101,15 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h3>Attributes &nbsp;&nbsp;&nbsp; ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$</h3>
 
 
-<hr style="border: 0.2px solid lightgray;">
-
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>Allows you to make fields readonly.</p>
 
 ```csharp
-    [ReadOnly] public int health;
+[ReadOnly] public int health;
 ```
 
 <h3 align="left">UI Elements</h3>
 
-<hr style="border: 0.2px solid lightgray;">
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
 <p>Basic general label for headers. Default font size is 18.</p>
