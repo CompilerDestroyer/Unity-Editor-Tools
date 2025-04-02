@@ -100,7 +100,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 
-<div class= "flex-container">
+<div align= "center">
  <h3 align="left">Attributes</h3>
  ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
  
