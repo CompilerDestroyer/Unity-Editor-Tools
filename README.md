@@ -167,7 +167,7 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
 <h3 align="left">1- GitDependencyManager</h3>
 <p>Checks gitDependencies=["https://github.com/CompilerDestroyer/Unity-Editor-Visual.git"] from package.json files automatically. If there are git repositories in there, this script ask user to install dependencies.  If it is null this does nothing. <br> In order to use this you should add this to <code>Events.registeredPackages += OnPackagesRegisteredCheckDependencies</code> You can copy this scripts into your packages or repositories to use it.</p>
 
-<h3 align="left">2- RemoveScriptingDefineSymbols</h3>
+<h3 align="left">2- RemoveScriptingDefineSymbolsFromBuild</h3>
 <p>When building the application, RemoveScriptingDefineSymbolsFromBuild removes scripting define symbols in the <code>RemoveScriptingDefineSymbolsFromBuild.define</code> list and then it is reassigns define symbols after the build process for the project ensuring that editor based define symbols is excluded from final build.</p>
  
 <div align="left">
