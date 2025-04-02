@@ -84,7 +84,7 @@
 <br>
 
 
-OR
+Or
 
 Can be installed through git link with unity package manager:
 
