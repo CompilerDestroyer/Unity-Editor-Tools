@@ -80,8 +80,6 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <h2 align="center">Libraries</h2>
 <br>
-<br>
-
 <h3>Attributes</h3>
 
 ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
@@ -176,6 +174,7 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 After adjusting toggle of packages, settings will be saved to default preferences path. <br>Every first install of Editor Tools will automatically update packages accordingly.<br><br>
 Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Tools > Tools > Package Initializer"</p>
 
+<br>
 
 <h3 align="left">2- Roughness Converter</h3>
 
@@ -213,11 +212,3 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
  <p align="center">You can do whatever you want. Just don't try to re-upload and sell it on anywhere.</p>
 </div>
 
-
-
-<style>
-.flex-container {
-    display: flex;
-    gap: 1rem;
-}
-</style>
