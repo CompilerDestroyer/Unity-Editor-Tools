@@ -27,46 +27,15 @@
       <td>&nbsp;&nbsp;<a href="#attributes">Attributes</a></td>
       <td>Change fields and Methods functionality with attributes</td>
     </tr>
-      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--readonlyattribute">ReadonlyAttribute</a></td>
-      <td>Allows you to make fields readonly</td>
-    </tr>
      <tr>
       <td>&nbsp;&nbsp;<a href="#ui-elements">UI Elements</a></td>
       <td>Custom UI Elements</td>
-    </tr>
-    <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--header">Header</a></td>
-      <td>Basic general label for headers. Default font size is 18</td>
-    </tr>
-     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--infobox">InfoBox</a></td>
-      <td>A custom box, InfoBoxIconType can be used to determine icon type</td>
-    </tr>
-     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--line">Line</a></td>
-      <td>Can be used to draw lines</td>
-    </tr>
-     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4--settingspanel">SettingsPanel</a></td>
-      <td>You can use SettingsPanel to create unity's project settings like UIElements</td>
-    </tr>
-     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5--toolbarsearchpanel">ToolbarSearchPanel</a></td>
-      <td>Same as ToolbarSearchField but search implemented with strings</td>
     </tr>
     <tr>
       <td><a href="#tools">Tools</a></td>
       <td></td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;<a href="#1--package-initializer">Package Initializer</a></td>
-      <td>Automatically install or remove packages based on the settings</td>
-    </tr>
-       <tr>
-      <td>&nbsp;&nbsp;<a href="#2--roughness-converter">Roughness Converter</a></td>
-      <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
-    </tr>
   </tbody>
 </table>
 
@@ -100,9 +69,8 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 <br>
 <br>
-<h3>Attributes &nbsp;&nbsp;&nbsp; ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$</h3>
 
-
+<h3>Attributes</h3>
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>Allows you to make fields readonly.</p>
 
