@@ -9,7 +9,7 @@
 <br>
 
 <!-- ----------------------------------------------------Table of Contents----------------------------------------------------- -->
-## Table of Contents
+<h2 align= "center">Table of Contents</h2>
 
 <table align="center" border="1" cellpadding="10" cellspacing="0">
   <thead>
