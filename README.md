@@ -21,7 +21,7 @@
   <tbody>
     <tr>
       <td><a href="#Libraries">Libraries</a></td>
-      <td>Libraries is a collection of classes, methods for Attributes and UI Elements</td>
+      <td>Libraries are a collection of classes and methods for Attributes and UI Elements</td>
     <tr>
       <td><a href="#Tools">Tools</a></td>
       <td>Tools speed up work in the Unity Editor by adding functionality and automating tasks</td>
