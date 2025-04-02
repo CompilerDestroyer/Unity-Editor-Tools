@@ -184,17 +184,17 @@ ToolbarSearchPanel toolbarSearchPanel = new ToolbarSearchPanel(toolbarSearchList
 <h3 align="left">1- Package Initializer</h3>
 <p>Package Initializer will automatically install/remove built-in, git and asset store packages based on the toggles in the settings when editor tools first installed.<br>
  For safety reasons, Asset Store packages will not be removed.
-Package Initializer can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Package Initializer
+Package Initializer can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Package Initializer"
 After adjusting toggle of packages, settings will be saved to default preferences path. <br>Every first install of Editor Tools will automatically update packages accordingly.</p>
 
 
 <h3 align="left">2- Roughness Converter</h3>
 
-<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.
+<p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.<br>
  Alternatively, you can create a Smoothness Map directly from a Roughness Map.</p>
 
 <h2 align="center">Utilities</h2>
-<p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.
+<p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.<br>
  These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
 
 
