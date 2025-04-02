@@ -100,11 +100,11 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <table border="0" cellspacing="0" cellpadding="0" style="border: none;">
-<tr>
- <td>
+<tr style="border: none;">
+ <td valign="top" width="50%" style="border: none;">
    <h3 align="left">Attributes</h3>
  </td>
-  <td>
+  <td valign="top" width="50%" style="border: none;">
  ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
  </td>
 </tr>
