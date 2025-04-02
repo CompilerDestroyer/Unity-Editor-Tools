@@ -97,9 +97,17 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 
 <h2 align="center">Libraries</h2>
-<h3 align="left">Attributes</h3>
 
-${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
+
+<div>
+ <h3 align="left">Attributes</h3>
+ ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
+</div>
+
+
+
+
+
 
 <hr style="border: 0.2px solid lightgray;">
 
