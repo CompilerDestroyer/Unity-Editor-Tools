@@ -163,12 +163,12 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
  
 
 
-<h2 align="center">Utilities</h2>
+<h2 align="left">Utilities</h2>
 <h3 align="left">1- GitDependencyManager</h3>
 <p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.<br>
  These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
 
-<h3 align="left">2- RemoveScriptingDefineSymbolsFromBuild</h3>
+<h3 align="left">2- RemoveScriptingDefineSymbols</h3>
 <p>When building the application, RemoveScriptingDefineSymbolsFromBuild removes scripting define symbols in the <code>RemoveScriptingDefineSymbolsFromBuild.define</code> list and then it is reassigns define symbols after the build process for the project ensuring that editor based define symbols is excluded from final build.</p>
  
 <div align="left">
@@ -181,15 +181,15 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
 <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
 <!-- Support -->
-<div align= "center">
-<h2 align="center">Support</h2>
-<p align="center">If you encounter any problems or bugs, create new issue in Issues page:
+<div align= "left">
+<h2 align="left">Support</h2>
+<p align="left">If you encounter any problems or bugs, create new issue in Issues page:
   <a href="https://github.com/compilerdestroyer/Unity-Editor-Tools/issues">Issues</a>
 </p>
 
-<h2 align="center">License</h2>
-<p align="center">MIT LICENSE:
+<h2 align="left">License</h2>
+<p align="left">MIT LICENSE:
 <a href="https://github.com/compilerdestroyer/Unity-Editor-Tools/blob/main/LICENSE">LICENSE</a>
- <p align="center">You can do whatever you want. Just don't try to re-upload and sell it on anywhere.</p>
+ <p align="left">You can do whatever you want. Just don't try to re-upload and sell it on anywhere.</p>
 </div>
 
