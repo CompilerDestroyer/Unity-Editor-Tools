@@ -171,7 +171,7 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
 <h3 align="left">2- RemoveScriptingDefineSymbolsFromBuild</h3>
 <p>When building the application, RemoveScriptingDefineSymbolsFromBuild removes scripting define symbols in the 
  
- ```theRemoveScriptingDefineSymbolsFromBuild.define``` list and then it is reassigns define symbols after the build process for the project ensuring that editor based define symbols is excluded from final build.</p>
+ ```RemoveScriptingDefineSymbolsFromBuild.define``` list and then it is reassigns define symbols after the build process for the project ensuring that editor based define symbols is excluded from final build.</p>
  
 <div align="left">
 
