@@ -97,10 +97,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <br>
 
-$$
-\renewcommand{\familydefault}{\sfdefault}  % Change to sans-serif font
-\textcolor{grey}{\mathsf{namespace: CompilerDestroyer.Editor.UIElements}}
-$$
+${\color{grey}namespace: CompilerDestroyer.Editor.UIElements}$
 
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
