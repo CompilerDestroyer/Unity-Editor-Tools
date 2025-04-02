@@ -104,28 +104,28 @@ ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
 
 ${\color{grey}namespace: CompilerDestroyer.Editor.UIElements}$
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- Header</h5>
+<h5 align="left">    1- Header</h5>
 <p>Basic general label for headers. Default font size is 18.</p>
 
 ```csharp
 Header header = new Header("Basic Header");
 ```
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;2- InfoBox</h5>
+<h5 align="left">    2- InfoBox</h5>
 <p>A custom box. InfoBoxIconType can be used to determine icon type.</p>
 
 ```cs
 InfoBox infoBox = new InfoBox("An infobox can be used to give information", InfoBoxIconType.Info, 3f);
 ```
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;3- Line</h5>
+<h5 align="left">    3- Line</h5>
 <p>A line that can be used to draw lines.</p>
 
 ```csharp
 Line line = new Line(4f, false, Color.red);
 ```
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;4- SettingsPanel</h5>
+<h5 align="left">    4- SettingsPanel</h5>
 <p>You can use SettingsPanel to create Unity's project settings-like UIElements.
  In order to add items, you need to use TreeViewItemData<string> and in order to add functionality to it, you need to add a VisualElement to a dictionary with the same name as TreeViewItemData<string>.</p>
 
@@ -142,7 +142,7 @@ itemsVisualElementsDict.Add("Example 2", new Label("I am example 2"));
 SettingsPanel panel = new SettingsPanel(ref items, ref itemsVisualElementsDict);
 ```
 
-<h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;5- ToolbarSearchPanel</h5>
+<h5 align="left">    5- ToolbarSearchPanel</h5>
 <p>Same as ToolbarSearchField but search implemented with strings.</p>
 
 ```cs
