@@ -86,7 +86,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 
 <h3>Attributes</h3>
 
-${\color{grey}namespace: CompilerDestroyer.Editor.UIElements}$
+${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
 
 <h5 align="left">&nbsp;&nbsp;&nbsp;&nbsp;1- ReadonlyAttribute</h5>
 <p>Allows you to make fields readonly.</p>
