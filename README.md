@@ -20,55 +20,56 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="##Libraries">Libraries</a></td>
+      <td><a href="#libraries">Libraries</a></td>
       <td></td>
     </tr>
       <tr>
-      <td>&nbsp;&nbsp;<a href="#Attributes">Attributes</a></td>
+      <td>&nbsp;&nbsp;<a href="#attributes">Attributes</a></td>
       <td>Change fields and Methods functionality with attributes</td>
     </tr>
       <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--ReadonlyAttribute">ReadonlyAttribute</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--readonlyattribute">ReadonlyAttribute</a></td>
       <td>Allows you to make fields readonly</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;<a href="#UI-Elements">UI Elements</a></td>
+      <td>&nbsp;&nbsp;<a href="#ui-elements">UI Elements</a></td>
       <td>Custom UI Elements</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="####1--Header">Header</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--header">Header</a></td>
       <td>Basic general label for headers. Default font size is 18</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--InfoBox">InfoBox</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--infobox">InfoBox</a></td>
       <td>A custom box, InfoBoxIconType can be used to determine icon type</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--Line">Line</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3--line">Line</a></td>
       <td>Can be used to draw lines</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4--SettingsPanel">SettingsPanel</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4--settingspanel">SettingsPanel</a></td>
       <td>You can use SettingsPanel to create unity's project settings like UIElements</td>
     </tr>
      <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5--ToolbarSearchPanel">ToolbarSearchPanel</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5--toolbarsearchpanel">ToolbarSearchPanel</a></td>
       <td>Same as ToolbarSearchField but search implemented with strings</td>
     </tr>
     <tr>
-      <td><a href="#Tools">Tools</a></td>
+      <td><a href="#tools">Tools</a></td>
       <td></td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;<a href="#1--Package-Initializer">Package Initializer</a></td>
+      <td>&nbsp;&nbsp;<a href="#1--package-initializer">Package Initializer</a></td>
       <td>Automatically install or remove packages based on the settings</td>
     </tr>
        <tr>
-      <td>&nbsp;&nbsp;<a href="#2--Roughness-Converter">Roughness Converter</a></td>
+      <td>&nbsp;&nbsp;<a href="#2--roughness-converter">Roughness Converter</a></td>
       <td>The Roughness Converter allows you to generate a Metallic Smoothness Map from a roughness map</td>
     </tr>
   </tbody>
 </table>
+
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
 
