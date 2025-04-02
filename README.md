@@ -36,7 +36,7 @@
       <td>Custom UI Elements</td>
     </tr>
     <tr>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="&nbsp;&nbsp;&nbsp;&nbsp;#1--Header">Header</a></td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="----#1--Header">Header</a></td>
       <td>Basic general label for headers. Default font size is 18</td>
     </tr>
      <tr>
