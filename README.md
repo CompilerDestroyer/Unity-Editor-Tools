@@ -21,14 +21,14 @@
   <tbody>
     <tr>
       <td><a href="#Libraries">Libraries</a></td>
-      <td></td>
+      <td>Libraries is a collection of classes, methods for Attributes and UI Elements</td>
     <tr>
       <td><a href="#Tools">Tools</a></td>
       <td>Tools speed up work in the Unity Editor by adding functionality and automating tasks</td>
     </tr>
        <tr>
       <td><a href="#Utilities">Utilities</a></td>
-      <td>Utilities is a collection of scripts that provides functionality for the Unity Editor</td>
+      <td>Utilities are a collection of short scripts and methods that provide functionality for the Unity Editor</td>
     </tr>
   </tbody>
 </table>
