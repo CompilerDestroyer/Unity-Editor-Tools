@@ -189,7 +189,7 @@ Package Initializer can be adjusted in "Tools > Compiler Destroyer > Editor Tool
 
 <h3 align="left">2- Roughness Converter</h3>
 <p>The Roughness Converter allows you to generate a Metallic Smoothness Map by combining a Metallic Map with a Roughness Map.<br><br>
- Alternatively, you can create a Smoothness Map directly from a Roughness Map.<br>Roughness Converter can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Roughness Converter"</p>
+ Alternatively, you can create a Smoothness Map directly from a Roughness Map.<br><br>Roughness Converter can be adjusted in "Tools > Compiler Destroyer > Editor Tools > Tools > Roughness Converter"</p>
 
 <h2 align="center">Utilities</h2>
 <p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.<br>
