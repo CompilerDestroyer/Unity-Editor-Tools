@@ -165,18 +165,15 @@ Package Initializer can be found in the "Tools > Compiler Destroyer > Editor Too
 
 <h2 align="left">Utilities</h2>
 <h3 align="left">1- GitDependencyManager</h3>
-<p>Add scripting define symbols to RemoveScriptingDefineSymbolsFromBuild.defines list.<br>
- These symbols will be automatically removed during the build process, but restored afterwards to maintain your development environment settings.</p>
+<p><code>GitDependencyManager</code> haoltkrkoybo</p>
 
 <h3 align="left">2- RemoveScriptingDefineSymbols</h3>
 <p>When building the application, RemoveScriptingDefineSymbolsFromBuild removes scripting define symbols in the <code>RemoveScriptingDefineSymbolsFromBuild.define</code> list and then it is reassigns define symbols after the build process for the project ensuring that editor based define symbols is excluded from final build.</p>
  
 <div align="left">
 
-
 </div>
 <br>
-
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------- -->
 
