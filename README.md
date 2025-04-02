@@ -99,7 +99,8 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 
 
-<div>
+
+<div style= "display: flex; gap: 1rem;">
  <h3 align="left">Attributes</h3>
  ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
 </div>
