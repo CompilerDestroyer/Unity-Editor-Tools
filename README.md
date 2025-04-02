@@ -11,7 +11,7 @@
 <!-- ----------------------------------------------------Table of Contents----------------------------------------------------- -->
 ## Table of Contents
 
-<table align="left" border="0" cellpadding="10" cellspacing="0">
+<table align="center" border="1" cellpadding="10" cellspacing="0">
   <thead>
     <tr>
       <th>Section</th>
@@ -20,24 +20,39 @@
   </thead>
   <tbody>
     <tr>
-      <td><a href="#libraries">Libraries</a></td>
+      <td><a href="#Libraries">Libraries</a></td>
+      <td>How to install Unity Editor Visual using local or Git-based methods</td>
+    </tr>
+      <tr>
+      <td><a href="#Attributes">Attributes</a></td>
+      <td>How to install Unity Editor Visual using local or Git-based methods</td>
+    </tr>
+      <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--ReadonlyAttribute">Readonly fields</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+     <tr>
+      <td><a href="#UI-Elements">UI Elements</a></td>
       <td></td>
     </tr>
     <tr>
-      <td><a href="#attributes">Attributes</a></td>
-      <td>Change fields and Methods functionality with attributes</td>
+      <td><a href="#Tools">Tools</a></td>
+      <td>Overview of available customization packages</td>
     </tr>
     <tr>
-      <td><a href="#ui-elements">UI Elements</a></td>
-      <td>Custom UI Elements</td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--Package-Initializer">Folder Icons</a></td>
+      <td>Customize folder visuals with custom icons</td>
+    </tr>
+       <tr>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--Roughness-Converter">Folder Icons</a></td>
+      <td>Customize folder visuals with custom icons</td>
     </tr>
     <tr>
-      <td><a href="#tools">Tools</a></td>
-      <td></td>
-    </tr> <!-- ✅ Correctly closed the row here -->
+      <td><a href="#Utilities">Support</a></td>
+      <td>Where to report bugs or request help</td>
+    </tr>
   </tbody>
 </table>
-
 
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
