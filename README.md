@@ -21,10 +21,14 @@
   <tbody>
     <tr>
       <td><a href="#Libraries">Libraries</a></td>
-      <td>How to install Unity Editor Visual using local or Git-based methods</td>
+      <td></td>
     <tr>
-      <td><a href="#Utilities">Support</a></td>
-      <td>Where to report bugs or request help</td>
+      <td><a href="#Tools">Tools</a></td>
+      <td>Tools speed up work in the Unity Editor by adding functionality and automating tasks</td>
+    </tr>
+       <tr>
+      <td><a href="#Utilities">Utilities</a></td>
+      <td>Utilities is a collection of scripts that provides functionality for the Unity Editor</td>
     </tr>
   </tbody>
 </table>
