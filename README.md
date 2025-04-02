@@ -69,10 +69,9 @@
 <br>
 
 
-Or
+<p>Or</p>
 
-Can be installed through git link with unity package manager:
-
+<p>Can be installed through git link with unity package manager:</p>
 
 ```
 https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
