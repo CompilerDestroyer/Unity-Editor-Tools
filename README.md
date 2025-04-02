@@ -63,7 +63,7 @@
 <h2 align="left">Installation</h2>
 
 <!--Local Installation Part-->
- Unity Editor Tools can be installed locally with unity package manager
+<p>Unity Editor Tools can be installed locally with unity package manager</p>
 
 <!--Git Installation Part-->
 <br>
