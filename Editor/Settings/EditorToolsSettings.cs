@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 using UnityEngine;
 using CompilerDestroyer.Editor.UIElements;
 using CompilerDestroyer.Editor.EditorTools;
-using CompilerDestroyer.Editor.Utilities;
 
 namespace CompilerDestroyer.Editor.ToolsManager
 {
@@ -44,18 +43,18 @@ namespace CompilerDestroyer.Editor.ToolsManager
             TreeViewItemData<string> utilitiesSetting = new TreeViewItemData<string>(4, GlobalVariables.UtilitiesName);
             // ----------------------
 
-            rootDict.Add(GlobalVariables.LibrariesName, LibrariesDocumentation.LibrariesDocumentationElement());
-            
+            //rootDict.Add(GlobalVariables.LibrariesName, LibrariesDocumentation.LibrariesDocumentationElement());
+
             // Tools
             rootDict.Add(GlobalVariables.ToolsName, ToolsDocumentation.ToolsVisualElement());
             rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
             rootDict.Add(GlobalVariables.RoughnessConverterName, RoughnessConverter.ConvertRoughnessToMetallicSmoothnessVisualElement());
-            rootDict.Add(GlobalVariables.UtilitiesName, UtilitiesDocumentation.UtilitiesVisualElement());
+            //rootDict.Add(GlobalVariables.UtilitiesName, UtilitiesDocumentation.UtilitiesVisualElement());
 
 
-            projectSettingsList.Add(librariesSetting);
+            //projectSettingsList.Add(librariesSetting);
             projectSettingsList.Add(toolsSetting);
-            projectSettingsList.Add(utilitiesSetting);
+            //projectSettingsList.Add(utilitiesSetting);
 
 
 

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using CompilerDestroyer.Editor;
 
 namespace CompilerDestroyer.Editor.UIElements
 {

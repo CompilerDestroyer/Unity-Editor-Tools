@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
-namespace CompilerDestroyer.Editor.Utilities
+namespace CompilerDestroyer.Editor.EditorTools
 {
     public sealed class GitDependencyManager
     {
@@ -21,6 +21,8 @@ namespace CompilerDestroyer.Editor.Utilities
         //{
         //    Events.registeredPackages += OnPackagesRegisteredCheckDependencies;
         //}
+
+
 
         /// <summary>
         /// Checks "gitDependencies={}" from package.json files automatically. If it is null this does nothing. In order to use this you should add this to 
@@ -41,10 +43,14 @@ namespace CompilerDestroyer.Editor.Utilities
                     PackageJson packageData = JsonUtility.FromJson<PackageJson>(jsonContent);
                     currentPackageName = packageData.name;
 
+                    Debug.Log(packageData);
                     if (packageData != null)
                     {
+                        Debug.Log(packageData.gitDependencies);
+
                         if (packageData.gitDependencies != null)
                         {
+
                             AddGitDependencies(ref jsonContent, ref packageData, packageInfo, ref dependencies);
                         }
                     }

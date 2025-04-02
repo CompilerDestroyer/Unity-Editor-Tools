@@ -93,7 +93,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             metallicField.RegisterValueChangedCallback((evt) =>
             {
                 string assetPath = AssetDatabase.GetAssetPath(metallicMap);
-                string fileName = Path.ChangeExtension(assetPath, null) + "Metallic .png";
+                string fileName = Path.ChangeExtension(assetPath, null) + " Combined.png";
 
                 saveLabel.text = "Will be saved to: " + fileName;
             });

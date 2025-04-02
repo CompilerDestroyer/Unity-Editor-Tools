@@ -3,7 +3,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using System.Collections.Generic;
 
-namespace CompilerDestroyer.Editor.Utilities
+namespace CompilerDestroyer.Editor.EditorTools
 {
     public sealed class RemoveScriptingDefineSymbolsFromBuild : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
