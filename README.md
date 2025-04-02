@@ -99,14 +99,16 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 
 
-
-<div align= "center">
- <h3 align="left">Attributes</h3>
+<table align="center" border="1" cellpadding="10" cellspacing="0">
+<tr>
+ <td>
+   <h3 align="left">Attributes</h3>
+ </td>
+  <td>
  ${\color{grey}namespace: CompilerDestroyer.Editor.Attributes}$
- 
-</div>
-
-
+ </td>
+</tr>
+</table>
 
 
 
