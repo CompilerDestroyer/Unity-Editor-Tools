@@ -99,7 +99,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 <h2 align="center">Libraries</h2>
 
 
-<table align="center" border="1" cellpadding="10" cellspacing="0">
+<table border="0" cellspacing="0" cellpadding="0" style="border: none;">
 <tr>
  <td>
    <h3 align="left">Attributes</h3>
