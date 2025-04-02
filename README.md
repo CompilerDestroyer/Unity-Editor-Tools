@@ -96,7 +96,7 @@ https://github.com/CompilerDestroyer/Unity-Editor-Tools.git
 ---
 
 <br>
-<h3>UI Elements <code>namespace: CompilerDestroyer.Editor.UIElements</code></h3>
+<h3>UI Elements <sub>(namespace: CompilerDestroyer.Editor.UIElements)</sub></h3>
 
 
 
