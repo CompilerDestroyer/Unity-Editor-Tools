@@ -1,15 +1,10 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using CompilerDestroyer.Runtime.Attributes;
 
 namespace CompilerDestroyer.Editor.Attributes
 {
-    /// <summary>
-    /// ReadOnly attribute to make properties non-editable in the Inspector.
-    /// </summary>
-    public class ReadOnlyAttribute : PropertyAttribute { }
-
     /// <summary>
     /// Custom UIElements PropertyDrawer for ReadOnlyAttribute.
     /// </summary>
