@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEngine;
+﻿using CompilerDestroyer.Editor.EditorTools;
 using CompilerDestroyer.Editor.UIElements;
-using CompilerDestroyer.Editor.EditorTools;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CompilerDestroyer.Editor.ToolsManager
 {
     internal sealed class EditorToolsSettings : EditorWindow
     {
-        private static readonly Vector2 minWindowSize = new Vector2(310f, 200f);
+        private static readonly Vector2 windowSize = new Vector2(1020f, 610f);
 
         private List<TreeViewItemData<string>> projectSettingsList = new List<TreeViewItemData<string>>();
         private Dictionary<string, VisualElement> rootDict = new Dictionary<string, VisualElement>();
@@ -20,7 +20,15 @@ namespace CompilerDestroyer.Editor.ToolsManager
             EditorToolsSettings settingsWindow = GetWindow<EditorToolsSettings>();
             settingsWindow.titleContent.text = "Editor Tools Settings";
             settingsWindow.titleContent.image = EditorGUIUtility.FindTexture("SettingsIcon");
-            settingsWindow.minSize = minWindowSize;
+            Rect main = EditorGUIUtility.GetMainWindowPosition();
+            Vector2 center = main.center;
+
+            settingsWindow.position = new Rect(
+                center.x - windowSize.x * 0.5f,
+                center.y - windowSize.y * 0.5f,
+                windowSize.x,
+                windowSize.y
+            );
         }
 
         public void CreateGUI()
@@ -34,8 +42,6 @@ namespace CompilerDestroyer.Editor.ToolsManager
             TreeViewItemData<string> packageInitializerSetting = new TreeViewItemData<string>(1, GlobalVariables.PackagesInitializerName);
             TreeViewItemData<string> roughnessConverterSetting = new TreeViewItemData<string>(2, GlobalVariables.RoughnessConverterName);
 
-            toolChildren.Add(packageInitializerSetting);
-            toolChildren.Add(roughnessConverterSetting);
             TreeViewItemData<string> toolsSetting = new TreeViewItemData<string>(3, GlobalVariables.ToolsName, toolChildren);
             // ----------------------
 
@@ -43,18 +49,31 @@ namespace CompilerDestroyer.Editor.ToolsManager
             TreeViewItemData<string> utilitiesSetting = new TreeViewItemData<string>(4, GlobalVariables.UtilitiesName);
             // ----------------------
 
-            //rootDict.Add(GlobalVariables.LibrariesName, LibrariesDocumentation.LibrariesDocumentationElement());
+
+            // 2D
+            List<TreeViewItemData<string>> _2DChildren = new List<TreeViewItemData<string>>();
+            TreeViewItemData<string> spriteSlicer = new TreeViewItemData<string>(5, GlobalVariables.SpriteSlicerName);
+            TreeViewItemData<string> _2DSetting = new TreeViewItemData<string>(6, GlobalVariables._2DName, _2DChildren);
+            // 3D
+            List<TreeViewItemData<string>> _3DChildren = new List<TreeViewItemData<string>>();
+            TreeViewItemData<string> _3DSetting = new TreeViewItemData<string>(7, GlobalVariables._3DName, _3DChildren);
+
+            _2DChildren.Add(spriteSlicer);
+            _3DChildren.Add(roughnessConverterSetting);
+            toolChildren.Add(_2DSetting);
+            toolChildren.Add(_3DSetting);
+            toolChildren.Add(packageInitializerSetting);
+
 
             // Tools
             rootDict.Add(GlobalVariables.ToolsName, ToolsDocumentation.ToolsVisualElement());
-            rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
             rootDict.Add(GlobalVariables.RoughnessConverterName, RoughnessConverter.ConvertRoughnessToMetallicSmoothnessVisualElement());
-            //rootDict.Add(GlobalVariables.UtilitiesName, UtilitiesDocumentation.UtilitiesVisualElement());
+            rootDict.Add(GlobalVariables._2DName, null);
+            rootDict.Add(GlobalVariables.SpriteSlicerName, SpriteSlicer.SliceSelectedTextureVisualElement());
+            rootDict.Add(GlobalVariables._3DName, null);
+            rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
 
-
-            //projectSettingsList.Add(librariesSetting);
             projectSettingsList.Add(toolsSetting);
-            //projectSettingsList.Add(utilitiesSetting);
 
 
 

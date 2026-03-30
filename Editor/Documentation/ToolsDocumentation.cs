@@ -7,6 +7,11 @@ namespace CompilerDestroyer.Editor.EditorTools
     internal sealed class ToolsDocumentation
     {
         private static readonly float marginLeftRight = 15f;
+
+
+        private static readonly string spriteSlicerInfo =
+            "Sprite Slicer will slice current selected sprites with to Grid By Cell Size";
+
         private static readonly string packagesInitializerInfo =
             $"{GlobalVariables.PackagesInitializerName} will automatically install or remove built-in and Git packages based on the enabled " + $"toggles in the settings when " +
             $"{GlobalVariables.ProjectName} is first installed.\nFor safety reasons, Asset Store packages will only be installed, and any untoggled Asset Store " +
@@ -29,11 +34,13 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
+            VisualElement spriteSlicer = MakeDocumentationElement(GlobalVariables.SpriteSlicerName, spriteSlicerInfo);
             VisualElement packageInitializer = MakeDocumentationElement(GlobalVariables.PackagesInitializerName, packagesInitializerInfo);
             VisualElement rougnhessConverter = MakeDocumentationElement(GlobalVariables.RoughnessConverterName, roughnessConverterInfo);
 
 
             rootVisualElement.Add(toolsHeader);
+            rootVisualElement.Add(spriteSlicer);
             rootVisualElement.Add(packageInitializer);
             rootVisualElement.Add(rougnhessConverter);
             return rootVisualElement;
