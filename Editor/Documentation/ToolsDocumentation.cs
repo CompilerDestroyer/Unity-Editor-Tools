@@ -10,7 +10,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
         private static readonly string spriteSlicerInfo =
-            "Sprite Slicer will slice current selected sprites with to Grid By Cell Size";
+            "Sprite Slicer will slice current selected sprites with to Grid By Cell Size. Select all images you want and then click Slice to slice.";
 
         private static readonly string packagesInitializerInfo =
             $"{GlobalVariables.PackagesInitializerName} will automatically install or remove built-in and Git packages based on the enabled " + $"toggles in the settings when " +
