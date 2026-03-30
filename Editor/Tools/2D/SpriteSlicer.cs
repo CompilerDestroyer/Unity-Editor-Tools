@@ -18,7 +18,7 @@ namespace CompilerDestroyer.Editor.EditorTools
             VisualElement spacer = new VisualElement();
             spacer.style.height = 5f;
             spacer.style.whiteSpace = WhiteSpace.Normal;
-            
+
 
             Label toolLabel = new Label(GlobalVariables.SpriteSlicerName);
             toolLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -49,25 +49,70 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             };
 
-            VisualElement container = new VisualElement();
-            container.style.borderLeftWidth = globalMarginLeftRight;
-            container.style.borderRightWidth = globalMarginLeftRight;
+            VisualElement spriteSlicercontainer = new VisualElement();
+            spriteSlicercontainer.style.borderLeftWidth = globalMarginLeftRight;
+            spriteSlicercontainer.style.borderRightWidth = globalMarginLeftRight;
 
+            VisualElement spritePivotChangercontainer = new VisualElement();
+            spritePivotChangercontainer.style.borderTopWidth = 15f;
+            spritePivotChangercontainer.style.borderLeftWidth = globalMarginLeftRight;
+            spritePivotChangercontainer.style.borderRightWidth = globalMarginLeftRight;
+
+            EnumField pivotEnum = new EnumField("Pivot");
+            EnumField pivotUnitModeEnum = new EnumField("Pivot Unit Mode");
+            pivotEnum.Init(SpriteAlignment.BottomCenter);
+            pivotUnitModeEnum.Init(PivotUnits.Normalized);
+            Vector2Field customPivot = new Vector2Field("Custom Pivot");
+            customPivot.SetEnabled(false);
+
+            Button setPivotsButton = new Button();
+            setPivotsButton.text = "Set Pivots";
+            setPivotsButton.clicked += delegate
+            {
+                for (int i = 0; i < textures.Length; i++)
+                {
+                    string texturePath = AssetDatabase.GetAssetPath(textures[i]);
+                    SetSpritePivots(texturePath, (SpriteAlignment)pivotEnum.value, customPivot.value.x, customPivot.value.y, (PivotUnits)pivotUnitModeEnum.value);
+                }
+
+            };
+
+
+            pivotEnum.RegisterValueChangedCallback(evt =>
+            {
+                if ((SpriteAlignment)evt.newValue == SpriteAlignment.Custom)
+                {
+                    customPivot.SetEnabled(true);
+                }
+                else
+                {
+                    customPivot.SetEnabled(false);
+                }
+
+            });
+
+
+
+            spritePivotChangercontainer.Add(pivotEnum);
+            spritePivotChangercontainer.Add(pivotUnitModeEnum);
+            spritePivotChangercontainer.Add(customPivot);
+            spritePivotChangercontainer.Add(setPivotsButton);
 
             Label xSliceLabel = new Label("Slice X");
             Label ySliceLabel = new Label("Slice Y");
 
 
-            container.Add(xSliceLabel);
-            container.Add(xSliceFloatField);
+            spriteSlicercontainer.Add(xSliceLabel);
+            spriteSlicercontainer.Add(xSliceFloatField);
 
-            container.Add(ySliceLabel);
-            container.Add(ySlicefloatField);
-            container.Add(sliceButton);
+            spriteSlicercontainer.Add(ySliceLabel);
+            spriteSlicercontainer.Add(ySlicefloatField);
+            spriteSlicercontainer.Add(sliceButton);
 
             rootVisualElement.Add(spacer);
             rootVisualElement.Add(toolLabel);
-            rootVisualElement.Add(container);
+            rootVisualElement.Add(spriteSlicercontainer);
+            rootVisualElement.Add(spritePivotChangercontainer);
             return rootVisualElement;
         }
 
@@ -140,8 +185,68 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             dataProvider.Apply();
             importer.SaveAndReimport();
-
+            
             Debug.Log($"Sliced {frameNumber} sprites from {texturePath}");
         }
+
+
+
+        private static void SetSpritePivots(string texturePath, SpriteAlignment alignment, float customPivotX = 0.5f, float customPivotY = 0.5f, PivotUnits pivotUnits = PivotUnits.Normalized)
+        {
+            TextureImporter importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
+            if (importer == null)
+                return;
+
+            SpriteDataProviderFactories factory = new SpriteDataProviderFactories();
+            factory.Init();
+
+            ISpriteEditorDataProvider dataProvider = factory.GetSpriteEditorDataProviderFromObject(importer);
+            dataProvider.InitSpriteEditorDataProvider();
+
+            SpriteRect[] spriteRects = dataProvider.GetSpriteRects();
+            if (spriteRects == null || spriteRects.Length == 0)
+                return;
+
+            for (int i = 0; i < spriteRects.Length; i++)
+            {
+                Rect rect = spriteRects[i].rect;
+
+                spriteRects[i].alignment = alignment;
+
+                if (alignment == SpriteAlignment.Custom)
+                {
+                    spriteRects[i].pivot = GetPivot(
+                        customPivotX,
+                        customPivotY,
+                        Mathf.RoundToInt(rect.width),
+                        Mathf.RoundToInt(rect.height),
+                        pivotUnits
+                    );
+                }
+            }
+
+            dataProvider.SetSpriteRects(spriteRects);
+            dataProvider.Apply();
+            importer.SaveAndReimport();
+        }
+        private enum PivotUnits
+        {
+            Normalized,
+            Pixels
+        }
+
+        private static Vector2 GetPivot(float pivotX, float pivotY, int spriteWidth, int spriteHeight, PivotUnits units)
+        {
+            if (units == PivotUnits.Pixels)
+            {
+                return new Vector2(
+                    pivotX / spriteWidth,
+                    pivotY / spriteHeight
+                );
+            }
+
+            return new Vector2(pivotX, pivotY);
+        }
+
     }
 }
