@@ -154,11 +154,6 @@ namespace CompilerDestroyer.Editor.EditorTools
                 }
             }
         }
-        [MenuItem("Tool/haha")]
-        static void hah()
-        {
-           
-        }
         private static void UpdateProjectPackagesAccordingToPackageInitializer()
         {
             List<string> addList = new List<string>();
