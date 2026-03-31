@@ -152,16 +152,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
             importer.textureType = TextureImporterType.Sprite;
             importer.spriteImportMode = SpriteImportMode.Multiple;
-            importer.spritePixelsPerUnit = 100f;
-            importer.filterMode = FilterMode.Bilinear;
-            importer.wrapMode = TextureWrapMode.Clamp;
-            importer.maxTextureSize = 2048;
-            importer.textureCompression = TextureImporterCompression.Uncompressed;
-            importer.crunchedCompression = false;
-            importer.compressionQuality = 100;
-            importer.isReadable = true;
-            importer.textureShape = TextureImporterShape.Texture2D;
-            importer.npotScale = TextureImporterNPOTScale.None;
+            //importer.isReadable = true;
 
             EditorUtility.SetDirty(importer);
             importer.SaveAndReimport();
