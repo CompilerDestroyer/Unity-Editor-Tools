@@ -9,8 +9,8 @@ namespace CompilerDestroyer.Editor.EditorTools
         private static readonly float marginLeftRight = 15f;
 
 
-        private static readonly string spriteSlicerInfo =
-            "Sprite Slicer will slice current selected sprites with to Grid By Cell Size. Select all images you want and then click Slice to slice.";
+        private static readonly string spriteEditorInfo =
+            "Sprite Editor can slice current selected sprites with to Grid By Cell Size and set pivots. Select all images you want and then click Slice or set pivots.";
 
         private static readonly string packagesInitializerInfo =
             $"{GlobalVariables.PackagesInitializerName} will automatically install or remove built-in and Git packages based on the enabled " + $"toggles in the settings when " +
@@ -34,13 +34,13 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
-            VisualElement spriteSlicer = MakeDocumentationElement(GlobalVariables.SpriteEditorName, spriteSlicerInfo);
+            VisualElement spriteEditor = MakeDocumentationElement(GlobalVariables.SpriteEditorName, spriteEditorInfo);
             VisualElement packageInitializer = MakeDocumentationElement(GlobalVariables.PackagesInitializerName, packagesInitializerInfo);
             VisualElement rougnhessConverter = MakeDocumentationElement(GlobalVariables.RoughnessConverterName, roughnessConverterInfo);
 
 
             rootVisualElement.Add(toolsHeader);
-            rootVisualElement.Add(spriteSlicer);
+            rootVisualElement.Add(spriteEditor);
             rootVisualElement.Add(packageInitializer);
             rootVisualElement.Add(rougnhessConverter);
             return rootVisualElement;
