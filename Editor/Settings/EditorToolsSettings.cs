@@ -52,13 +52,13 @@ namespace CompilerDestroyer.Editor.ToolsManager
 
             // 2D
             List<TreeViewItemData<string>> _2DChildren = new List<TreeViewItemData<string>>();
-            TreeViewItemData<string> spriteSlicer = new TreeViewItemData<string>(5, GlobalVariables.SpriteSlicerName);
+            TreeViewItemData<string> spriteEditor = new TreeViewItemData<string>(5, GlobalVariables.SpriteEditorName);
             TreeViewItemData<string> _2DSetting = new TreeViewItemData<string>(6, GlobalVariables._2DName, _2DChildren);
             // 3D
             List<TreeViewItemData<string>> _3DChildren = new List<TreeViewItemData<string>>();
             TreeViewItemData<string> _3DSetting = new TreeViewItemData<string>(7, GlobalVariables._3DName, _3DChildren);
 
-            _2DChildren.Add(spriteSlicer);
+            _2DChildren.Add(spriteEditor);
             _3DChildren.Add(roughnessConverterSetting);
             toolChildren.Add(_2DSetting);
             toolChildren.Add(_3DSetting);
@@ -69,7 +69,7 @@ namespace CompilerDestroyer.Editor.ToolsManager
             rootDict.Add(GlobalVariables.ToolsName, ToolsDocumentation.ToolsVisualElement());
             rootDict.Add(GlobalVariables.RoughnessConverterName, RoughnessConverter.ConvertRoughnessToMetallicSmoothnessVisualElement());
             rootDict.Add(GlobalVariables._2DName, null);
-            rootDict.Add(GlobalVariables.SpriteSlicerName, SpriteSlicer.SliceSelectedTextureVisualElement());
+            rootDict.Add(GlobalVariables.SpriteEditorName, SpriteEditor.SpriteEditorVisualElement());
             rootDict.Add(GlobalVariables._3DName, null);
             rootDict.Add(GlobalVariables.PackagesInitializerName, PackageInitializer.PackageInitializerVisualElement());
 

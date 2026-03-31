@@ -1,17 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.U2D.Sprites;
 using UnityEngine;
-using UnityEngine.AdaptivePerformance.Provider;
 using UnityEngine.UIElements;
 
 namespace CompilerDestroyer.Editor.EditorTools
 {
-    internal sealed class SpriteSlicer
+    internal sealed class SpriteEditor
     {
         private static readonly int globalMarginLeftRight = 15;
 
-        internal static VisualElement SliceSelectedTextureVisualElement()
+        internal static VisualElement SpriteEditorVisualElement()
         {
             VisualElement rootVisualElement = new VisualElement();
 
@@ -20,14 +20,14 @@ namespace CompilerDestroyer.Editor.EditorTools
             spacer.style.whiteSpace = WhiteSpace.Normal;
 
 
-            Label toolLabel = new Label(GlobalVariables.SpriteSlicerName);
+            Label toolLabel = new Label(GlobalVariables.SpriteEditorName);
             toolLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             toolLabel.style.fontSize = 18;
             toolLabel.style.whiteSpace = WhiteSpace.Normal;
             toolLabel.style.marginLeft = globalMarginLeftRight;
             toolLabel.style.marginBottom = 10f;
 
-            Object[] textures = Selection.objects as Object[];
+
 
             Button sliceButton = new Button();
             FloatField xSliceFloatField = new FloatField();
@@ -41,6 +41,8 @@ namespace CompilerDestroyer.Editor.EditorTools
 
                     return;
                 }
+                UnityEngine.Object[] textures = Selection.objects;
+
 
                 for (int i = 0; i < textures.Length; i++)
                 {
@@ -58,10 +60,22 @@ namespace CompilerDestroyer.Editor.EditorTools
             spritePivotChangercontainer.style.borderLeftWidth = globalMarginLeftRight;
             spritePivotChangercontainer.style.borderRightWidth = globalMarginLeftRight;
 
-            EnumField pivotEnum = new EnumField("Pivot");
+            EnumField spriteAlignment = new EnumField("Pivot");
+            spriteAlignment.Init(SpriteAlignment.BottomCenter);
+
+            spriteAlignment.RegisterCallback<ChangeEvent<SpriteAlignment>>(evt =>
+            {
+                spriteAlignment.value = evt.newValue;
+            });
+
             EnumField pivotUnitModeEnum = new EnumField("Pivot Unit Mode");
-            pivotEnum.Init(SpriteAlignment.BottomCenter);
             pivotUnitModeEnum.Init(PivotUnits.Normalized);
+
+            pivotUnitModeEnum.RegisterCallback<ChangeEvent<Pivot>>(evt =>
+            {
+                pivotUnitModeEnum.value = evt.newValue;
+            });
+
             Vector2Field customPivot = new Vector2Field("Custom Pivot");
             customPivot.SetEnabled(false);
 
@@ -69,16 +83,23 @@ namespace CompilerDestroyer.Editor.EditorTools
             setPivotsButton.text = "Set Pivots";
             setPivotsButton.clicked += delegate
             {
+                UnityEngine.Object[] textures = Selection.objects;
+
+                if (textures.Length == 0)
+                {
+                    Debug.LogWarning($"No Selected Textures");
+                    return;
+                }
+
                 for (int i = 0; i < textures.Length; i++)
                 {
                     string texturePath = AssetDatabase.GetAssetPath(textures[i]);
-                    SetSpritePivots(texturePath, (SpriteAlignment)pivotEnum.value, customPivot.value.x, customPivot.value.y, (PivotUnits)pivotUnitModeEnum.value);
+                    SetSpritePivots(texturePath, (SpriteAlignment)spriteAlignment.value, customPivot.value.x, customPivot.value.y, (PivotUnits)pivotUnitModeEnum.value);
                 }
-
             };
 
 
-            pivotEnum.RegisterValueChangedCallback(evt =>
+            spriteAlignment.RegisterValueChangedCallback(evt =>
             {
                 if ((SpriteAlignment)evt.newValue == SpriteAlignment.Custom)
                 {
@@ -93,7 +114,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
-            spritePivotChangercontainer.Add(pivotEnum);
+            spritePivotChangercontainer.Add(spriteAlignment);
             spritePivotChangercontainer.Add(pivotUnitModeEnum);
             spritePivotChangercontainer.Add(customPivot);
             spritePivotChangercontainer.Add(setPivotsButton);
@@ -124,7 +145,10 @@ namespace CompilerDestroyer.Editor.EditorTools
         {
             TextureImporter importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
             if (importer == null)
+            {
+                Debug.LogError($"Importer at {importer.assetPath} is null!");
                 return;
+            }
 
             importer.textureType = TextureImporterType.Sprite;
             importer.spriteImportMode = SpriteImportMode.Multiple;
@@ -195,7 +219,10 @@ namespace CompilerDestroyer.Editor.EditorTools
         {
             TextureImporter importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
             if (importer == null)
+            {
+                Debug.LogError($"Importer at {importer.assetPath} is null!");
                 return;
+            }
 
             SpriteDataProviderFactories factory = new SpriteDataProviderFactories();
             factory.Init();
@@ -228,6 +255,8 @@ namespace CompilerDestroyer.Editor.EditorTools
             dataProvider.SetSpriteRects(spriteRects);
             dataProvider.Apply();
             importer.SaveAndReimport();
+
+            Debug.Log($"Pivots are set.");
         }
         private enum PivotUnits
         {

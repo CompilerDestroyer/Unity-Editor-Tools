@@ -34,7 +34,7 @@ namespace CompilerDestroyer.Editor.EditorTools
 
 
 
-            VisualElement spriteSlicer = MakeDocumentationElement(GlobalVariables.SpriteSlicerName, spriteSlicerInfo);
+            VisualElement spriteSlicer = MakeDocumentationElement(GlobalVariables.SpriteEditorName, spriteSlicerInfo);
             VisualElement packageInitializer = MakeDocumentationElement(GlobalVariables.PackagesInitializerName, packagesInitializerInfo);
             VisualElement rougnhessConverter = MakeDocumentationElement(GlobalVariables.RoughnessConverterName, roughnessConverterInfo);
 

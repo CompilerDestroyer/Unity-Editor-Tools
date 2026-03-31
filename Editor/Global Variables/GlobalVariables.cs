@@ -23,7 +23,7 @@ namespace CompilerDestroyer.Editor
         internal const string AttributesName = "Attributes";
         internal const string _2DName = "2D Tools";
         internal const string _3DName = "3D Tools";
-        internal const string SpriteSlicerName = "Sprite Slicer";
+        internal const string SpriteEditorName = "Sprite Editor";
         internal const string UIElementsName = "UI Elements";
         internal const string GitDependencyManagerName = "GitDependencyManager";
         internal const string RemoveDefineSymbolsFromBuildName = "RemoveScriptingDefineSymbolsFromBuild";
